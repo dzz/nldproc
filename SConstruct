@@ -1,2 +1,2 @@
-Program('nldproc_cliwrap', ['nldproc_cliwrap.cpp'], LIBS=['libDSPFilters'], CPPPATH=['./DSPFilters/include'] )
+Program('nldproc_cliwrap', ['src/nldproc_cliwrap.cpp', 'src/whitenoise.cpp'], LIBS=['libDSPFilters'], CPPPATH=['./DSPFilters/include'] )
 
