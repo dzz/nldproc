@@ -13,6 +13,7 @@ Program(
         [
             './DSPFilters/include'
         ], 
-        LIBPATH='.'
+        LIBPATH='.',
+        CPPFLAGS="-O3"
  )
 

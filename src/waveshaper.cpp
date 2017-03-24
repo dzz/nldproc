@@ -5,11 +5,21 @@
 
 namespace nldproc {
 
+    waveshaper::~waveshaper() {
+        if(_xs!=nullptr) delete _xs;
+        if(_ys!=nullptr) delete _ys;
+        if(_ks!=nullptr) delete _ks;
+    }
+
     waveshaper::waveshaper() {
         this->id_seed = 0;
         this->add_point( -1.0, -1.0, 1.0 );
         this->add_point( 1.0, 1.0, -1.0 );
+        this->_xs = nullptr;
+        this->_ys = nullptr;
+        this->_ks = nullptr;
     }
+
 
     spl_point_ID waveshaper::add_point( double x, double y, double k ) {
         spl_point next = { x,y,k, this->id_seed };
@@ -48,16 +58,16 @@ namespace nldproc {
         this->sort_points();
     }
 
-    double waveshaper::xs( spl_idx idx ) {
-        return this->points[idx].x;
+    inline double waveshaper::xs( spl_idx idx ) {
+        return _xs[idx];
     }
 
-    double waveshaper::ys( spl_idx idx ) {
-        return this->points[idx].y;
+    inline double waveshaper::ys( spl_idx idx ) {
+        return _ys[idx];
     }
 
-    double waveshaper::ks( spl_idx idx ) {
-        return this->points[idx].k;
+    inline double waveshaper::ks( spl_idx idx ) {
+        return _ks[idx];
     }
 
 
@@ -72,6 +82,23 @@ namespace nldproc {
         auto q = (1-t)*ys(i-1) + t*ys(i) + t*(1-t)*(a*(1-t)+b*t);
 
         return q;
+    }
+
+    void waveshaper::commit() {
+
+        if( _xs == nullptr) delete _xs;
+        if( _ys == nullptr) delete _ys;
+        if( _ks == nullptr) delete _ks;
+
+        _xs = new double[ points.size() ];
+        _ys = new double[ points.size() ];
+        _ks = new double[ points.size() ];
+
+        for(spl_idx i=0; i< points.size();++i ) {
+            _xs[i] = points[i].x;
+            _ys[i] = points[i].y;
+            _ks[i] = points[i].k;
+        }
     }
 
 }
