@@ -26,16 +26,23 @@ int main() {
     });
 */
 
-    for(auto idx = 0; idx<(192000*6);++idx) {
-        for(double i=0; i<50; ++i) {
-            double x = (i/25)-1;
-            ws.eval(x);
-        }
+    const unsigned int samples = (96000*4);
+    double* channels = new double[samples];
 
-        if(idx % 44100 == 0) {
-            //std::cout<<idx<<"\n";
-        }
+
+    for(auto idx = 0; idx<(96000*4);++idx) {
+            double x = sin(idx/100);
+            channels[idx] = x;
     }
+
+    ws.process(samples,channels);
+
+    for(auto idx = 0; idx<(96000*4);++idx) {
+        std::cout<<channels[idx]<<"\n";
+    }
+    
+
+    delete channels;
 
      
     

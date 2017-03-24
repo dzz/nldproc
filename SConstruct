@@ -14,6 +14,6 @@ Program(
             './DSPFilters/include'
         ], 
         LIBPATH='.',
-        CPPFLAGS="-O3"
+        CPPFLAGS="-Ofast"
  )
 

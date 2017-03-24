@@ -71,17 +71,21 @@ namespace nldproc {
     }
 
 
-    double waveshaper::eval(double x) {
+    void waveshaper::process(unsigned int samples, double*channels) {
 
-        spl_idx i = 1;
-        while( xs(i) < x) i++;
+        unsigned int count = 0;
+        while(count< samples) {
+            double x = channels[count]; 
+            spl_idx i = 1;
+            while( xs(i) < x) i++;
 
-        auto t = (x - xs(i-1)) / (xs(i) - xs(i-1));
-        auto a =  ks(i-1)*(xs(i)-xs(i-1)) - (ys(i)-ys(i-1));
-        auto b = -ks(i  )*(xs(i)-xs(i-1)) + (ys(i)-ys(i-1));
-        auto q = (1-t)*ys(i-1) + t*ys(i) + t*(1-t)*(a*(1-t)+b*t);
+            auto t = (x - xs(i-1)) / (xs(i) - xs(i-1));
+            auto a =  ks(i-1)*(xs(i)-xs(i-1)) - (ys(i)-ys(i-1));
+            auto b = -ks(i  )*(xs(i)-xs(i-1)) + (ys(i)-ys(i-1));
+            auto q = (1-t)*ys(i-1) + t*ys(i) + t*(1-t)*(a*(1-t)+b*t);
 
-        return q;
+            channels[count++] = q;
+        }
     }
 
     void waveshaper::commit() {

@@ -20,7 +20,7 @@ namespace nldproc {
         public:
             waveshaper();
             ~waveshaper();
-            double eval(double x);
+            void process(unsigned int samples, double* channels);
             spl_point_ID    add_point( double x, double y, double k );
             void            del_point( const spl_point_ID id );
             spl_points      get_copyof_points();
