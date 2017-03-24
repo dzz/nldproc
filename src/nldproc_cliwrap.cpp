@@ -14,16 +14,19 @@ int main() {
 
     waveshaper ws;
     
-    ws.add_point(0.5,1.0,0.0);
-    ws.add_point(-0.5,1.0,0.0);
-    auto last_id = ws.add_point(-0.9,1.0,0.0);
+    ws.add_point(-2.0,-2.0,1.0);
+    ws.add_point(0.0,0.0,0.0);
+    ws.add_point(2.0,2.0,-1.0);
 
-    ws.del_point(last_id);
-    auto points = ws.get_copyof_points();
-
+/*
     std::for_each( points.begin(), points.end(), []( auto point ) {
         std::cout<<"x="<<point.x<<"\n";
     });
+*/
+    for(double i=0; i<50; ++i) {
+        double x = (i/25)-1;
+        std::cout<<ws.eval(x)<<"\n";
+    }
 
      
     

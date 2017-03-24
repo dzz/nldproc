@@ -40,20 +40,38 @@ namespace nldproc {
             this->points.begin(), 
             this->points.end(), 
             [ ptr, id ](auto point) { 
-
-            std::cout<<point.id<<"\n";
-            std::cout<<id<<"\n";
-
             if(point.id != id)  {
                 ptr->push_back(point);
             }
         });
         this->points = new_points;
+        this->sort_points();
     }
+
+    double waveshaper::xs( spl_idx idx ) {
+        return this->points[idx].x;
+    }
+
+    double waveshaper::ys( spl_idx idx ) {
+        return this->points[idx].y;
+    }
+
+    double waveshaper::ks( spl_idx idx ) {
+        return this->points[idx].k;
+    }
+
 
     double waveshaper::eval(double x) {
 
-        return 0.0;    
+        spl_idx i = 1;
+        while( xs(i) < x) i++;
+
+        auto t = (x - xs(i-1)) / (xs(i) - xs(i-1));
+        auto a =  ks(i-1)*(xs(i)-xs(i-1)) - (ys(i)-ys(i-1));
+        auto b = -ks(i  )*(xs(i)-xs(i-1)) + (ys(i)-ys(i-1));
+        auto q = (1-t)*ys(i-1) + t*ys(i) + t*(1-t)*(a*(1-t)+b*t);
+
+        return q;
     }
 
 }

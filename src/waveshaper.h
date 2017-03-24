@@ -4,6 +4,7 @@
 namespace nldproc {
 
     typedef unsigned int spl_point_ID;
+    typedef unsigned int spl_idx;
 
     struct spl_point{
         double x;
@@ -25,6 +26,10 @@ namespace nldproc {
 
         private:
             void sort_points();
+
+            double xs( spl_idx idx );
+            double ys( spl_idx idx );
+            double ks( spl_idx idx );
 
             spl_point_ID id_seed;
             spl_points points;
