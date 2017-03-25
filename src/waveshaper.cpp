@@ -73,11 +73,11 @@ namespace nldproc {
 
     void waveshaper::process(unsigned int samples, double** channels) {
 
-        unsigned int count = 0;
         unsigned int channel = 0;
-        const unsigned int num_channels = 2;
+        const unsigned int num_channels = 1;
 
         while(channel < num_channels) {
+            unsigned int count = 0;
             while(count< samples) {
                 double x = channels[channel][count]; 
                 spl_idx i = 1;

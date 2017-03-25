@@ -21,12 +21,6 @@ int main() {
 
     ws.commit();
 
-/*
-    std::for_each( points.begin(), points.end(), []( auto point ) {
-        std::cout<<"x="<<point.x<<"\n";
-    });
-*/
-
     const unsigned int samples = (96000*4);
     double* channels[2];
 
@@ -36,7 +30,8 @@ int main() {
     ws.process(samples,channels);
 
     for(auto idx = 0; idx<(96000*4);++idx) {
-        std::cout<<channels[idx]<<"\n";
+        std::cout<<channels[0][idx]<<"\n";
+        std::cout<<channels[1][idx]<<"\n";
     }
     
 
