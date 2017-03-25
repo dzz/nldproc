@@ -27,13 +27,10 @@ int main() {
 */
 
     const unsigned int samples = (96000*4);
-    double* channels = new double[samples];
+    double* channels[2];
 
-
-    for(auto idx = 0; idx<(96000*4);++idx) {
-            double x = sin(idx/100);
-            channels[idx] = x;
-    }
+    channels[0] = whitenoise::generate(samples);
+    channels[1] = whitenoise::generate(samples);
 
     ws.process(samples,channels);
 
@@ -42,8 +39,8 @@ int main() {
     }
     
 
-    delete channels;
-
+    delete channels[0];
+    delete channels[1];
      
     
 /*
