@@ -7,6 +7,7 @@
 
 #include "whitenoise.h"
 #include "waveshaper.h"
+#include "volume.h"
 
 using namespace nldproc;
 

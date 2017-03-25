@@ -3,7 +3,8 @@ Program(
         [
             'src/nldproc_cliwrap.cpp', 
             'src/whitenoise.cpp',
-            'src/waveshaper.cpp'
+            'src/waveshaper.cpp',
+            'src/volume.cpp'
         ], 
         LIBS=
         [
