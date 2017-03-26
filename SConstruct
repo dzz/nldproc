@@ -4,7 +4,8 @@ Program(
             'src/nldproc_cliwrap.cpp', 
             'src/whitenoise.cpp',
             'src/waveshaper.cpp',
-            'src/volume.cpp'
+            'src/volume.cpp',
+            'src/peakfollower.cpp'
         ], 
         LIBS=
         [

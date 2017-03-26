@@ -1,5 +1,5 @@
 #include "volume.h"
-#include <tgmath.h>
+#include <cmath>
 
 namespace nldproc {
 

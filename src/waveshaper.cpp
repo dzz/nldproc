@@ -5,12 +5,6 @@
 
 namespace nldproc {
 
-    waveshaper::~waveshaper() {
-        if(_xs!=nullptr) delete _xs;
-        if(_ys!=nullptr) delete _ys;
-        if(_ks!=nullptr) delete _ks;
-    }
-
     waveshaper::waveshaper() {
         this->id_seed = 0;
         this->add_point( -1.0, -1.0, 1.0 );
@@ -18,6 +12,12 @@ namespace nldproc {
         this->_xs = nullptr;
         this->_ys = nullptr;
         this->_ks = nullptr;
+    }
+
+    waveshaper::~waveshaper() {
+        if(_xs!=nullptr) delete _xs;
+        if(_ys!=nullptr) delete _ys;
+        if(_ks!=nullptr) delete _ks;
     }
 
 

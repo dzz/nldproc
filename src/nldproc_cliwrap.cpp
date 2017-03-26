@@ -8,6 +8,7 @@
 #include "whitenoise.h"
 #include "waveshaper.h"
 #include "volume.h"
+#include "peakfollower.h"
 
 using namespace nldproc;
 
