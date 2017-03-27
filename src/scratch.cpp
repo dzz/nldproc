@@ -58,7 +58,7 @@ void plugin::plugin() {
 
     //create an alias buffer from output to input, as the audio driver
     //wants results in the same memory location requested in 'process'
-    this->buffers.create_alisa_buffer_from_to("input", "output");
+    this->buffers.create_alias_buffer_from_to("input", "output");
 
 }
 
