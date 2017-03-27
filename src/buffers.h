@@ -9,7 +9,7 @@ namespace nldproc{
     class buffers {
 
         public:
-            void set_chunksize(buffer_chunksize size);
+            void set_chunksize(buffer_chunksize chunksize);
             void create_ptrinput_buffer( std::string name );
             void create_memory_buffer( std::string name ); 
             void create_alias_buffer_from_to(std:string from, std::string to);
@@ -19,6 +19,7 @@ namespace nldproc{
             void process_in_place_with( std::string buffer, processor processor );
             void clone_from_to(std::string from, std::string to);
         private:
-            buffer_ID seed;
+            buffer_ID           seed;
+            buffer_chunksize    chunksize;
     };
 }
