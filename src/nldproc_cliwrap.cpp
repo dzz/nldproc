@@ -60,3 +60,25 @@ int main() {
 
     delete noise;*/
 }
+
+
+
+void router_code_modelling() {
+
+    router::set_blocksize(1024);
+
+    router::create_buffer("downmix",        "stereo",   "mono"          );
+    router::create_buffer("peakfollower",   "mono",     "mono"          );
+    router::create_buffer("upmix",          "mono",     "stereo"        );
+
+    router::add_processor("downmix",        processors::downmixer       );
+    router::add_processor("peakfollower",   processors::peakfollower    );
+    router::add_processor("upmix",          processors::upmixer         );
+
+    router::commmit();
+
+    // in audio loop
+
+    router::process( channels );
+
+}
