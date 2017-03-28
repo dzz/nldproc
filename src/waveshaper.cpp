@@ -110,5 +110,4 @@ namespace nldproc {
             _ks[i] = points[i].k;
         }
     }
-
 }
