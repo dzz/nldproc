@@ -9,6 +9,7 @@ Program(
             'src/processor.cpp',
             'src/environment.cpp',
             'src/upmixer.cpp',
+            'src/downmixer.cpp',
             'src/pipe.cpp',
         ], 
         LIBS=
