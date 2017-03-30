@@ -6,6 +6,7 @@
 #include <unordered_map>
 #include <vector>
 #include <algorithm>
+#include <iostream>
 
 namespace nldproc {
 
@@ -75,5 +76,11 @@ namespace nldproc {
         return this->buffers[alias];
     }
 
+    void pipe::dump_buffer( std::string alias ) {
+        stereo_buffer buffer = this->get_mapped_buffer( alias );
+        for( sample_index idx = 0; idx < environment::get_buffer_chunksize(); ++idx) {
+            std::cout<<buffer[0][idx]<<","<<buffer[1][idx]<<"\n";
+        }
+    }
 }
 

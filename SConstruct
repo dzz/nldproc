@@ -8,7 +8,8 @@ Program(
             'src/peakfollower.cpp',
             'src/processor.cpp',
             'src/environment.cpp',
-            'src/pipe.cpp'
+            'src/upmixer.cpp',
+            'src/pipe.cpp',
         ], 
         LIBS=
         [

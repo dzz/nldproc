@@ -11,6 +11,6 @@ namespace nldproc {
         public:
             virtual void process(stereo_buffer input, stereo_buffer output);
         private:
-            virtual void process_channel(channel_index index, single_channel input, single_channel output) = 0;
+            virtual void process_channel(channel_index index, single_channel input, single_channel output) {};
     };
 }
