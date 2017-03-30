@@ -1,4 +1,7 @@
 #include "peakfollower.h"
+#include "processor.h"
+#include "environment.h"
+
 #include <cmath>
 
 namespace nldproc {
@@ -29,11 +32,17 @@ namespace nldproc {
         return this->output;
     }
 
-    void peakfollower::process(unsigned int samples, double*channel) {
-        unsigned int count = 0;
-        while(count<samples) {
-            double input = channel[count];
-            channel[count++] = this->eval_next(input);
+    void peakfollower::process_channel(channel_index index, single_channel input, single_channel output ) {
+        sample_index        position        = 0;
+        sample_index        total_samples   = environment::get_buffer_chunksize();
+        sample_addr         cur_sample      = nullptr;
+
+        if( index == 0 ) {
+            while(position  <   total_samples) {
+                cur_sample  = &input[position];
+
+                output[position++] = this->eval_next(*input);
+            }
         }
     }
 }

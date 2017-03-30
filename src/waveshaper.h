@@ -16,12 +16,12 @@ namespace nldproc {
 
     typedef std::vector<spl_point> spl_points;
 
-    class waveshaper : processor {
+    class waveshaper : public processor {
 
         public:
             waveshaper();
             ~waveshaper();
-            virtual void    process( stereo_buffer input, stereo_buffer output );
+            virtual void    process_channel( channel_index index, single_channel input, single_channel output );
             spl_point_ID    add_point( double x, double y, double k );
             void            del_point( const spl_point_ID id );
             spl_points      get_copyof_points();

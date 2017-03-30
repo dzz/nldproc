@@ -79,7 +79,7 @@ namespace nldproc {
             sample_index        total_samples   = environment::get_buffer_chunksize();
             sample_addr         cur_sample      = nullptr;
             spl_idx             i;
-            auto                t,a,b,q;
+            double              t,a,b,q;
 
             while(position < total_samples) {
                 cur_sample  = &input[position];

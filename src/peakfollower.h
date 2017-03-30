@@ -1,8 +1,9 @@
 #pragma once
+#include "processor.h"
 
 namespace nldproc {
 
-    class peakfollower {
+    class peakfollower : public processor {
 
         public:
             peakfollower();

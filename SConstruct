@@ -2,10 +2,13 @@ Program(
         'nldproc_cliwrap', 
         [
             'src/nldproc_cliwrap.cpp', 
-            'src/whitenoise.cpp',
-            'src/waveshaper.cpp',
-            'src/volume.cpp',
-            'src/peakfollower.cpp'
+            #'src/whitenoise.cpp',
+            #'src/waveshaper.cpp',
+            #'src/volume.cpp',
+            #'src/peakfollower.cpp',
+            'src/processor.cpp',
+            'src/environment.cpp',
+            'src/pipe.cpp'
         ], 
         LIBS=
         [
