@@ -9,7 +9,9 @@ namespace nldproc {
     peakfollower::peakfollower() {
         this->output = 0.0;
         this->scalar = 0.0;
-        this->samplerate = 1.0;
+        this->samplerate = (double)environment::get_samplerate();
+        this->halflife = 1 / (double)environment::get_buffer_chunksize();
+        this->commit();
     }
 
     void peakfollower::set_halflife(double halflife) {
@@ -28,7 +30,9 @@ namespace nldproc {
         if( x < 0 ) x*=-1;
         if( x > this->output ) {
             this->output = x;
-        } 
+        } else {
+            this->output = this->output * this->scalar;
+        }
         return this->output;
     }
 
@@ -41,7 +45,7 @@ namespace nldproc {
             while(position  <   total_samples) {
                 cur_sample  = &input[position];
 
-                output[position++] = this->eval_next(*input);
+                output[position++] = this->eval_next(*cur_sample);
             }
         }
     }

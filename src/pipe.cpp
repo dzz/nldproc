@@ -70,5 +70,10 @@ namespace nldproc {
 
         processor_object->process( from, to );
     }
+
+    stereo_buffer pipe::get_mapped_buffer( std::string alias ) { 
+        return this->buffers[alias];
+    }
+
 }
 

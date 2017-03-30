@@ -18,6 +18,7 @@ namespace nldproc {
             void process_with( std::string processor, std::string buffer_from, std::string buffer_to );
             void process( stereo_buffer buffer );
             stereo_buffer create_unmapped_buffer();
+            stereo_buffer get_mapped_buffer( std::string alias );
         private:
             std::unordered_map< std::string, processor* > processors;
             std::unordered_map< std::string, stereo_buffer > buffers;
