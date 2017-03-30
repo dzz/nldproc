@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include "processor.h"
 
 namespace nldproc {
 
@@ -15,12 +16,12 @@ namespace nldproc {
 
     typedef std::vector<spl_point> spl_points;
 
-    class waveshaper {
+    class waveshaper : processor {
 
         public:
             waveshaper();
             ~waveshaper();
-            void process(unsigned int samples, double** channels);
+            virtual void    process( stereo_buffer input, stereo_buffer output );
             spl_point_ID    add_point( double x, double y, double k );
             void            del_point( const spl_point_ID id );
             spl_points      get_copyof_points();

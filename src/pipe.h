@@ -1,12 +1,12 @@
+#pragma once
+
+#include "environment.h"
 #include "processor.h"
 #include <string>
 #include <unordered_map>
 #include <vector>
 
 namespace nldproc {
-
-    typedef unsigned int buffer_chunksize;
-
 
     class pipe {
         public:

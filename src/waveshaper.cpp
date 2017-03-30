@@ -2,6 +2,8 @@
 #include <vector>
 #include <algorithm>
 #include "waveshaper.h"
+#include "processor.h"
+#include "environment.h"
 
 namespace nldproc {
 
@@ -71,27 +73,27 @@ namespace nldproc {
     }
 
 
-    void waveshaper::process(unsigned int samples, double** channels) {
+    void waveshaper::process_channel(channel_index index, single_channel input, single_channel output ) {
 
-        unsigned int channel = 0;
-        const unsigned int num_channels = 1;
+            sample_index        position        = 0;
+            sample_index        total_samples   = environment::get_buffer_chunksize();
+            sample_addr         cur_sample      = nullptr;
+            spl_idx             i;
+            auto                t,a,b,q;
 
-        while(channel < num_channels) {
-            unsigned int count = 0;
-            while(count< samples) {
-                double x = channels[channel][count]; 
-                spl_idx i = 1;
-                while( xs(i) < x) i++;
+            while(position < total_samples) {
+                cur_sample  = &input[position];
+                i           = 1;
 
-                auto t = (x - xs(i-1)) / (xs(i) - xs(i-1));
-                auto a =  ks(i-1)*(xs(i)-xs(i-1)) - (ys(i)-ys(i-1));
-                auto b = -ks(i  )*(xs(i)-xs(i-1)) + (ys(i)-ys(i-1));
-                auto q = (1-t)*ys(i-1) + t*ys(i) + t*(1-t)*(a*(1-t)+b*t);
+                while( xs(i) < *cur_sample) i++;
 
-                channels[channel][count++] = q;
+                t = (*cur_sample - xs(i-1)) / (xs(i) - xs(i-1));
+                a =  ks(i-1)*(xs(i)-xs(i-1)) - (ys(i)-ys(i-1));
+                b = -ks(i  )*(xs(i)-xs(i-1)) + (ys(i)-ys(i-1));
+                q = (1-t)*ys(i-1) + t*ys(i) + t*(1-t)*(a*(1-t)+b*t);
+
+                output[position++] = q;
             }
-            channel ++;
-        }
     }
 
     void waveshaper::commit() {
