@@ -14,7 +14,7 @@ namespace nldproc {
         this->chunk_size = environment::get_buffer_chunksize();
     }
 
-    void pipe::map_processor( processor* processor, std::string name ) {
+    void pipe::map_processor( processor* processor, alias name ) {
         this->processors[ name ] = processor;
     }
 
@@ -34,7 +34,7 @@ namespace nldproc {
         delete buffer;
     }
 
-    void pipe::create_buffer( std::vector<std::string> aliases ) {
+    void pipe::create_buffer( alias_list aliases ) {
         stereo_buffer buffer;
 
         buffer      = this->create_unmapped_buffer();
@@ -47,7 +47,7 @@ namespace nldproc {
 
     }
 
-    void pipe::assign_ptr_buffer( std::vector< std::string > aliases, stereo_buffer buffer ) {
+    void pipe::assign_ptr_buffer( alias_list aliases, stereo_buffer buffer ) {
         std::for_each( aliases.begin(),
                        aliases.end(),
                        [ this, buffer ]( auto alias ) {
@@ -63,7 +63,7 @@ namespace nldproc {
                        });
     }
 
-    void pipe::process_with( std::string processor, std::string buffer_from,std::string buffer_to ) {
+    void pipe::process_with( alias processor, alias buffer_from,alias buffer_to ) {
 
         auto processor_object   = this->processors [ processor ];
         auto from               = this->buffers[ buffer_from ];

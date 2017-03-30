@@ -12,6 +12,8 @@
 
 using namespace nldproc;
 
+typedef std::vector<std::string> alias_list;
+
 
 int main() {
 
@@ -27,17 +29,16 @@ int main() {
     whitenoise::generate( environment::get_buffer_chunksize(), channels[0] );
     whitenoise::generate( environment::get_buffer_chunksize(), channels[1] );
 
-    test_pipe.assign_ptr_buffer( std::vector<std::string> { "buffer:input", "buffer:output" }, channels );
-    test_pipe.create_buffer( std::vector<std::string> { "buffer:peakfollower", "buffer:upmixed" } );
+    test_pipe.assign_ptr_buffer( alias_list { "buffer:input", "buffer:output" }, channels );
+    test_pipe.create_buffer( alias_list { "buffer:peakfollower", "buffer:upmixed" } );
 
     test_pipe.map_processor( &test_waveshaper,      "module:waveshaper" );
     test_pipe.map_processor( &test_peakfollower,    "module:peakfollower" );
     test_pipe.map_processor( &test_upmixer,         "module:upmixer" );
 
-    test_pipe.process_with( "module:waveshaper", "buffer:input", "buffer:output" );
-    test_pipe.process_with( "module:peakfollower", "buffer:output", "buffer:peakfollower" );
-
-    test_pipe.process_with( "module:upmixer", "buffer:peakfollower", "buffer:upmixed");
+    test_pipe.process_with( "module:waveshaper",    "buffer:input",         "buffer:output" );
+    test_pipe.process_with( "module:peakfollower",  "buffer:output",        "buffer:peakfollower" );
+    test_pipe.process_with( "module:upmixer",       "buffer:peakfollower",  "buffer:upmixed");
 
     test_pipe.dump_buffer( "buffer:upmixed" );
 }
