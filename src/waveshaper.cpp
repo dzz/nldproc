@@ -14,6 +14,7 @@ namespace nldproc {
         this->_xs = nullptr;
         this->_ys = nullptr;
         this->_ks = nullptr;
+        this->commit();
     }
 
     waveshaper::~waveshaper() {

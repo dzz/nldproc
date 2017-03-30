@@ -1,17 +1,19 @@
 #include "whitenoise.h"
+#include "environment.h"
+#include "processor.h"
+
 #include <iostream>
 #include <random>
 
 namespace nldproc {
-    std::random_device rd;
-    std::mt19937 gen(rd()); 
-    std::uniform_real_distribution<> dist(-1,1);
 
-    double* whitenoise::generate(int samples) {
-        double* noise = new double[samples];
-        for(int i=0; i<samples;++i) {
-            noise[i] = dist(gen);
+    static std::random_device rd;
+    static std::mt19937 gen(rd()); 
+    static std::uniform_real_distribution<> dist(-1,1);
+
+    void whitenoise::generate(buffer_chunksize samples, single_channel channel) {
+        for(sample_index i=0; i<samples;++i) {
+            channel[i] = dist(gen);
         }
-        return noise;
     }
 }
