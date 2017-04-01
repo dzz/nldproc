@@ -1,6 +1,7 @@
 #include "pipe.h"
 #include "processor.h"
 #include "environment.h"
+#include "controls.h"
 
 #include <string>
 #include <unordered_map>
@@ -16,6 +17,11 @@ namespace nldproc {
 
     void pipe::map_processor( processor* processor, alias name ) {
         this->processors[ name ] = processor;
+    }
+
+    control* get_control( alias processor, control_name control ) {
+
+        control* resolved = this->processor_map[processor]->get_control( control );
     }
 
     stereo_buffer pipe::create_unmapped_buffer() {

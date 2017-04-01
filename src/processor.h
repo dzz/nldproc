@@ -23,6 +23,7 @@ namespace nldproc {
             processor();
             virtual void process(stereo_buffer input, stereo_buffer output);
             void create_control( control_name name, time_ms smooth_time, control_value value );
+            control* get_control( control_name name )
         private:
             double pump_control( control_name name );
             virtual void process_channel(channel_index index, single_channel input, single_channel output) {};

@@ -28,6 +28,8 @@ namespace nldproc {
         public:
             pipe();
             ~pipe();
+            
+            control* get_control( alias processor, control_name control);
             void map_parameter( alias processor, alias parameter, alias 
             void map_processor( processor* processor, alias name );
             void create_buffer( alias_list aliases  );

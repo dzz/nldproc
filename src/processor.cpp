@@ -12,6 +12,10 @@ namespace nldproc {
         }
     }
 
+    control* processor::get_control( control_name name ) {
+        return &this->controls[name];
+    }
+
     control* processor::create_control( control_name name, time_ms smooth_time, control_value value ) {
 
         control control;
