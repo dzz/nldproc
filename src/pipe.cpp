@@ -19,9 +19,8 @@ namespace nldproc {
         this->processors[ name ] = processor;
     }
 
-    control* get_control( alias processor, control_name control ) {
-
-        control* resolved = this->processor_map[processor]->get_control( control );
+    control* pipe::get_control( alias processor, control_name control ) {
+        return this->processors[processor]->get_control( control );
     }
 
     stereo_buffer pipe::create_unmapped_buffer() {
@@ -82,11 +81,24 @@ namespace nldproc {
         return this->buffers[alias];
     }
 
-    void pipe::dump_buffer( std::string alias ) {
+    void pipe::dump_buffer( alias alias ) {
         stereo_buffer buffer = this->get_mapped_buffer( alias );
         for( sample_index idx = 0; idx < environment::get_buffer_chunksize(); ++idx) {
             std::cout<<buffer[0][idx]<<","<<buffer[1][idx]<<"\n";
         }
     }
+
+    void pipe::set_parameter( alias name, double value ) {
+        parameter_dispatches dispatches = this->parameters[name];
+        std::for_each( dispatches.begin(),
+                       dispatches.end(),
+                       [value](auto dispatch) {
+                            dispatch.target->impulse = dispatch.transform(value);
+                       } );
+    }
+
+    void pipe::create_parameter( alias name, parameter parameter ) {
+        this->parameters[name] = parameter;
+    } 
 }
 

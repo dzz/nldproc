@@ -16,4 +16,9 @@ namespace nldproc {
             channel[i] = dist(gen);
         }
     }
+
+    void whitenoise::fill_buffer( stereo_buffer channels ) {
+        whitenoise::generate( environment::get_buffer_chunksize(), channels[0] );
+        whitenoise::generate( environment::get_buffer_chunksize(), channels[1] );
+    }
 }

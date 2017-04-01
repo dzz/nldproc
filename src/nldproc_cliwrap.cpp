@@ -14,6 +14,60 @@
 
 using namespace nldproc;
 
+
+int main() {
+
+    pipe            test_pipe;
+    clean_gain      test_gain;
+    stereo_buffer   master_buffer = test_pipe.create_unmapped_buffer();
+
+    whitenoise::fill_buffer(master_buffer);
+
+    test_pipe.assign_ptr_buffer( alias_list { "buffer:master" }, master_buffer );
+    test_pipe.map_processor(&test_gain, {"proc:gain" } );
+
+    test_pipe.create_parameter( 
+            "param:Volume(dB)", (parameter_dispatches){ 
+                {
+                    [](double dB) { return volume::db2vol(dB); },
+                    test_pipe.get_control( "proc:gain", "control:gainVol" )
+                } 
+            }
+    );
+
+    test_pipe.create_parameter( 
+            "param:Volume(vol)", (parameter_dispatches){
+                {
+                    [](double vol) { return volume::vol2db(vol); },
+                    test_pipe.get_control( "proc:gain", "control:gainVol" )
+                }
+            } 
+    );
+
+
+    test_pipe.set_parameter("param:Volume (dB)", -6 );
+    test_pipe.process_with("proc:gain", "buffer:master", "buffer:master" );
+    test_pipe.dump_buffer("buffer:master");
+
+    test_pipe.set_parameter("param:Volume (vol)", 0.01 );
+    test_pipe.process_with("proc:gain", "buffer:master", "buffer:master" );
+    test_pipe.dump_buffer("buffer:master");
+     
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 int main() {
 
  
@@ -84,5 +138,5 @@ int main() {
     test_pipe.process_with( "module:upmixer",       "buffer:peakfollower",  "buffer:upmixed");
 
     test_pipe.dump_buffer( "buffer:downmixed" );
-}
+}*/
 

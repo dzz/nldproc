@@ -11,6 +11,7 @@ Program(
             'src/upmixer.cpp',
             'src/downmixer.cpp',
             'src/pipe.cpp',
+            'src/clean_gain.cpp',
         ], 
         LIBS=
         [

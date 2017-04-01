@@ -12,16 +12,17 @@ namespace nldproc {
 
     typedef std::string alias;
     typedef std::vector<alias> alias_list;
-    typedef std::unordered_map< alis, processor* > processor_map;
-    typedef std::unordered_map< alis, stereo_buffer > buffer_map;
+    typedef std::unordered_map< alias, processor* > processor_map;
+    typedef std::unordered_map< alias, stereo_buffer > buffer_map;
     typedef std::vector< stereo_buffer > buffer_collection;
     
-    struct parameter_dispath {
+    struct parameter_dispatch {
         std::function<double(double)> transform;
-        control* dispatch_target;
-    }
+        control* target;
+    };
 
-    typedef std::vector< parameter_dispath > parameter;
+    typedef std::vector< parameter_dispatch > parameter;
+    typedef std::vector< parameter_dispatch > parameter_dispatches;
     typedef std::unordered_map< alias, parameter > parameter_map;
 
     class pipe {
@@ -30,7 +31,9 @@ namespace nldproc {
             ~pipe();
             
             control* get_control( alias processor, control_name control);
-            void map_parameter( alias processor, alias parameter, alias 
+            void create_parameter( alias name, parameter parameter );
+
+            void set_parameter( alias parameter, double value );
             void map_processor( processor* processor, alias name );
             void create_buffer( alias_list aliases  );
             void assign_ptr_buffer( alias_list aliases, stereo_buffer buffer );
@@ -44,7 +47,7 @@ namespace nldproc {
             buffer_map buffers;
             buffer_collection unique_buffers;
             buffer_chunksize chunk_size;
-            parameter_collection parameters;
+            parameter_map parameters;
             static void delete_unmapped_buffer( stereo_buffer buffer );
     }; 
 }

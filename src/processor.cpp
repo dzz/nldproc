@@ -22,15 +22,16 @@ namespace nldproc {
 
         control.impulse =   value;
         control.state   =   value;
-        control.filter_coef = pow( (smooth_time/2) * environment::get_samplerate() );
+        control.filter_coef = pow( 0.5, (smooth_time/2) * environment::get_samplerate() );
         control.inv_filter_coef = 1 - control.filter_coef;
 
         this->controls[name] = control;
         
-        return &control;
+        return &this->controls[name];
     }
 
-    double processor::pump_control( control* control );
-        return control->state = ( control->impulse * control->filter_coef ) + ( control->state * control->inv_filter_coef );
+    double processor::pump_control( control* control ) {
+        control->state = ( control->impulse * control->filter_coef ) + ( control->state * control->inv_filter_coef );
+        return control->state;
     }
 }

@@ -12,22 +12,20 @@ namespace nldproc {
     typedef unsigned int channel_index;
     typedef double*      sample_addr;
 
-    typedef std::string  control_name;
-    typedef unordered_map< control_name, control> controls;
+    typedef std::unordered_map< control_name, control> control_collection;
 
     typedef double       time_ms;
-    typedef double       control_value;
           
     class processor {
         public:
-            processor();
             virtual void process(stereo_buffer input, stereo_buffer output);
-            void create_control( control_name name, time_ms smooth_time, control_value value );
-            control* get_control( control_name name )
+            control* create_control( control_name name, time_ms smooth_time, control_value value );
+            control* get_control( control_name name );
         private:
-            double pump_control( control_name name );
             virtual void process_channel(channel_index index, single_channel input, single_channel output) {};
-            controls controls;
+            control_collection controls;
+        protected:
+            double pump_control( control* control );
             
     };
 

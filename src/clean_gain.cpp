@@ -1,10 +1,11 @@
+#include "environment.h"
 #include "processor.h"
 #include "volume.h"
 #include "clean_gain.h"
 
 namespace nldproc {
 
-    void clean_gain::clean_gain() {
+    clean_gain::clean_gain() {
         this->gainControl = this->create_control( (control_name)"control:gainVol", (time_ms)4.0, (control_value)1.0 );
     }
 
@@ -17,7 +18,7 @@ namespace nldproc {
 
         while(position < total_samples) {
             gainVol = this->pump_control( this->gainControl );
-            output[position] = input[poisition++] * gainVol;
+            output[position] = input[position++] * gainVol;
         }
     }
 }
