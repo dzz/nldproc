@@ -90,10 +90,13 @@ namespace nldproc {
 
     void pipe::set_parameter( alias name, double value ) {
         parameter_dispatches dispatches = this->parameters[name];
+
         std::for_each( dispatches.begin(),
                        dispatches.end(),
                        [value](auto dispatch) {
                             dispatch.target->impulse = dispatch.transform(value);
+                            //std::cout<<"control dispatch :"<<dispatch.target<<"\n";
+                            //std::cout<<"issuing impulse :"<<dispatch.target->impulse<<"\n";
                        } );
     }
 

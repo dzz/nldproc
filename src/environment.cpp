@@ -7,6 +7,6 @@ namespace nldproc {
     }
     
     buffer_chunksize environment::get_buffer_chunksize() {
-        return 1024;
+        return 2048;
     }
 }

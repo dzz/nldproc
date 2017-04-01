@@ -3,6 +3,7 @@
 #include "controls.h"
 
 #include <cmath>
+#include <iostream>
 
 namespace nldproc {
 
@@ -22,16 +23,24 @@ namespace nldproc {
 
         control.impulse =   value;
         control.state   =   value;
-        control.filter_coef = pow( 0.5, (smooth_time/2) * environment::get_samplerate() );
+        control.filter_coef = pow( 0.5, 1.0/ ( (smooth_time/2) * environment::get_samplerate() ) );
         control.inv_filter_coef = 1 - control.filter_coef;
 
         this->controls[name] = control;
         
+        //std::cout<<"created control :"<<&this->controls[name]<<"\n";
+        //std::cout<<"with filter coef :"<<this->controls[name].filter_coef<<"\n";
+
         return &this->controls[name];
     }
 
     double processor::pump_control( control* control ) {
-        control->state = ( control->impulse * control->filter_coef ) + ( control->state * control->inv_filter_coef );
-        return control->state;
+
+        //std::cout<<"pumping control :"<<control<<"\n";
+        //std::cout<<"applied impulse :"<<control->impulse<<"\n";
+        control->state = ( control->impulse * control->inv_filter_coef ) + ( control->state * control->filter_coef );
+        //std::cout<<"resulting state :"<<control->state<<"\n";
+
+        return control->impulse;
     }
 }

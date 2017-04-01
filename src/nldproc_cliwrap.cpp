@@ -38,18 +38,18 @@ int main() {
     test_pipe.create_parameter( 
             "param:Volume(vol)", (parameter_dispatches){
                 {
-                    [](double vol) { return volume::vol2db(vol); },
+                    [](double vol) { return vol; },
                     test_pipe.get_control( "proc:gain", "control:gainVol" )
                 }
             } 
     );
 
 
-    test_pipe.set_parameter("param:Volume (dB)", -6 );
+    test_pipe.set_parameter("param:Volume(dB)", -6 );
     test_pipe.process_with("proc:gain", "buffer:master", "buffer:master" );
     test_pipe.dump_buffer("buffer:master");
 
-    test_pipe.set_parameter("param:Volume (vol)", 0.01 );
+    test_pipe.set_parameter("param:Volume(vol)", 0.01 );
     test_pipe.process_with("proc:gain", "buffer:master", "buffer:master" );
     test_pipe.dump_buffer("buffer:master");
      
