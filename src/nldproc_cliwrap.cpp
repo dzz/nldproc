@@ -10,6 +10,7 @@
 #include "environment.h"
 #include "upmixer.h"
 #include "downmixer.h"
+#include "clean_gain.h"
 
 using namespace nldproc;
 
@@ -28,6 +29,10 @@ int main() {
     peakfollower    test_peakfollower;
     upmixer         test_upmixer;
     downmixer       test_downmixer;
+    clean_gain      test_clean_gain;
+
+
+
 
     test_pipe.map_processor( &test_waveshaper,      "module:waveshaper" );
     test_pipe.map_processor( &test_peakfollower,    "module:peakfollower" );
@@ -60,6 +65,18 @@ int main() {
     test_pipe.create_buffer( alias_list { "buffer:peakfollower",   "buffer:upmixed"    } );
     test_pipe.create_buffer( alias_list { "buffer:downmixed"                           } );
 
+
+    /////////////
+    // create a name parameter which will dispatch to one target
+
+    test_pipe.create_parameter( {
+        "parameter:Volume (dB)",
+        {
+            [](x) { return volume::db2vol(x); },
+            test_pipe.get_control("module:clean_gain", "control:gainVol")
+        },
+        0.0
+    } );
 
     test_pipe.process_with( "module:downmixer",     "buffer:input",         "buffer:downmixed" );
     test_pipe.process_with( "module:waveshaper",    "buffer:input",         "buffer:output" );
