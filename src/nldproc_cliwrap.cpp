@@ -3,6 +3,7 @@
 #include <algorithm>
 
 #include "whitenoise.h"
+#include "sine.h"
 #include "waveshaper.h"
 #include "volume.h"
 #include "peakfollower.h"
@@ -21,7 +22,7 @@ int main() {
     clean_gain      test_gain;
     stereo_buffer   master_buffer = test_pipe.create_unmapped_buffer();
 
-    whitenoise::fill_buffer(master_buffer);
+    sine::fill_buffer(440.0, master_buffer);
 
     test_pipe.assign_ptr_buffer( alias_list { "buffer:master" }, master_buffer );
     test_pipe.map_processor(&test_gain, {"proc:gain" } );
@@ -49,13 +50,15 @@ int main() {
     test_pipe.process_with("proc:gain", "buffer:master", "buffer:master" );
     //test_pipe.dump_buffer("buffer:master");
 
-    test_pipe.set_parameter("param:Volume(vol)", 0.01 );
+    test_pipe.set_parameter("param:Volume(vol)", 1.0 );
     test_pipe.process_with("proc:gain", "buffer:master", "buffer:master" );
     //test_pipe.dump_buffer("buffer:master");
 
     test_pipe.write_buffer("buffer:master", "output_stereo.raw",    binary_stereo  );
     test_pipe.write_buffer("buffer:master", "output_left.raw",      binary_left );
     test_pipe.write_buffer("buffer:master", "output_right.raw",     binary_right  );
+
+    environment::write_to_file( "output.environment" );
     return 0;
 }
 

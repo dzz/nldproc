@@ -3,6 +3,7 @@ Program(
         [
             'src/nldproc_cliwrap.cpp', 
             'src/whitenoise.cpp',
+            'src/sine.cpp',
             'src/waveshaper.cpp',
             'src/volume.cpp',
             'src/peakfollower.cpp',
