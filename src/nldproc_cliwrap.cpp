@@ -47,11 +47,13 @@ int main() {
 
     test_pipe.set_parameter("param:Volume(dB)", -6 );
     test_pipe.process_with("proc:gain", "buffer:master", "buffer:master" );
-    test_pipe.dump_buffer("buffer:master");
+    //test_pipe.dump_buffer("buffer:master");
 
     test_pipe.set_parameter("param:Volume(vol)", 0.01 );
     test_pipe.process_with("proc:gain", "buffer:master", "buffer:master" );
-    test_pipe.dump_buffer("buffer:master");
+    //test_pipe.dump_buffer("buffer:master");
+
+    test_pipe.write_buffer("buffer:master", "output.raw" );
      
     return 0;
 }

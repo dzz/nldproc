@@ -15,6 +15,7 @@ namespace nldproc {
     typedef std::unordered_map< alias, processor* > processor_map;
     typedef std::unordered_map< alias, stereo_buffer > buffer_map;
     typedef std::vector< stereo_buffer > buffer_collection;
+    typedef std::string filename;
     
     struct parameter_dispatch {
         std::function<double(double)> transform;
@@ -41,7 +42,8 @@ namespace nldproc {
             void process( stereo_buffer buffer );
             stereo_buffer create_unmapped_buffer();
             stereo_buffer get_mapped_buffer( alias alias );
-            void dump_buffer( alias alias );
+            void dump_buffer( alias buffer_alias );
+            void write_buffer( alias buffer_alias, filename output_file );
         private:
             processor_map processors;
             buffer_map buffers;

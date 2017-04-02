@@ -8,6 +8,7 @@
 #include <vector>
 #include <algorithm>
 #include <iostream>
+#include <fstream>
 
 namespace nldproc {
 
@@ -77,15 +78,32 @@ namespace nldproc {
         processor_object->process( from, to );
     }
 
-    stereo_buffer pipe::get_mapped_buffer( std::string alias ) { 
-        return this->buffers[alias];
+    stereo_buffer pipe::get_mapped_buffer( alias buffer_alias) { 
+        return this->buffers[buffer_alias];
     }
 
-    void pipe::dump_buffer( alias alias ) {
-        stereo_buffer buffer = this->get_mapped_buffer( alias );
+    void pipe::dump_buffer( alias buffer_alias ) {
+        stereo_buffer buffer = this->get_mapped_buffer( buffer_alias );
         for( sample_index idx = 0; idx < environment::get_buffer_chunksize(); ++idx) {
             std::cout<<buffer[0][idx]<<","<<buffer[1][idx]<<"\n";
         }
+    }
+
+    void pipe::write_buffer( alias buffer_alias, filename output_file ) {
+        std::ofstream file( output_file, std::ios::out | std::ios::binary );
+        stereo_buffer output_buffer = this->get_mapped_buffer( buffer_alias );
+
+        sample_index idx = 0;
+        while(idx < environment::get_buffer_chunksize()) {
+            double stereo_sample[2];
+            stereo_sample[0] = output_buffer[0][idx];
+            stereo_sample[1] = output_buffer[0][idx];
+            idx++;
+
+            file.write( reinterpret_cast<char *>(&stereo_sample), sizeof(stereo_sample) );
+            
+        }
+        file.close();
     }
 
     void pipe::set_parameter( alias name, double value ) {
