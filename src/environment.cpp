@@ -8,7 +8,7 @@ namespace nldproc {
     }
     
     buffer_chunksize environment::get_buffer_chunksize() {
-        return 11025;
+        return environment::get_samplerate()*15;
     }
 
     void environment::write_to_file( filename output_file ) {
