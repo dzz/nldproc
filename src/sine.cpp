@@ -17,7 +17,25 @@ constexpr double pi() { return std::atan(1)*4; }
     }
 
     void sine::fill_buffer( double hz, stereo_buffer channels ) {
-        sine::generate( hz, environment::get_buffer_chunksize(), channels[0] );
-        sine::generate( hz, environment::get_buffer_chunksize(), channels[1] );
+        sine::generate_sweep( hz, hz, environment::get_buffer_chunksize(), channels[0] );
+        sine::generate_sweep( hz, hz, environment::get_buffer_chunksize(), channels[1] );
+    }
+
+    void sine::fill_buffer_sweep( double start_hz, double end_hz, stereo_buffer channels ) {
+        sine::generate_sweep( start_hz, end_hz, environment::get_buffer_chunksize(), channels[0] );
+        sine::generate_sweep( start_hz, end_hz, environment::get_buffer_chunksize(), channels[1] );
+    }
+
+    void sine::generate_sweep(double start_hz, double end_hz, buffer_chunksize samples, single_channel channel) {
+
+        double t = 0;
+        for(sample_index i=0; i<samples;++i) {
+
+            double idx = (double)i/(double)samples; 
+            double hz = start_hz*(1-idx) + (end_hz*idx);
+
+            t += (1.0/environment::get_samplerate()) * hz;
+            channel[i] = sin( t*2*pi() );
+        }
     }
 }
