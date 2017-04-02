@@ -89,19 +89,33 @@ namespace nldproc {
         }
     }
 
-    void pipe::write_buffer( alias buffer_alias, filename output_file ) {
+    void pipe::write_buffer( alias buffer_alias, filename output_file, filetype output_type ) {
         std::ofstream file( output_file, std::ios::out | std::ios::binary );
         stereo_buffer output_buffer = this->get_mapped_buffer( buffer_alias );
 
         sample_index idx = 0;
         while(idx < environment::get_buffer_chunksize()) {
-            double stereo_sample[2];
-            stereo_sample[0] = output_buffer[0][idx];
-            stereo_sample[1] = output_buffer[0][idx];
-            idx++;
 
-            file.write( reinterpret_cast<char *>(&stereo_sample), sizeof(stereo_sample) );
-            
+            if( output_type == binary_stereo ) {
+                double stereo_sample[2];
+                stereo_sample[0] = output_buffer[0][idx];
+                stereo_sample[1] = output_buffer[0][idx];
+                idx++;
+
+                file.write( reinterpret_cast<char *>(&stereo_sample), sizeof(stereo_sample) );
+            }
+
+            if( (output_type == binary_left) || (output_type == binary_right ) ) {
+                double mono_sample;
+
+                if(output_type == binary_left) {
+                    mono_sample = output_buffer[0][idx];
+                } else {
+                    mono_sample = output_buffer[1][idx];
+                }
+                idx++;
+                file.write( reinterpret_cast<char *>(&mono_sample), sizeof(mono_sample) );
+            }
         }
         file.close();
     }

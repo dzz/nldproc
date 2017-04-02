@@ -10,6 +10,13 @@
 
 namespace nldproc {
 
+    typedef unsigned int filetype;
+
+    const filetype binary_stereo = 0;
+    const filetype binary_left = 2;
+    const filetype binary_right = 3;
+
+
     typedef std::string alias;
     typedef std::vector<alias> alias_list;
     typedef std::unordered_map< alias, processor* > processor_map;
@@ -43,7 +50,7 @@ namespace nldproc {
             stereo_buffer create_unmapped_buffer();
             stereo_buffer get_mapped_buffer( alias alias );
             void dump_buffer( alias buffer_alias );
-            void write_buffer( alias buffer_alias, filename output_file );
+            void write_buffer( alias buffer_alias, filename output_file, filetype output_type );
         private:
             processor_map processors;
             buffer_map buffers;

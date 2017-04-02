@@ -53,8 +53,9 @@ int main() {
     test_pipe.process_with("proc:gain", "buffer:master", "buffer:master" );
     //test_pipe.dump_buffer("buffer:master");
 
-    test_pipe.write_buffer("buffer:master", "output.raw" );
-     
+    test_pipe.write_buffer("buffer:master", "output_stereo.raw",    binary_stereo  );
+    test_pipe.write_buffer("buffer:master", "output_left.raw",      binary_left );
+    test_pipe.write_buffer("buffer:master", "output_right.raw",     binary_right  );
     return 0;
 }
 
