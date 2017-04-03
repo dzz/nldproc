@@ -4,12 +4,15 @@
 #include "waveshaper.h"
 #include "processor.h"
 #include "environment.h"
+#include "DspFilters/Dsp.h"
 
 namespace nldproc {
 
     waveshaper::waveshaper() {
         this->id_seed = 0;
         this->add_point( -1.0, -1.0, 1.0 );
+        this->add_point( -0.5, 0.3, 1.0 );
+        this->add_point( 0.0, 0.0, 0.0 );
         this->add_point( 1.0, 1.0, -1.0 );
         this->_xs = nullptr;
         this->_ys = nullptr;
@@ -73,6 +76,10 @@ namespace nldproc {
         return _ks[idx];
     }
 
+
+    void waveshaper::process(stereo_buffer input, stereo_buffer output ) {
+        processor::process( input, output );
+    }
 
     void waveshaper::process_channel(channel_index index, single_channel input, single_channel output ) {
 

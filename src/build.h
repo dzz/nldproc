@@ -1,2 +1,2 @@
 #pragma once
-const unsigned int NLDPROC_BUILDNUM = 284;
+const unsigned int NLDPROC_BUILDNUM = 505;

@@ -1,3 +1,4 @@
+*.environment
 *.raw
 *.o
 *.a

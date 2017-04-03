@@ -3,6 +3,8 @@
 #include "environment.h"
 #include "controls.h"
 
+#include "DspFilters/Dsp.h"
+
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -12,8 +14,28 @@
 
 namespace nldproc {
 
+
     pipe::pipe() {
         this->chunk_size = environment::get_buffer_chunksize();
+    }
+
+    void pipe::create_oversampler( alias name, os_factor amount ) {
+        this->oversamplers[name] = new oversampler();
+        environment::set_oversampling( amount );
+        this->oversamplers[name]->setup(  resampling_filter_order, environment::get_samplerate(), resampling_filter_freq );
+
+        environment::set_oversampling( 1 );
+
+        std::cout<<"created oversampling filter at:"<<this->oversamplers[name]<<"\n;";
+    }
+
+    void pipe::create_downsampler( alias name, os_factor amount) {
+        this->downsamplers[name] = new downsampler();
+        environment::set_oversampling( amount );
+        this->downsamplers[name]->setup( resampling_filter_order, environment::get_samplerate(), resampling_filter_freq );
+        environment::set_oversampling( 1 );
+
+        std::cout<<"created downsampling filter at:"<<this->downsamplers[name]<<"\n;";
     }
 
     void pipe::map_processor( processor* processor, alias name ) {
@@ -29,6 +51,11 @@ namespace nldproc {
 
         buffer[0] = new double[ environment::get_buffer_chunksize() ];
         buffer[1] = new double[ environment::get_buffer_chunksize() ];
+
+        for(sample_index idx = 0;idx < environment::get_buffer_chunksize(); ++idx) {
+            buffer[0][idx] = 0.0;
+            buffer[1][idx] = 0.0;
+        }
 
         this->unique_buffers.push_back( buffer );
         return buffer; 
@@ -48,9 +75,77 @@ namespace nldproc {
         std::for_each( aliases.begin(),
                        aliases.end(),
                        [ this, buffer ]( auto alias ) {
+                            std::cout<<"created buffer :"<<alias<<"\n";
+                            std::cout<<"buffer  addr   :"<<&buffer<<"\n";
+                            std::cout<<"base_chunksize :"<<environment::get_base_buffer_chunksize()<<"\n";
+                            std::cout<<"chunksize      :"<<environment::get_buffer_chunksize()<<"\n";
                             this->buffers[alias] = buffer;
                        });
 
+    }
+
+
+
+    void pipe::oversample_into( alias from, alias to, os_factor amount, alias oversampler ) {
+
+        auto down = this->buffers[ from ];
+        auto up = this->buffers[ to ];
+        sample_index idx;
+        auto write_idx = 0;
+
+        std::cout<<"oversample from   :"<<down<<"\n";
+        std::cout<<"oversample to     :"<<up<<"\n";
+        std::cout<<"oversample amt    :"<<amount<<"\n";
+
+        environment::set_oversampling( amount );
+        
+        for(idx = 0; idx< environment::get_buffer_chunksize(); ++idx) {
+            write_idx = idx / amount;
+            if(idx%amount==0) {
+                up[0][idx] = down[0][write_idx];
+                up[1][idx] = down[0][write_idx];
+            } else {
+                up[0][idx] = 0;
+                up[1][idx] = 0;
+            }
+        }
+
+        std::cout<<"filtering with:"<<oversampler<<" at "<<this->oversamplers[oversampler]<<"\n";
+        this->oversamplers[oversampler]->process( environment::get_buffer_chunksize(), up );
+        std::cout<<"upsampled\n";
+        
+    }
+
+    void pipe::downsample_into( alias buffer_from, alias buffer_to, alias downsampler ) {
+        auto from               = this->buffers[ buffer_from ];
+        auto to                 = this->buffers[ buffer_to ];
+        auto filter             = this->downsamplers[downsampler];
+
+        std::cout<<"downsample from   :"<<from<<"\n";
+        std::cout<<"downsample to     :"<<to<<"\n";
+
+        sample_index to_idx = 0;
+        sample_index idx;
+
+        os_factor amount = environment::get_oversampling();
+
+        filter->process(environment::get_buffer_chunksize(), from);
+
+        for(idx = 0; idx< environment::get_buffer_chunksize(); idx+=amount) {
+            to[0][to_idx] = from[0][idx];
+            to[1][to_idx] = from[1][idx];
+            to_idx++;
+        }
+
+        environment::set_oversampling(1);
+
+    }
+
+
+    void pipe::create_oversampled_buffer( alias_list aliases, os_factor amount ) {
+        environment::set_oversampling( amount );
+        this->create_buffer( aliases );
+        environment::set_oversampling( 1 );
     }
 
     void pipe::assign_ptr_buffer( alias_list aliases, stereo_buffer buffer ) {
@@ -62,6 +157,19 @@ namespace nldproc {
     }
 
     pipe::~pipe() {
+
+        std::for_each( this->oversamplers.begin(),
+                       this->oversamplers.end(),
+                       [ this ]( auto pair ) {
+                            delete pair.second;
+                       });
+
+        std::for_each( this->downsamplers.begin(),
+                       this->downsamplers.end(),
+                       [ this ]( auto pair ) {
+                            delete pair.second;
+                       });
+
         std::for_each( this->unique_buffers.begin(),
                        this->unique_buffers.end(),
                        [ this ]( auto buffer ) {

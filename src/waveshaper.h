@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include "processor.h"
+#include "DspFilters/Dsp.h"
 
 namespace nldproc {
 
@@ -21,6 +22,7 @@ namespace nldproc {
         public:
             waveshaper();
             ~waveshaper();
+            virtual void process(stereo_buffer input, stereo_buffer output );
             virtual void    process_channel( channel_index index, single_channel input, single_channel output );
             spl_point_ID    add_point( double x, double y, double k );
             void            del_point( const spl_point_ID id );
@@ -40,6 +42,9 @@ namespace nldproc {
 
             spl_point_ID id_seed;
             spl_points points;
+
+            Dsp::SimpleFilter <Dsp::ChebyshevI::LowPass<9>, 2> test_filter;
+
     };
 }
 

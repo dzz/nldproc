@@ -24,18 +24,22 @@ int main() {
 
     print_banner();
 
+    os_factor       oversampling = 8;
     pipe            test_pipe;
     waveshaper      test_waveshaper;
     clean_gain      test_gain;
     stereo_buffer   master_buffer = test_pipe.create_unmapped_buffer();
 
-    sine::fill_buffer_sweep(100, 13000, master_buffer);
+    sine::fill_buffer_sweep(40,13000, master_buffer);
     //whitenoise::fill_buffer( master_buffer);
 
     test_pipe.assign_ptr_buffer( alias_list { "buffer:master" }, master_buffer );
+    test_pipe.create_oversampled_buffer( alias_list { "buffer(os):waveshaper" }, oversampling );
+    test_pipe.create_oversampler("oversampler", oversampling);
+    test_pipe.create_downsampler("downsampler", oversampling);
+
     test_pipe.map_processor(&test_gain, {"proc:gain" } );
     test_pipe.map_processor(&test_waveshaper, {"proc:waveshaper" } );
-
     test_pipe.create_parameter( 
             "param:Volume(dB)", (parameter_dispatches){ 
                 {
@@ -54,10 +58,30 @@ int main() {
             } 
     );
 
-
-    //test_pipe.set_parameter("param:Volume(dB)", -6 );
+    test_pipe.set_parameter("param:Volume(dB)", -6 );
     test_pipe.process_with("proc:gain", "buffer:master", "buffer:master" );
-    test_pipe.process_with("proc:waveshaper", "buffer:master", "buffer:master" );
+    
+
+    test_pipe.oversample_into("buffer:master", "buffer(os):waveshaper", oversampling, "oversampler" );
+    test_pipe.process_with("proc:waveshaper", "buffer(os):waveshaper", "buffer(os):waveshaper" );
+    test_pipe.downsample_into("buffer(os):waveshaper","buffer:master", "downsampler");
+
+
+    test_pipe.write_buffer("buffer:master", "oversampled.raw",    binary_left  );
+    environment::write_to_file( "output.environment" );
+    return 0;
+
+    ///////  test_pipe.write_buffer("buffer(os):waveshaper", "oversampled.raw",    binary_left  );
+    ///////  environment::write_to_file( "output.environment" );
+    ///////  return 0;
+
+    //test_pipe.process_with("proc:waveshaper", "buffer(os):waveshaper", "buffer(os):waveshaper" );
+
+
+    //test_pipe.process_with("proc:waveshaper", "buffer:master", "buffer:master" );
+
+    //test_pipe.process_with("proc:waveshaper", "buffer(os):waveshaper", "buffer(os):waveshaper" );
+    test_pipe.downsample_into("buffer(os):waveshaper","buffer:master", "downsampler");
 
     // test_pipe.set_parameter("param:Volume(vol)", 1.0 );
     // test_pipe.process_with("proc:gain", "buffer:master", "buffer:master" );

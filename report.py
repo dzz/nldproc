@@ -33,7 +33,7 @@ import numpy as np
 
 Fs = float( open('output.environment').read().split(" ")[0] )
 dt = 1.0 / Fs
-s = np.fromfile("output_left.raw")
+s = np.fromfile("oversampled.raw")
 t = np.arange(0, float(s.size) / Fs, dt)
 
 print s.size
@@ -46,22 +46,30 @@ print s.size
 
 plt.style.use('grayscale')
 
-fig, axes = plt.subplots(nrows=3, ncols=1, figsize=(7, 7))
+fig, axes = plt.subplots(nrows=4, ncols=1, figsize=(7, 7))
 
 # plot time signal:
-## axes[0].set_title("Signal")
-## axes[0].plot(t, s )
-## axes[0].set_xlabel("Time")
-## axes[0].set_ylabel("Amplitude")
 
-axes[0].set_title("Magnitude")
-axes[0].magnitude_spectrum(s, Fs=Fs, scale="dB" )
+axes[0].set_title("Signal")
+axes[0].plot(t, s )
+axes[0].set_xlabel("Time")
+axes[0].set_ylabel("Amplitude")
 
 axes[1].set_title("FFT / 128")
 axes[1].specgram(s, Fs=Fs, scale="dB",cmap="Greys"  )
+axes[1].set_xlabel("Time")
+axes[1].set_ylabel("Hz")
+axes[1].set_ylim([10,22000])
 
-axes[2].set_title("Phase Spectrum ")
-axes[2].phase_spectrum(s, Fs=Fs )
+axes[2].set_title("Magnitude")
+axes[2].magnitude_spectrum(s, Fs=Fs, scale="dB" )
+axes[2].set_xlabel("Hz")
+axes[2].set_ylabel("dB")
+
+axes[3].set_title("Phase Spectrum ")
+axes[3].phase_spectrum(s, Fs=Fs )
+axes[3].set_xlabel("Frequency")
+axes[3].set_ylabel("Phase")
 
 ##axes[4].set_title("Angle Spectrum")
 ##axes[4].angle_spectrum(s, Fs=Fs )

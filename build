@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
+rm -f *.raw
 scons
 ./nldproc_cliwrap
 ./report.py
