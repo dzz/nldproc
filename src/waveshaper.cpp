@@ -90,6 +90,7 @@ namespace nldproc {
             double              t,a,b,q;
 
             while(position < total_samples) {
+
                 cur_sample  = &input[position];
                 i           = 1;
 

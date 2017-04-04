@@ -59,7 +59,7 @@ axes[1].set_title("FFT / 128")
 axes[1].specgram(s, Fs=Fs, scale="dB",cmap="Greys"  )
 axes[1].set_xlabel("Time")
 axes[1].set_ylabel("Hz")
-axes[1].set_ylim([10,22000])
+axes[1].set_ylim([10,30000])
 
 axes[2].set_title("Magnitude")
 axes[2].magnitude_spectrum(s, Fs=Fs, scale="dB" )

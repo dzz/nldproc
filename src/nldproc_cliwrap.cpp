@@ -12,6 +12,8 @@
 #include "upmixer.h"
 #include "downmixer.h"
 #include "clean_gain.h"
+#include "shaped_noise.h"
+
 #include "build.h"
 
 using namespace nldproc;
@@ -24,10 +26,12 @@ int main() {
 
     print_banner();
 
-    os_factor       oversampling = 8;
+    os_factor       oversampling = 32;
     pipe            test_pipe;
     waveshaper      test_waveshaper;
     clean_gain      test_gain;
+    shaped_noise    test_shaped_noise;  
+
     stereo_buffer   master_buffer = test_pipe.create_unmapped_buffer();
 
     sine::fill_buffer_sweep(40,13000, master_buffer);
@@ -40,6 +44,8 @@ int main() {
 
     test_pipe.map_processor(&test_gain, {"proc:gain" } );
     test_pipe.map_processor(&test_waveshaper, {"proc:waveshaper" } );
+    test_pipe.map_processor(&test_shaped_noise, {"proc:shaped_noise"} ); 
+
     test_pipe.create_parameter( 
             "param:Volume(dB)", (parameter_dispatches){ 
                 {
@@ -66,10 +72,12 @@ int main() {
     test_pipe.process_with("proc:waveshaper", "buffer(os):waveshaper", "buffer(os):waveshaper" );
     test_pipe.downsample_into("buffer(os):waveshaper","buffer:master", "downsampler");
 
-
+   // test_pipe.process_with("proc:shaped_noise", "buffer:master", "buffer:master");
     test_pipe.write_buffer("buffer:master", "oversampled.raw",    binary_left  );
     environment::write_to_file( "output.environment" );
+
     return 0;
+
 
     ///////  test_pipe.write_buffer("buffer(os):waveshaper", "oversampled.raw",    binary_left  );
     ///////  environment::write_to_file( "output.environment" );
@@ -85,6 +93,8 @@ int main() {
 
     // test_pipe.set_parameter("param:Volume(vol)", 1.0 );
     // test_pipe.process_with("proc:gain", "buffer:master", "buffer:master" );
+
+
 
     test_pipe.write_buffer("buffer:master", "output_stereo.raw",    binary_stereo  );
     test_pipe.write_buffer("buffer:master", "output_left.raw",      binary_left );

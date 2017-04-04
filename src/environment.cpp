@@ -14,7 +14,7 @@ os_factor oversampling = 1;
     }
     
     buffer_chunksize environment::get_base_buffer_chunksize() {
-        return 4096;
+        return environment::get_base_samplerate()*0.1;
     }
 
     buffer_chunksize environment::get_buffer_chunksize() {

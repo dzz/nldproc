@@ -23,6 +23,7 @@ env.Program(
             'src/downmixer.cpp',
             'src/pipe.cpp',
             'src/clean_gain.cpp',
+            'src/shaped_noise.cpp'
         ], 
         LIBS=
         [
