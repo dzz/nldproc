@@ -10,10 +10,9 @@ namespace nldproc {
 
     waveshaper::waveshaper() {
         this->id_seed = 0;
-        this->add_point( -1.0, -1.0, 1.0 );
-        this->add_point( -0.5, 0.3, 1.0 );
+        this->add_point( -2.0, -1.9, 1.0 );
         this->add_point( 0.0, 0.0, 0.0 );
-        this->add_point( 1.0, 1.0, -1.0 );
+        this->add_point( 2.0, 2.0, -1.0 );
         this->_xs = nullptr;
         this->_ys = nullptr;
         this->_ks = nullptr;

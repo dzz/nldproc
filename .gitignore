@@ -2,4 +2,5 @@
 *.raw
 *.o
 *.a
+nldproc_cliwrap
 

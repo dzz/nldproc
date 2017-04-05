@@ -14,7 +14,7 @@ namespace nldproc {
 
     const int resampling_filter_order = 6;
     const double resampling_filter_ripple = 2;
-    const double resampling_filter_freq = 21000;
+    const double resampling_filter_freq = 8000;
 
     typedef unsigned int filetype;
 

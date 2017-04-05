@@ -28,11 +28,12 @@ int main() {
 
     print_banner();
 
-    os_factor       oversampling = 32;
+    os_factor       oversampling = 256;
     pipe            test_pipe;
     waveshaper      test_waveshaper;
     clean_gain      test_gain;
-    shaped_noise    test_shaped_noise;  
+    shaped_noise    test_shaped_lf_noise( lf_noise );  
+    shaped_noise    test_shaped_hf_noise( hf_noise );  
     add_buffers     test_add_buffers;
 
     stereo_buffer   master_buffer = test_pipe.create_unmapped_buffer();
@@ -48,7 +49,8 @@ int main() {
 
     test_pipe.map_processor(&test_gain, {"proc:gain" } );
     test_pipe.map_processor(&test_waveshaper, {"proc:waveshaper" } );
-    test_pipe.map_processor(&test_shaped_noise, {"proc:shaped_noise"} ); 
+    test_pipe.map_processor(&test_shaped_lf_noise, {"proc:shaped_lf_noise"} ); 
+    test_pipe.map_processor(&test_shaped_hf_noise, {"proc:shaped_hf_noise"} ); 
     test_pipe.map_processor(&test_add_buffers, {"proc:mix"} ); 
 
     test_pipe.create_parameter( 
@@ -71,14 +73,19 @@ int main() {
     );*/
 
 
-    test_pipe.set_parameter("param:Dither Volume(dB)", -40 );
-    test_pipe.process_with("proc:shaped_noise", "buffer:dithering_noise", "buffer:dithering_noise");
+    test_pipe.set_parameter("param:Dither Volume(dB)", -60 );
+    test_pipe.process_with("proc:shaped_hf_noise", "buffer:dithering_noise", "buffer:dithering_noise");
     test_pipe.process_with("proc:gain", "buffer:dithering_noise", "buffer:dithering_noise");
     test_pipe.process_with("proc:mix", "buffer:dithering_noise", "buffer:master" );
 
     test_pipe.oversample_into("buffer:master", "buffer(os):waveshaper", oversampling, "oversampler" );
     test_pipe.process_with("proc:waveshaper", "buffer(os):waveshaper", "buffer(os):waveshaper" );
     test_pipe.downsample_into("buffer(os):waveshaper","buffer:master", "downsampler");
+
+    test_pipe.set_parameter("param:Dither Volume(dB)", -96 );
+    test_pipe.process_with("proc:shaped_lf_noise", "buffer:dithering_noise", "buffer:dithering_noise");
+    test_pipe.process_with("proc:gain", "buffer:dithering_noise", "buffer:dithering_noise");
+    test_pipe.process_with("proc:mix", "buffer:dithering_noise", "buffer:master" );
 
 
 

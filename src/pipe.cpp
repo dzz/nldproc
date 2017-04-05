@@ -132,8 +132,8 @@ namespace nldproc {
         filter->process(environment::get_buffer_chunksize(), from);
 
         for(idx = 0; idx< environment::get_buffer_chunksize(); idx+=amount) {
-            to[0][to_idx] = from[0][idx];
-            to[1][to_idx] = from[1][idx];
+            to[0][to_idx] = from[0][idx] * (double)amount;
+            to[1][to_idx] = from[1][idx] * (double)amount;
             to_idx++;
         }
 
