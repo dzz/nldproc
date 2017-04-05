@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 rm -f *.raw
+mkdir output -p
+rm -f output/*
 scons
 time ./nldproc_cliwrap
 ./report.py

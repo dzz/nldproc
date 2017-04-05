@@ -19,7 +19,7 @@ int test_decimation() {
 
     test_pipe.oversample_into("buf:master", "buf:master(os)", oversampling_amount, "oversampler:up" );
     test_pipe.decimate_into("buf:master(os)", "buf:master" ); 
-    test_pipe.write_buffer( "buf:master(os)", "output/decimation.raw", binary_left );
+    test_pipe.write_buffer( "buf:master", "output/decimation.raw", binary_left );
 
     environment::write_samplerate_to_file( "output/test.samplerate" );
     environment::write_filename_to_file( "decimation.raw", "output/test.reportfile" );
