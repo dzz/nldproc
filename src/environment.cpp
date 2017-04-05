@@ -45,6 +45,12 @@ buffer_chunksize    active_base_chunksize = 44100 * 2;
         file << environment::get_samplerate();
         file.close();
     }
+    
+    void environment::write_fft_limits_to_file( filename name, double min, double max ) {
+        std::ofstream file( name  );
+        file << min << "\n" << max << "\n";
+        file.close();
+    }
 
     void environment::set_oversampling(os_factor amount) {
         active_oversampling = amount;

@@ -14,28 +14,28 @@
 
 namespace nldproc {
 
-
     pipe::pipe() {
         this->chunk_size = environment::get_buffer_chunksize();
     }
 
-    void pipe::create_oversampler( alias name, os_factor amount ) {
+    void pipe::create_oversampler( alias name, os_factor amount, frequency_hz half_band ) {
+
         this->oversamplers[name] = new oversampler();
         environment::set_oversampling( amount );
-        this->oversamplers[name]->setup(  resampling_filter_order, environment::get_samplerate(), resampling_filter_freq );
+        this->oversamplers[name]->setup(  resampling_filter_order, environment::get_samplerate(), half_band );
 
         environment::set_oversampling( 1 );
 
-        std::cout<<"created oversampling filter at:"<<this->oversamplers[name]<<"\n;";
+        std::cout<<"created oversampling filter at:"<<this->oversamplers[name]<<"\n";
     }
 
-    void pipe::create_downsampler( alias name, os_factor amount) {
+    void pipe::create_downsampler( alias name, os_factor amount, frequency_hz half_band ) {
         this->downsamplers[name] = new downsampler();
         environment::set_oversampling( amount );
-        this->downsamplers[name]->setup( resampling_filter_order, environment::get_samplerate(), resampling_filter_freq );
+        this->downsamplers[name]->setup( resampling_filter_order, environment::get_samplerate(), half_band );
         environment::set_oversampling( 1 );
 
-        std::cout<<"created downsampling filter at:"<<this->downsamplers[name]<<"\n;";
+        std::cout<<"created downsampling filter at:"<<this->downsamplers[name]<<"\n";
     }
 
     void pipe::map_processor( processor* processor, alias name ) {
@@ -99,20 +99,30 @@ namespace nldproc {
 
         environment::set_oversampling( amount );
         
-        for(idx = 0; idx< environment::get_buffer_chunksize(); ++idx) {
-            write_idx = idx / amount;
-            if(idx%amount==0) {
-                up[0][idx] = down[0][write_idx];
-                up[1][idx] = down[0][write_idx];
-            } else {
-                up[0][idx] = 0;
-                up[1][idx] = 0;
+        if( amount !=1 ) {
+            double amp_scale = (double)(amount * 0.724) + 0.47; // linear transform, not accurate,
+                                                                // filter type/order dependent
+
+            for(idx = 0; idx< environment::get_buffer_chunksize(); ++idx) {
+                write_idx = idx / amount;
+                if(idx%amount==0) {
+                    up[0][idx] = down[0][write_idx] * amp_scale;
+                    up[1][idx] = down[0][write_idx] * amp_scale;
+                } else {
+                    up[0][idx] = 0;
+                    up[1][idx] = 0;
+                }
+            }
+
+            std::cout<<"filtering with:"<<oversampler<<" at "<<this->oversamplers[oversampler]<<"\n";
+            this->oversamplers[oversampler]->process( environment::get_buffer_chunksize(), up );
+            std::cout<<"upsampled\n";
+        } else {
+            for(idx = 0; idx< environment::get_buffer_chunksize(); ++idx) {
+                up[0][idx] = down[0][idx];
+                up[1][idx] = down[1][idx];
             }
         }
-
-        std::cout<<"filtering with:"<<oversampler<<" at "<<this->oversamplers[oversampler]<<"\n";
-        this->oversamplers[oversampler]->process( environment::get_buffer_chunksize(), up );
-        std::cout<<"upsampled\n";
         
     }
 
@@ -138,7 +148,27 @@ namespace nldproc {
         }
 
         environment::set_oversampling(1);
+    }
 
+    void pipe::decimate_into( alias buffer_from, alias buffer_to ) {
+        auto from               = this->buffers[ buffer_from ];
+        auto to                 = this->buffers[ buffer_to ];
+
+        std::cout<<"decimate from   :"<<from<<"\n";
+        std::cout<<"decimate to     :"<<to<<"\n";
+
+        sample_index to_idx = 0;
+        sample_index idx;
+
+        os_factor amount = environment::get_oversampling();
+
+        for(idx = 0; idx< environment::get_buffer_chunksize(); idx+=amount) {
+            to[0][to_idx] = from[0][idx];
+            to[1][to_idx] = from[1][idx];
+            to_idx++;
+        }
+
+        environment::set_oversampling(1);
     }
 
 

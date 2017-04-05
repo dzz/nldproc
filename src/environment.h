@@ -17,6 +17,7 @@ namespace nldproc {
             static void write_to_file( filename output_file );       
             static void write_samplerate_to_file( filename output_file );       
             static void write_filename_to_file( filename name, filename output_file );       
+            static void write_fft_limits_to_file( filename name, double min, double max );
             static samplerate          get_samplerate();
             static samplerate          get_base_samplerate();
             static buffer_chunksize    get_buffer_chunksize();

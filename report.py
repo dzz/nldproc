@@ -1,36 +1,15 @@
 #!/usr/bin/python2
 
-###   import matplotlib.pyplot as plt
-###   import numpy as np
-###   
-###   plt.style.use('grayscale')
-###   
-###   Fs = float( open('output.environment').read().split(" ")[0] )
-###   
-###   dt = 1.0 / Fs
-###   
-###   print(dt)
-###   
-###   x = np.fromfile("output_left.raw")
-###   
-###   t = np.arange(0, x.size / Fs, dt)
-###   
-###   NFFT = int(1024)
-###   
-###   ax1 = plt.subplot(211)
-###   plt.plot(t, x)
-###   plt.xlabel('t');
-###   plt.ylabel('lin_amp');
-###   plt.subplot(212, sharex=ax1)
-###   Pxx, freqs, bins, im = plt.specgram(x, NFFT=NFFT, Fs=Fs, noverlap=64, scale = 'dB' , mode = 'magnitude' )
-###   plt.xlabel('t');
-###   plt.ylabel('hz');
-###   axes = plt.gca();
-###   plt.show()
-
 import matplotlib.pyplot as plt
 import numpy as np
 
+
+print ("~~~~~~~")
+
+fft_spec = open('output/test.report_fft_lims').read().split("\n");
+
+fft_min = float(fft_spec[0]);
+fft_max = float(fft_spec[1]);
 
 Fs = float( open('output/test.samplerate').read().split(" ")[0] )
 dt = 1.0 / Fs
@@ -39,7 +18,8 @@ reportfile = open('output/test.reportfile').read()
 s = np.fromfile('output/' + reportfile)
 t = np.arange(0, float(s.size) / Fs, dt)
 
-print s.size
+print("Max Amplitude From Input Signal: %f" % (np.max(np.fabs(s)) ) );
+print("Input Data Length (frames): %s" % ( s.size) )
 
 # generate noise:
 ###nse = np.random.randn(len(t))
@@ -57,12 +37,13 @@ axes[0].set_title("Signal")
 axes[0].plot(t, s )
 axes[0].set_xlabel("Time")
 axes[0].set_ylabel("Amplitude")
+axes[0].set_ylim([-1.0,1.0]);
 
 axes[1].set_title("FFT / 256")
 axes[1].specgram(s, NFFT=256, Fs=Fs, scale="dB",cmap="Greys"  )
 axes[1].set_xlabel("Time")
 axes[1].set_ylabel("Hz")
-axes[1].set_ylim([10,30000])
+axes[1].set_ylim([fft_min,fft_max])
 
 axes[2].set_title("Magnitude")
 axes[2].magnitude_spectrum(s, Fs=Fs, scale="dB" )
@@ -80,3 +61,4 @@ axes[3].set_ylabel("Phase")
 
 fig.tight_layout()
 plt.show()
+

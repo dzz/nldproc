@@ -12,21 +12,22 @@
 
 namespace nldproc {
 
-    const int resampling_filter_order = 6;
-    const double resampling_filter_ripple = 2;
-    const double resampling_filter_freq = 8000;
+    #define RS_FILTER_ORDER 3
 
+    const int resampling_filter_order = RS_FILTER_ORDER;
+
+    typedef double frequency_hz;
     typedef unsigned int filetype;
+    typedef unsigned int sample_count;
 
     const filetype binary_stereo = 0;
     const filetype binary_left = 2;
     const filetype binary_right = 3;
 
-
     typedef std::string alias;
 
-    typedef Dsp::SimpleFilter <Dsp::Bessel::LowPass<6>, 2> oversampler;
-    typedef Dsp::SimpleFilter <Dsp::Bessel::LowPass<6>, 2> downsampler;
+    typedef Dsp::SimpleFilter <Dsp::Bessel::LowPass<RS_FILTER_ORDER>, 2> oversampler;
+    typedef Dsp::SimpleFilter <Dsp::Bessel::LowPass<RS_FILTER_ORDER>, 2> downsampler;
 
     typedef std::unordered_map< alias, oversampler* > oversampler_map;
     typedef std::unordered_map< alias, downsampler* > downsampler_map;
@@ -65,11 +66,11 @@ namespace nldproc {
             void dump_buffer( alias buffer_alias );
             void write_buffer( alias buffer_alias, filename output_file, filetype output_type );
             void oversample_into( alias from, alias to, os_factor amount, alias oversampler );
-
             void downsample_into( alias buffer_from, alias buffer_to, alias downsampler );
+            void decimate_into( alias buffer_from, alias buffer_to );
 
-            void create_oversampler( alias name, os_factor amount );
-            void create_downsampler( alias name, os_factor amount );
+            void create_oversampler( alias name, os_factor amount, frequency_hz half_band );
+            void create_downsampler( alias name, os_factor amount, frequency_hz half_band  );
         private:
             processor_map processors;
             buffer_map buffers;
@@ -80,4 +81,19 @@ namespace nldproc {
             downsampler_map downsamplers;
             static void delete_unmapped_buffer( stereo_buffer buffer );
     }; 
+
+    class buffer_utils {
+        public: 
+            static double find_max_abs( stereo_buffer buffer ) {
+                double max = 0.0;
+                for(sample_index i=0; i<environment::get_buffer_chunksize();++i) {
+                    double l = fabs( buffer[0][i]);
+                    double r = fabs( buffer[1][i]);
+        
+                    if(l>max) max = l;
+                    if(r>max) max = r;
+                }
+                return (unsigned int)(max*1000);
+        }
+    };
 }

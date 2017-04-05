@@ -1,7 +1,7 @@
 namespace nldproc {
 
 #ifndef NLDPROC_CURRENT_TEST
-    #define NLDPROC_CURRENT_TEST test_oversampling
+    #define NLDPROC_CURRENT_TEST test_decimation
 #endif
 
 #define NLDPROC_STRINGIFY(x) #x
@@ -11,6 +11,7 @@ namespace nldproc {
 #define NLDPROC_TEST_FAILURE 1
 
 #include "tests/test_oversampling.h"
+#include "tests/test_decimation.h"
 }
 
 

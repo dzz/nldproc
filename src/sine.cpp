@@ -10,9 +10,16 @@ constexpr double pi() { return std::atan(1)*4; }
 
     void sine::generate(double hz, buffer_chunksize samples, single_channel channel) {
         for(sample_index i=0; i<samples;++i) {
-
             double t = (double)i / (double)environment::get_samplerate();
             channel[i] = sin( t*hz*2*pi() );
+        }
+    }
+
+    void sine::fill_range( double hz, stereo_buffer channels, sample_index start, sample_index end) {
+        for(sample_index i=start; i<end;++i) {
+            double t = (double)i / (double)environment::get_samplerate();
+            channels[0][i] = sin( t*hz*2*pi() );
+            channels[1][i] = sin( t*hz*2*pi() );
         }
     }
 

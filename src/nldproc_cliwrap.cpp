@@ -51,8 +51,8 @@ int main_() {
 
     test_pipe.create_buffer( alias_list { "buffer:dithering_noise" } );
     test_pipe.create_oversampled_buffer( alias_list { "buffer(os):waveshaper" }, oversampling );
-    test_pipe.create_oversampler("oversampler", oversampling);
-    test_pipe.create_downsampler("downsampler", oversampling);
+    test_pipe.create_oversampler("oversampler", oversampling, 10000);
+    test_pipe.create_downsampler("downsampler", oversampling, 10000);
 
     test_pipe.map_processor(&test_gain, {"proc:gain" } );
     test_pipe.map_processor(&test_waveshaper, {"proc:waveshaper" } );
