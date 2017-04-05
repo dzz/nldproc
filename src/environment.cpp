@@ -6,7 +6,7 @@ namespace nldproc {
 os_factor oversampling = 1;
 
     samplerate environment::get_base_samplerate() {
-        return 96000;
+        return 44100;
     }
 
     samplerate environment::get_samplerate() {
@@ -14,7 +14,7 @@ os_factor oversampling = 1;
     }
     
     buffer_chunksize environment::get_base_buffer_chunksize() {
-        return environment::get_base_samplerate()*0.1;
+        return environment::get_base_samplerate()*1;
     }
 
     buffer_chunksize environment::get_buffer_chunksize() {

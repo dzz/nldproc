@@ -13,6 +13,8 @@
 #include "downmixer.h"
 #include "clean_gain.h"
 #include "shaped_noise.h"
+#include "clone_buffer.h"
+#include "add_buffers.h"
 
 #include "build.h"
 
@@ -31,13 +33,15 @@ int main() {
     waveshaper      test_waveshaper;
     clean_gain      test_gain;
     shaped_noise    test_shaped_noise;  
+    add_buffers     test_add_buffers;
 
     stereo_buffer   master_buffer = test_pipe.create_unmapped_buffer();
 
     sine::fill_buffer_sweep(40,13000, master_buffer);
-    //whitenoise::fill_buffer( master_buffer);
 
     test_pipe.assign_ptr_buffer( alias_list { "buffer:master" }, master_buffer );
+
+    test_pipe.create_buffer( alias_list { "buffer:dithering_noise" } );
     test_pipe.create_oversampled_buffer( alias_list { "buffer(os):waveshaper" }, oversampling );
     test_pipe.create_oversampler("oversampler", oversampling);
     test_pipe.create_downsampler("downsampler", oversampling);
@@ -45,9 +49,10 @@ int main() {
     test_pipe.map_processor(&test_gain, {"proc:gain" } );
     test_pipe.map_processor(&test_waveshaper, {"proc:waveshaper" } );
     test_pipe.map_processor(&test_shaped_noise, {"proc:shaped_noise"} ); 
+    test_pipe.map_processor(&test_add_buffers, {"proc:mix"} ); 
 
     test_pipe.create_parameter( 
-            "param:Volume(dB)", (parameter_dispatches){ 
+            "param:Dither Volume(dB)", (parameter_dispatches){ 
                 {
                     [](double dB) { return volume::db2vol(dB); },
                     test_pipe.get_control( "proc:gain", "control:gainVol" )
@@ -55,6 +60,7 @@ int main() {
             }
     );
 
+/*
     test_pipe.create_parameter( 
             "param:Volume(vol)", (parameter_dispatches){
                 {
@@ -62,17 +68,21 @@ int main() {
                     test_pipe.get_control( "proc:gain", "control:gainVol" )
                 }
             } 
-    );
+    );*/
 
-    test_pipe.set_parameter("param:Volume(dB)", -6 );
-    test_pipe.process_with("proc:gain", "buffer:master", "buffer:master" );
-    
+
+    test_pipe.set_parameter("param:Dither Volume(dB)", -40 );
+    test_pipe.process_with("proc:shaped_noise", "buffer:dithering_noise", "buffer:dithering_noise");
+    test_pipe.process_with("proc:gain", "buffer:dithering_noise", "buffer:dithering_noise");
+    test_pipe.process_with("proc:mix", "buffer:dithering_noise", "buffer:master" );
 
     test_pipe.oversample_into("buffer:master", "buffer(os):waveshaper", oversampling, "oversampler" );
     test_pipe.process_with("proc:waveshaper", "buffer(os):waveshaper", "buffer(os):waveshaper" );
     test_pipe.downsample_into("buffer(os):waveshaper","buffer:master", "downsampler");
 
-   // test_pipe.process_with("proc:shaped_noise", "buffer:master", "buffer:master");
+
+
+
     test_pipe.write_buffer("buffer:master", "oversampled.raw",    binary_left  );
     environment::write_to_file( "output.environment" );
 
