@@ -17,14 +17,21 @@
 #include "add_buffers.h"
 
 #include "build.h"
+#include "tests.h"
 
 using namespace nldproc;
 
 void print_banner() {
-    std::cout<<"nldproc build #"<<NLDPROC_BUILDNUM<<"\n-----\n";
+    std::cout<<"nldproc (build "<<NLDPROC_BUILDNUM << ")\n\n";
+    std::cout<<"running test: "<< NLDPROC_STRINGIFY(NLDPROC_CURRENT_TEST)<< "\n" << "-=-=-=-=-=-=-=-=-=-=-=" << "\n";
 }
 
 int main() {
+    print_banner();
+    return NLDPROC_CURRENT_TEST();
+}
+
+int main_() {
 
     print_banner();
 

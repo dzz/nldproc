@@ -31,9 +31,12 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-Fs = float( open('output.environment').read().split(" ")[0] )
+
+Fs = float( open('output/test.samplerate').read().split(" ")[0] )
 dt = 1.0 / Fs
-s = np.fromfile("oversampled.raw")
+
+reportfile = open('output/test.reportfile').read()
+s = np.fromfile('output/' + reportfile)
 t = np.arange(0, float(s.size) / Fs, dt)
 
 print s.size
