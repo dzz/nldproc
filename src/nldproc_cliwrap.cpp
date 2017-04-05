@@ -23,7 +23,7 @@ using namespace nldproc;
 
 void print_banner() {
     std::cout<<"nldproc (build "<<NLDPROC_BUILDNUM << ")\n\n";
-    std::cout<<"running test: "<< NLDPROC_STRINGIFY(NLDPROC_CURRENT_TEST)<< "\n" << "-=-=-=-=-=-=-=-=-=-=-=" << "\n";
+    std::cout<<"running test: "<< NLDPROC_TOSTRING(NLDPROC_CURRENT_TEST)<< "\n" << "-=-=-=-=-=-=-=-=-=-=-=" << "\n";
 }
 
 int main() {
