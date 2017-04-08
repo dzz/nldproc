@@ -2,19 +2,14 @@
 #include <random>
 #include <algorithm>
 
-#include "whitenoise.h"
-#include "sine.h"
-#include "waveshaper.h"
-#include "volume.h"
-#include "peakfollower.h"
+#include "test_signals/whitenoise.h"
+#include "test_signals/sine.h"
+#include "utils/volume.h"
+
 #include "pipe.h"
 #include "environment.h"
-#include "upmixer.h"
-#include "downmixer.h"
-#include "clean_gain.h"
-#include "shaped_noise.h"
-#include "clone_buffer.h"
-#include "add_buffers.h"
+
+#include "processors/processors.h"
 
 #include "build.h"
 #include "tests.h"
