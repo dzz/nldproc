@@ -9,5 +9,4 @@ namespace nldproc {
                 output[1][idx] += input[1][idx];
             }
     }
-
 }

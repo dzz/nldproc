@@ -4,6 +4,8 @@
 
 #include "test_signals/whitenoise.h"
 #include "test_signals/sine.h"
+#include "test_signals/diracs.h"
+
 #include "utils/volume.h"
 
 #include "pipe.h"

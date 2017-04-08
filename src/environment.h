@@ -7,6 +7,7 @@ namespace nldproc {
     typedef unsigned int buffer_chunksize;
     typedef unsigned int sample_index;
     typedef unsigned int samplerate;
+    typedef double sample;
     typedef unsigned int os_factor;
     typedef std::string filename;
     typedef unsigned int int_frequency;
