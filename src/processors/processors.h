@@ -1,6 +1,8 @@
-/*from code_generate.py */
+/*** Generated Code (code_generate.py) ***/
 #pragma once
 #include "processor.h"
+#include "derivative.h"
+#include "integrator.h"
 #include "downmixer.h"
 #include "add_buffers.h"
 #include "upmixer.h"

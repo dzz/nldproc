@@ -3,7 +3,7 @@ set -e
 rm -f *.raw
 mkdir output -p
 rm -f output/*
-./code_generate.py
+./code_generate.py $1
 scons
 time ./nldproc_cliwrap
 ./report.py

@@ -1,0 +1,10 @@
+/*** Generated Code (code_generate.py) ***/
+#include "tests/test_sinc.h"
+#include "tests/test_derivative.h"
+#include "tests/test_oversampling.h"
+#include "tests/test_integrator.h"
+#include "tests/test_file.h"
+#include "tests/test_decimation.h"
+#include "tests/test_waveshaper.h"
+#include "tests/test_fir.h"
+#include "tests/test_dither.h"

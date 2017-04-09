@@ -1,7 +1,9 @@
 namespace nldproc {
 
+#include "test.h"
+
 #ifndef NLDPROC_CURRENT_TEST
-    #define NLDPROC_CURRENT_TEST test_file
+    #define NLDPROC_CURRENT_TEST test_derivative
 #endif
 
 #define NLDPROC_TEST_RAW_AUDIO_FILE "/home/devon/drum_test.raw"
@@ -11,13 +13,7 @@ namespace nldproc {
 #define NLDPROC_TEST_SUCCESS 0
 #define NLDPROC_TEST_FAILURE 1
 
-#include "tests/test_oversampling.h"
-#include "tests/test_decimation.h"
-#include "tests/test_fir.h"
-#include "tests/test_sinc.h"
-#include "tests/test_dither.h"
-#include "tests/test_waveshaper.h"
-#include "tests/test_file.h"
+#include "test_includes.h"
 
 }
 
