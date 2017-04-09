@@ -24,13 +24,8 @@ int test_oversampling() {
     // upsample from buf:master -> buf:master(os)
     test_pipe.oversample_into("buf:master", "buf:master(os)", oversampling_amount, "oversampler:up" );
     
-    // write the buffer to file
-    test_pipe.write_buffer( "buf:master(os)", "output/oversampling.raw", binary_left );
-
     // write test report info to file 
-    environment::write_samplerate_to_file( "output/test.samplerate" );
-    environment::write_filename_to_file( "oversampling.raw", "output/test.reportfile" );
-    environment::write_fft_limits_to_file("output/test.report_fft_lims", (frequency_hz)100, (frequency_hz)10000);
+    test::write_mono_test_data( &test_pipe, "buf:master(os)", NLDPROC_FFT_LIMITS(100,10000) );
 
     return NLDPROC_TEST_SUCCESS;
 }

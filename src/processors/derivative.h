@@ -8,6 +8,8 @@ namespace nldproc {
         private:
             virtual void process_channel( channel_index channel, single_channel input, single_channel output );
             double i[2];
+            double t;
+            double norm_factor;
     };
 }
 

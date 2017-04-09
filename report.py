@@ -37,7 +37,7 @@ axes[0].set_title("Signal")
 axes[0].plot(t, s )
 axes[0].set_xlabel("Time")
 axes[0].set_ylabel("Amplitude")
-axes[0].set_ylim([-1.0,1.0]);
+#axes[0].set_ylim([-1.0,1.0]);
 
 axes[1].set_title("FFT / 256")
 axes[1].specgram(s, NFFT=256, Fs=Fs, scale="dB",cmap="Greys"  )

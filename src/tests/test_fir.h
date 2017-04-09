@@ -26,15 +26,11 @@ int test_fir() {
     diracs::fill_range( (sample_spacing)10, 1, test_pipe.get_mapped_buffer( "buf:master" ), 0, 255 ); 
     sine::fill_range( 1500, test_pipe.get_mapped_buffer( "buf:master" ), 256, 511 ); 
 
-
     test_pipe.process_with_inplace("proc:fir","buf:master" );
 
-    test_pipe.write_buffer( "buf:master", "output/fir.raw", binary_left );
-
     // write test report info to file 
-    environment::write_samplerate_to_file( "output/test.samplerate" );
-    environment::write_filename_to_file( "fir.raw", "output/test.reportfile" );
-    environment::write_fft_limits_to_file("output/test.report_fft_lims", (frequency_hz)100, (frequency_hz)10000);
+
+    test::write_mono_test_data( &test_pipe, "buf:master", NLDPROC_FFT_LIMITS(100,10000) );
 
     return NLDPROC_TEST_SUCCESS;
 }

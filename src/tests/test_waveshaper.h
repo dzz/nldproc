@@ -28,12 +28,7 @@ int test_waveshaper() {
     test_pipe.process_with_inplace("proc:down_filter","buf:oversampled" );
     test_pipe.decimate_into( "buf:oversampled", "buf:master" );
 
-    test_pipe.write_buffer( "buf:master", "output/waveshaper.raw", binary_left );
-
-    // write test report info to file 
-    environment::write_samplerate_to_file( "output/test.samplerate" );
-    environment::write_filename_to_file( "waveshaper.raw", "output/test.reportfile" );
-    environment::write_fft_limits_to_file("output/test.report_fft_lims", (frequency_hz)100, (frequency_hz)20000);
+    test::write_mono_test_data( &test_pipe, "buf:master", NLDPROC_FFT_LIMITS(100,10000) );
 
     return NLDPROC_TEST_SUCCESS;
 }

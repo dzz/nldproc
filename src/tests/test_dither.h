@@ -20,9 +20,7 @@ int test_dither() {
     test_pipe.write_buffer( "buf:master", "output/dither.raw", binary_left );
 
     // write test report info to file 
-    environment::write_samplerate_to_file( "output/test.samplerate" );
-    environment::write_filename_to_file( "dither.raw", "output/test.reportfile" );
-    environment::write_fft_limits_to_file("output/test.report_fft_lims", (frequency_hz)100, (frequency_hz)20000);
+    test::write_mono_test_data( &test_pipe, "buf:master", NLDPROC_FFT_LIMITS(100,20000) );
 
     return NLDPROC_TEST_SUCCESS;
 }

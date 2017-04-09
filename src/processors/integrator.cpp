@@ -10,7 +10,6 @@ namespace nldproc {
         double e = exp(1.0);
         
         g = pow(e,( -1 / (time * environment::get_samplerate())));
-        std::cout<<"G:"<<g<<"\n";
     }
 
     void integrator::process_channel( channel_index channel, single_channel input, single_channel output ) {
