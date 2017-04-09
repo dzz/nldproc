@@ -18,6 +18,9 @@ namespace nldproc {
             delay_line inputs[2];
             coefficients filter;
             virtual void process_channel( channel_index channel, single_channel input, single_channel output );
+        protected:
+            fir();
+            void configure( tapcount size, coefficients spec );
     };
 }
 

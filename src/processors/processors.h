@@ -6,6 +6,7 @@
 #include "upmixer.h"
 #include "clean_gain.h"
 #include "clone_buffer.h"
+#include "sinc_filter.h"
 #include "peakfollower.h"
 #include "waveshaper.h"
 #include "fir.h"

@@ -12,6 +12,8 @@
 
 namespace nldproc {
 
+    #define DITHER_KERNEL_SIZE 2048
+
     #define RS_FILTER_ORDER 3
 
     const int resampling_filter_order = RS_FILTER_ORDER;
@@ -47,6 +49,8 @@ namespace nldproc {
     typedef std::vector< parameter_dispatch > parameter_dispatches;
     typedef std::unordered_map< alias, parameter > parameter_map;
 
+    typedef double amplitude;
+
     class pipe {
         public:
             pipe();
@@ -62,7 +66,9 @@ namespace nldproc {
             void process_with( alias processor, alias buffer_from, alias buffer_to );
             void process_with_inplace( alias processor, alias buffer );
             void process( stereo_buffer buffer );
+            void dither_buffer( alias buffer, amplitude threshold );
             stereo_buffer create_unmapped_buffer();
+            stereo_buffer create_unmapped_buffer(buffer_chunksize size);
             stereo_buffer get_mapped_buffer( alias alias );
             void dump_buffer( alias buffer_alias );
             void write_buffer( alias buffer_alias, filename output_file, filetype output_type );
@@ -73,6 +79,8 @@ namespace nldproc {
             void create_oversampler( alias name, os_factor amount, frequency_hz half_band );
             void create_downsampler( alias name, os_factor amount, frequency_hz half_band  );
         private:
+            stereo_buffer dither_kernel;
+            sample_index dither_idx;
             processor_map processors;
             buffer_map buffers;
             buffer_collection unique_buffers;

@@ -11,7 +11,7 @@ namespace nldproc {
         public:
             static void generate(buffer_chunksize samples, single_channel channel );
             static void fill_buffer(stereo_buffer buffer);
-        private:
+            static void fill_buffer(buffer_chunksize samples, stereo_buffer buffer);
     };
 }
 

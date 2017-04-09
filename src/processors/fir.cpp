@@ -3,7 +3,15 @@
 
 namespace nldproc {
 
+    fir::fir() {
+
+    }
+
     fir::fir( tapcount size, coefficients spec) {
+        this->configure( size, spec );
+    }
+
+    void fir::configure( tapcount size, coefficients spec ) {
         inputs[0] = new sample[size];
         inputs[1] = new sample[size];
         filter = new coefficient[size];

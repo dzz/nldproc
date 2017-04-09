@@ -11,7 +11,7 @@ namespace nldproc {
     static std::mt19937 gen(rd()); 
     static std::uniform_real_distribution<> dist(-1,1);
 
-    void whitenoise::generate(buffer_chunksize samples, single_channel channel) {
+    void whitenoise::generate(buffer_chunksize samples, single_channel channel ) {
         for(sample_index i=0; i<samples;++i) {
             channel[i] = dist(gen);
         }
@@ -21,4 +21,10 @@ namespace nldproc {
         whitenoise::generate( environment::get_buffer_chunksize(), channels[0] );
         whitenoise::generate( environment::get_buffer_chunksize(), channels[1] );
     }
+
+    void whitenoise::fill_buffer( buffer_chunksize size, stereo_buffer channels ) {
+        whitenoise::generate( size, channels[0] );
+        whitenoise::generate( size, channels[1] );
+    }
+
 }

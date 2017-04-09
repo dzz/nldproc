@@ -2,6 +2,7 @@
 #include "processor.h"
 #include "environment.h"
 #include "controls.h"
+#include "whitenoise.h"
 
 #include "DspFilters/Dsp.h"
 
@@ -11,21 +12,38 @@
 #include <algorithm>
 #include <iostream>
 #include <fstream>
+#include <cmath>
 
 namespace nldproc {
 
     pipe::pipe() {
-        this->chunk_size = environment::get_buffer_chunksize();
+        dither_kernel = this->create_unmapped_buffer( DITHER_KERNEL_SIZE );
+        this->assign_ptr_buffer( {".dither_kernel"}, dither_kernel );
+        whitenoise::fill_buffer( DITHER_KERNEL_SIZE, dither_kernel );
+        dither_idx = 0;
+
+    }
+
+    void pipe::dither_buffer( alias buffer, amplitude threshold ) {
+        auto from               = this->buffers[ buffer ];
+ 
+        for(channel_index channel=0; channel<2; ++channel) {
+            for(sample_index idx=0; idx< environment::get_buffer_chunksize(); ++idx) {
+                double c_abs = fabs(from[channel][idx]);
+                if( c_abs < threshold ) {
+                    double mix = c_abs / threshold;
+                    from[channel][idx] = (from[channel][idx] * mix) + ( (1-mix) * dither_kernel[channel][dither_idx] * threshold );
+                }
+                dither_idx= (dither_idx+1)%DITHER_KERNEL_SIZE;
+            }
+        }
     }
 
     void pipe::create_oversampler( alias name, os_factor amount, frequency_hz half_band ) {
-
         this->oversamplers[name] = new oversampler();
         environment::set_oversampling( amount );
         this->oversamplers[name]->setup(  resampling_filter_order, environment::get_samplerate(), half_band );
-
         environment::set_oversampling( 1 );
-
         std::cout<<"created oversampling filter at:"<<this->oversamplers[name]<<"\n";
     }
 
@@ -34,7 +52,6 @@ namespace nldproc {
         environment::set_oversampling( amount );
         this->downsamplers[name]->setup( resampling_filter_order, environment::get_samplerate(), half_band );
         environment::set_oversampling( 1 );
-
         std::cout<<"created downsampling filter at:"<<this->downsamplers[name]<<"\n";
     }
 
@@ -47,12 +64,16 @@ namespace nldproc {
     }
 
     stereo_buffer pipe::create_unmapped_buffer() {
+        return this->create_unmapped_buffer( environment::get_buffer_chunksize() );
+    }
+
+    stereo_buffer pipe::create_unmapped_buffer( buffer_chunksize size ) {
         double** buffer = new double*[2];
 
-        buffer[0] = new double[ environment::get_buffer_chunksize() ];
-        buffer[1] = new double[ environment::get_buffer_chunksize() ];
+        buffer[0] = new double[ size ];
+        buffer[1] = new double[ size ];
 
-        for(sample_index idx = 0;idx < environment::get_buffer_chunksize(); ++idx) {
+        for(sample_index idx = 0;idx < size; ++idx) {
             buffer[0][idx] = 0.0;
             buffer[1][idx] = 0.0;
         }
@@ -114,9 +135,11 @@ namespace nldproc {
                 }
             }
 
-            std::cout<<"filtering with:"<<oversampler<<" at "<<this->oversamplers[oversampler]<<"\n";
-            this->oversamplers[oversampler]->process( environment::get_buffer_chunksize(), up );
-            std::cout<<"upsampled\n";
+            if( oversampler != "") {
+                std::cout<<"filtering with:"<<oversampler<<" at "<<this->oversamplers[oversampler]<<"\n";
+                this->oversamplers[oversampler]->process( environment::get_buffer_chunksize(), up );
+                std::cout<<"upsampled\n";
+            }
         } else {
             for(idx = 0; idx< environment::get_buffer_chunksize(); ++idx) {
                 up[0][idx] = down[0][idx];
@@ -129,7 +152,6 @@ namespace nldproc {
     void pipe::downsample_into( alias buffer_from, alias buffer_to, alias downsampler ) {
         auto from               = this->buffers[ buffer_from ];
         auto to                 = this->buffers[ buffer_to ];
-        auto filter             = this->downsamplers[downsampler];
 
         std::cout<<"downsample from   :"<<from<<"\n";
         std::cout<<"downsample to     :"<<to<<"\n";
@@ -139,7 +161,10 @@ namespace nldproc {
 
         os_factor amount = environment::get_oversampling();
 
-        filter->process(environment::get_buffer_chunksize(), from);
+        if(downsampler!="") {
+            auto filter             = this->downsamplers[downsampler];
+            filter->process(environment::get_buffer_chunksize(), from);
+        }
 
         for(idx = 0; idx< environment::get_buffer_chunksize(); idx+=amount) {
             to[0][to_idx] = from[0][idx] * (double)amount;

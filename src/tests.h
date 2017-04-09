@@ -1,7 +1,7 @@
 namespace nldproc {
 
 #ifndef NLDPROC_CURRENT_TEST
-    #define NLDPROC_CURRENT_TEST test_fir
+    #define NLDPROC_CURRENT_TEST test_waveshaper
 #endif
 
 #define NLDPROC_STRINGIFY(x) #x
@@ -13,6 +13,9 @@ namespace nldproc {
 #include "tests/test_oversampling.h"
 #include "tests/test_decimation.h"
 #include "tests/test_fir.h"
+#include "tests/test_sinc.h"
+#include "tests/test_dither.h"
+#include "tests/test_waveshaper.h"
 
 }
 
