@@ -4,6 +4,7 @@
 
 #include <string>
 #include <unordered_map>
+#include <iostream>
 
 namespace nldproc {
 
@@ -15,6 +16,7 @@ namespace nldproc {
     typedef std::unordered_map< control_name, control> control_collection;
 
     typedef double       time_ms;
+    typedef double       time_seconds;
           
     class processor {
         public:

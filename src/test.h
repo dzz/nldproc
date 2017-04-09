@@ -1,2 +1,2 @@
 /*** Generated Code (code_generate.py) ***/
-#define NLDPROC_CURRENT_TEST test_waveshaper
+#define NLDPROC_CURRENT_TEST test_integrator
