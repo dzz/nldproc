@@ -7,6 +7,7 @@
 #include "test_signals/diracs.h"
 
 #include "utils/volume.h"
+#include "utils/file.h"
 
 #include "pipe.h"
 #include "environment.h"

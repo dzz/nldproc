@@ -1,9 +1,10 @@
 namespace nldproc {
 
 #ifndef NLDPROC_CURRENT_TEST
-    #define NLDPROC_CURRENT_TEST test_waveshaper
+    #define NLDPROC_CURRENT_TEST test_file
 #endif
 
+#define NLDPROC_TEST_RAW_AUDIO_FILE "/home/devon/drum_test.raw"
 #define NLDPROC_STRINGIFY(x) #x
 #define NLDPROC_TOSTRING(x) NLDPROC_STRINGIFY(x)
 
@@ -16,6 +17,7 @@ namespace nldproc {
 #include "tests/test_sinc.h"
 #include "tests/test_dither.h"
 #include "tests/test_waveshaper.h"
+#include "tests/test_file.h"
 
 }
 
