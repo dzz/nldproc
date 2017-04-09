@@ -1,4 +1,5 @@
 #include "fir.h"
+#include <iostream>
 
 namespace nldproc {
 
@@ -17,7 +18,7 @@ namespace nldproc {
 
     void fir::process_channel( channel_index channel, single_channel input, single_channel output ) {
         for(sample_index idx = 0; idx<environment::get_buffer_chunksize();++idx) {
-            for(tapcount t_idx =1; t_idx<filter_size;++t_idx) {
+            for(tapcount t_idx=filter_size-1; t_idx>0;--t_idx) {
                 inputs[channel][t_idx] = inputs[channel][t_idx-1];
             }
             inputs[channel][0] = input[idx];

@@ -11,6 +11,7 @@ namespace nldproc {
 
         for(sample_index idx = start; idx<end; idx+=dirac_spacing) {
             channels[0][idx] = dirac_amplitude;
+            channels[1][idx] = dirac_amplitude;
         }
     }
 }

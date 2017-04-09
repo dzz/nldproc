@@ -60,6 +60,7 @@ namespace nldproc {
             void create_oversampled_buffer( alias_list aliases, os_factor amount );
             void assign_ptr_buffer( alias_list aliases, stereo_buffer buffer );
             void process_with( alias processor, alias buffer_from, alias buffer_to );
+            void process_with_inplace( alias processor, alias buffer );
             void process( stereo_buffer buffer );
             stereo_buffer create_unmapped_buffer();
             stereo_buffer get_mapped_buffer( alias alias );

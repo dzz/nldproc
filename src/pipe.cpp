@@ -215,6 +215,13 @@ namespace nldproc {
 
         processor_object->process( from, to );
     }
+    
+    void pipe::process_with_inplace( alias processor, alias buffer ) {
+        auto from_to             = this->buffers[ buffer ];
+        auto processor_object   = this->processors [ processor ];
+
+        processor_object->process(from_to, from_to);
+    }
 
     stereo_buffer pipe::get_mapped_buffer( alias buffer_alias) { 
         return this->buffers[buffer_alias];
