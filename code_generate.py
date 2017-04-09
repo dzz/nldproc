@@ -54,5 +54,5 @@ print(" configuring tests ...")
 generateTestHeader()
 print(" configuring active test...")
 generateTestDefine()
-print("(complete)")
+print("[ complete ]")
 

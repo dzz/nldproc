@@ -1,9 +1,24 @@
 #!/bin/bash
 set -e
+
+echo
+echo "( housecleaning ... )"
+echo
+
 rm -f *.raw
 mkdir output -p
 rm -f output/*
+echo "" > src/test.h
+
 ./code_generate.py $1
+
+echo
+echo "( compiling & linking )"
+echo
+
 scons
+echo
+echo "( running test )"
+echo
 time ./nldproc_cliwrap
 ./report.py
