@@ -109,6 +109,8 @@ namespace nldproc {
 
     void pipe::oversample_into( alias from, alias to, os_factor amount, alias oversampler ) {
 
+        environment::enter_implicit_time();
+
         auto down = this->buffers[ from ];
         auto up = this->buffers[ to ];
         sample_index idx;
@@ -238,6 +240,7 @@ namespace nldproc {
         auto from               = this->buffers[ buffer_from ];
         auto to                 = this->buffers[ buffer_to ];
 
+        environment::enter_implicit_time();
         processor_object->process( from, to );
     }
     
@@ -245,6 +248,7 @@ namespace nldproc {
         auto from_to             = this->buffers[ buffer ];
         auto processor_object   = this->processors [ processor ];
 
+        environment::enter_implicit_time();
         processor_object->process(from_to, from_to);
     }
 

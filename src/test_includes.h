@@ -17,6 +17,9 @@
 #if NLDPROC_CURRENT_TEST == test_rms
 	#include "tests/test_rms.h"
 #endif
+#if NLDPROC_CURRENT_TEST == test_peakfollower
+	#include "tests/test_peakfollower.h"
+#endif
 #if NLDPROC_CURRENT_TEST == test_file
 	#include "tests/test_file.h"
 #endif

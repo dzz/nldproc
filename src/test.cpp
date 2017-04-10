@@ -16,6 +16,8 @@ namespace nldproc {
     namespace test {
         void write_mono_test_data( pipe* pipe, alias buffer, frequency_hz fft_low, frequency_hz fft_hi ) {
 
+            environment::exit_implicit_time();
+
             std::string filename = std::string(NLDPROC_TOSTRING( NLDPROC_CURRENT_TEST )) + ".raw";
 
             std::cout<<"Writing File: "<<filename<<"\n";
@@ -23,7 +25,7 @@ namespace nldproc {
             environment::write_samplerate_to_file( "output/test.samplerate" );
             environment::write_filename_to_file( filename, "output/test.reportfile" );
             environment::write_fft_limits_to_file("output/test.report_fft_lims", (frequency_hz)fft_low, (frequency_hz)fft_hi);
-
+            environment::write_implicit_time_to_file("output/implicit_time");
         }
     }
     #include "test_includes.h"

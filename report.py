@@ -12,6 +12,12 @@ fft_spec = open('output/test.report_fft_lims').read().split("\n");
 fft_min = float(fft_spec[0]);
 fft_max = float(fft_spec[1]);
 
+time_data = open('output/implicit_time').read().split(" ")
+
+proc_time = float(time_data[0])
+test_signal_length = float(time_data[1])
+
+
 Fs = float( open('output/test.samplerate').read().split(" ")[0] )
 dt = 1.0 / Fs
 
@@ -34,19 +40,19 @@ fig, axes = plt.subplots(nrows=3, ncols=1, figsize=(5.7, 6.8))
 
 # plot time signal:
 
-axes[0].titlesize = 0
-axes[0].set_title("amplitude", size = 8)
+perf = proc_time / test_signal_length
+axes[0].set_title(reportfile+": cpu/input=%f" % perf , size = 12)
 axes[0].plot(t, s )
 axes[0].set_xlabel("t", size = 8)
 axes[0].set_ylabel("amp", size = 8)
 #axes[0].set_ylim([-1.0,1.0]);
 
-axes[1].set_title("FFT / 256", size = 6)
-axes[1].specgram(s, NFFT=256, Fs=Fs, scale="dB",cmap="Greys"  )
+#axes[1].set_title("FFT / 256", size = 11)
+axes[1].specgram(s, NFFT=256, Fs=Fs, scale="dB" )
 axes[1].set_ylabel("hz", size = 8)
 axes[1].set_ylim([fft_min,fft_max])
 
-axes[2].set_title("magnitude", size = 6)
+#axes[2].set_title("magnitude", size = 11)
 axes[2].magnitude_spectrum(s, Fs=Fs, scale="dB" )
 axes[2].set_xlabel("hz", size = 8)
 axes[2].set_ylabel("dB", size = 8)
@@ -62,6 +68,7 @@ fig.tight_layout()
 try:
     if(sys.argv[1]):
         plt.savefig("reports/" + reportfile + ".png", boxinches="tight")
+    
 except:
     plt.show()
 

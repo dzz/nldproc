@@ -1,4 +1,8 @@
 #!/bin/bash
-
-rm *.raw
+echo
+echo "[ HOUSE KEEPING ]"
+echo
+set -e
+rm *.raw -f
+rm reports/* -f
 scons -c

@@ -6,7 +6,7 @@ namespace nldproc {
     class peakfollower : public processor {
 
         public:
-            peakfollower();
+            peakfollower(time_seconds decay_halflife);
             void set_halflife(double halflife);
             void set_samplerate(double samplerate);
             void commit();

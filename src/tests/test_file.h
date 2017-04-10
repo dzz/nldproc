@@ -5,6 +5,7 @@ int test_file() {
     pipe            test_pipe;          
     stereo_buffer   master_buffer = test_pipe.create_unmapped_buffer(); 
 
+    environment::enter_implicit_time(); //start profiler ourselves, not triggering with a process call
     file::unsafe_fill_from_file(  NLDPROC_TEST_RAW_AUDIO_FILE, master_buffer );
     test_pipe.assign_ptr_buffer( {"buf:master"}, master_buffer );
 

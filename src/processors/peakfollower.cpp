@@ -6,11 +6,11 @@
 
 namespace nldproc {
 
-    peakfollower::peakfollower() {
+    peakfollower::peakfollower(time_seconds decay_halflife) {
         this->output = 0.0;
         this->scalar = 0.0;
         this->samplerate = (double)environment::get_samplerate();
-        this->halflife = 1 / (double)environment::get_buffer_chunksize();
+        this->set_halflife( decay_halflife );
         this->commit();
     }
 

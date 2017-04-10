@@ -20,7 +20,7 @@ env = Environment()
 #env.Append(CPPDEFINES=['NLDPROC_BUILDNUM={0}'.format(buildnum)])
 
 env.Program(
-        'nldproc_cliwrap', 
+        'cli', 
         CppFiles, 
         LIBS=
         [

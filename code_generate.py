@@ -52,13 +52,15 @@ def generateAllReportsScript(defines):
     file =open("all_reports","w")
     file.write("#!/bin/bash\n")
     file.write("set -e\n")
+    file.write("./code_generate.py\n")
     index = open("reports/index.html","w")
     index.write("<body style='background-color:#000;color:#fff;font-face:monospace;' ><center>");
+    index.write("<h1>nldproc tests</h1>")
     for define in defines:
         print("          (" + define + ")")
         file.write("./build "+define+" 1\n")
         index.write("<h2>"+define+"</h2>")
-        index.write("<img style='padding-bottom:100px;' src='" + define + ".raw.png'><br/>")
+        index.write("<img style='padding-bottom:24px;' src='" + define + ".raw.png'><br/>")
     index.write("</body></center>") 
 
 def generateTestDefine():

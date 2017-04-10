@@ -1,0 +1,4 @@
+#!/bin/bash
+
+./clean
+./build $1 $2
