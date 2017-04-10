@@ -12,6 +12,7 @@ int test_sinc() {
 
 
     sine::fill_buffer_sweep(40,20000, master_buffer);
+    test::write_input_signal_test_data( &test_pipe, "buf:master");
 
     test_pipe.process_with_inplace("proc:fir","buf:master" );
 

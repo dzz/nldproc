@@ -38,3 +38,7 @@ echo "( creating report )"
 echo
 
 ./report.py $2
+
+pushd reports
+./insert_transfer_data.py
+popd

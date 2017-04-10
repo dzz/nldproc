@@ -19,13 +19,10 @@ int NLDPROC_CURRENT_TEST ();
 
 
 #define NLDPROC_FFT_LIMITS(X, Y)  X,Y
-namespace test {
-
-    void write_mono_test_data( pipe* pipe, alias buffer, frequency_hz fft_low, frequency_hz fft_hi );
-
-        
-}
-
+    namespace test {
+        void write_mono_test_data( pipe* pipe, alias buffer, frequency_hz fft_low, frequency_hz fft_hi );
+        void write_input_signal_test_data( pipe* pipe, alias buffer );
+    }
 }
 
 

@@ -18,6 +18,7 @@ int test_oversampling() {
     sine::fill_range( 9500, test_pipe.get_mapped_buffer( "buf:master" ), 0, 63 ); //9.5k, close to nq, 16 samples
     sine::fill_range( 1000, test_pipe.get_mapped_buffer( "buf:master" ), 64, 127 ); 
     sine::fill_range( 440, test_pipe.get_mapped_buffer( "buf:master" ), 128, 255 ); 
+    test::write_input_signal_test_data( &test_pipe, "buf:master");
 
     // upsample from buf:master -> buf:master(os)
     test_pipe.oversample_into("buf:master", "buf:master(os)", oversampling_amount, "oversampler:up" );

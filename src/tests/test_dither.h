@@ -11,6 +11,7 @@ int test_dither() {
     test_pipe.assign_ptr_buffer( {"buf:master"}, master_buffer );
 
     sine::fill_buffer_sweep(15000,40, master_buffer);
+    test::write_input_signal_test_data( &test_pipe, "buf:master");
 
     test_pipe.process_with_inplace("proc:fir","buf:master" );
     test_pipe.dither_buffer("buf:master", volume::db2vol( -96 ) );

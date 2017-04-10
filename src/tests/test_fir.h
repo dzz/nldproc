@@ -23,6 +23,7 @@ int test_fir() {
 
     diracs::fill_range( (sample_spacing)10, 1, test_pipe.get_mapped_buffer( "buf:master" ), 0, 255 ); 
     sine::fill_range( 1500, test_pipe.get_mapped_buffer( "buf:master" ), 256, 511 ); 
+    test::write_input_signal_test_data( &test_pipe, "buf:master");
 
     test_pipe.process_with_inplace("proc:fir","buf:master" );
 

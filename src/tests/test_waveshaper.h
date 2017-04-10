@@ -18,6 +18,7 @@ int test_waveshaper() {
     test_pipe.create_oversampled_buffer( { "buf:oversampled" } , OS_Amount );
 
     sine::fill_buffer_sweep(15000,40, master_buffer);
+    test::write_input_signal_test_data( &test_pipe, "buf:master");
 
     test_pipe.oversample_into( "buf:master", "buf:oversampled", OS_Amount, "" );
     test_pipe.process_with_inplace("proc:up_filter","buf:oversampled" );

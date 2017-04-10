@@ -11,7 +11,7 @@ bannerStrings = [ "/**********************************************/",
 banner = "\n".join(bannerStrings)+"\n\n";
 
 def generateProcessorHeader():
-    headers = glob.glob("src/processors/*.h")
+    headers = sorted(glob.glob("src/processors/*.h"))
     writable_headers = []
     for header in headers:
         header = header.split("src/processors/")[1]
@@ -27,7 +27,8 @@ def generateProcessorHeader():
         file.write('#include "' + header +'"\n')
 
 def generateTestHeader():
-    headers = glob.glob("src/tests/*.h")
+    index_manifest = open("reports/manifest","w")
+    headers = sorted(glob.glob("src/tests/*.h"))
     writable_headers = []
     for header in headers:
         header = header.split("src/")[1]
@@ -40,6 +41,7 @@ def generateTestHeader():
     for header in writable_headers:
         define = header.split(".")[0].split("/")[1]
         defines.append(define)
+        index_manifest.write(define+"\n")
         print("   - " + header )
         file.write('#if NLDPROC_CURRENT_TEST == ' + define + '\n')
         file.write('\t#include "' + header +'"\n')
@@ -61,6 +63,7 @@ def generateAllReportsScript(defines):
         file.write("./build "+define+" 1\n")
         index.write("<h2>"+define+"</h2>")
         index.write("<img style='padding-bottom:24px;' src='" + define + ".raw.png'><br/>")
+        index.write("<!--{{"+define+"}}-->")
     index.write("</body></center>") 
 
 def generateTestDefine():

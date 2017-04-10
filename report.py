@@ -4,8 +4,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 import sys
 
-
-print ("~~~~~~~")
+print ("[ ~REPORTOMATIC~ ] " )
+print ("    .... nice job on " + open("build_num").read())
+print ("")
 
 fft_spec = open('output/test.report_fft_lims').read().split("\n");
 
@@ -23,6 +24,14 @@ dt = 1.0 / Fs
 
 reportfile = open('output/test.reportfile').read()
 s = np.fromfile('output/' + reportfile)
+
+#### load input signal (naughty)
+inputS = None
+try:
+    inputS = np.fromfile('output/' + 'input.' + reportfile);
+except:
+    pass
+
 t = np.arange(0, float(s.size) / Fs, dt)
 
 print("Max Amplitude From Input Signal: %f" % (np.max(np.fabs(s)) ) );
@@ -61,17 +70,26 @@ axes[2].set_ylabel("dB", size = 8)
 ##axes[4].set_title("Angle Spectrum")
 ##axes[4].angle_spectrum(s, Fs=Fs )
 
-
 fig.tight_layout()
+plt.savefig("reports/" + reportfile + ".png", boxinches="tight")
 
-# naughty code 
-try:
-    if(sys.argv[1]):
-        plt.savefig("reports/" + reportfile + ".png", boxinches="tight")
+
+if not inputS is None:
+    print("found input...")
+    time_normalized = np.zeros( len(s) )
+    time_normalized[:len(inputS)] += inputS
+
     
-except:
-    plt.show()
+    transfers = 16
+    transfer_skip = int(len(s)/transfers)
 
-
-#report_base = reportfile.split("/")[1];
+    for i in range(0, transfers):
+        fig, axes = plt.subplots(nrows=1, ncols=1, figsize=(3.5, 3.5))
+        plt.style.use('dark_background')
+        plt.clf()
+        x = time_normalized[i*transfer_skip:(i*transfer_skip)+transfer_skip:1]
+        y = s[i*transfer_skip:(i*transfer_skip)+transfer_skip:1]
+        plt.scatter(x,y, s=1.4)
+        transfer_str = ".transfer_%i" % (i)
+        plt.savefig("reports/" + reportfile + transfer_str + ".png", dpi=40, boxinches="tight")
 

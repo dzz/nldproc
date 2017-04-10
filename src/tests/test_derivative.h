@@ -11,6 +11,7 @@ int test_derivative() {
     test_pipe.assign_ptr_buffer( {"buf:master"}, master_buffer );
     test_pipe.map_processor( &test_derivative, {"proc:derivative"} );
 
+    test::write_input_signal_test_data( &test_pipe, "buf:master");
     test_pipe.process_with_inplace( "proc:derivative", "buf:master" );
 
     // write test report info to file 

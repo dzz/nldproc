@@ -1,4 +1,5 @@
 output/
+cli
 reports/*.png
 *.png
 *.environment

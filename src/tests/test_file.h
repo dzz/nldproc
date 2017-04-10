@@ -11,6 +11,7 @@ int test_file() {
 
     // write test report info to file 
     test::write_mono_test_data( &test_pipe, "buf:master", NLDPROC_FFT_LIMITS(100,20000) );
+    test::write_input_signal_test_data( &test_pipe, "buf:master");
 
     return NLDPROC_TEST_SUCCESS;
 }
