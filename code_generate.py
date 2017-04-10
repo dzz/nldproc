@@ -53,10 +53,11 @@ def generateAllReportsScript(defines):
     file.write("#!/bin/bash\n")
     file.write("set -e\n")
     index = open("reports/index.html","w")
-    index.write("<body style='background-color:#000;color:#fff;font-face:monospace;' ><center><h1>test results</h1>");
+    index.write("<body style='background-color:#000;color:#fff;font-face:monospace;' ><center>");
     for define in defines:
         print("          (" + define + ")")
         file.write("./build "+define+" 1\n")
+        index.write("<h2>"+define+"</h2>")
         index.write("<img style='padding-bottom:100px;' src='" + define + ".raw.png'><br/>")
     index.write("</body></center>") 
 
