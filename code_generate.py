@@ -3,8 +3,13 @@
 import glob;
 import sys;
 
+bannerStrings = [ "/**********************************************/",
+                  "/* NLDPROC - Generated Code (code_generate.py */",
+                  "/**********************************************/" ]
 
-banner = "/*** Generated Code (code_generate.py) ***/\n"
+
+banner = "\n".join(bannerStrings)+"\n\n";
+
 def generateProcessorHeader():
     headers = glob.glob("src/processors/*.h")
     writable_headers = []
@@ -31,10 +36,29 @@ def generateTestHeader():
     file = open("src/test_includes.h", "w")
 
     file.write(banner)
+    defines = []
     for header in writable_headers:
+        define = header.split(".")[0].split("/")[1]
+        defines.append(define)
         print("   - " + header )
-        file.write('#include "' + header +'"\n')
-    
+        file.write('#if NLDPROC_CURRENT_TEST == ' + define + '\n')
+        file.write('\t#include "' + header +'"\n')
+        file.write('#endif\n')
+
+    print("   -> building all_reports")
+    generateAllReportsScript(defines)
+
+def generateAllReportsScript(defines):
+    file =open("all_reports","w")
+    file.write("#!/bin/bash\n")
+    file.write("set -e\n")
+    index = open("reports/index.html","w")
+    index.write("<body style='background-color:#000;color:#fff;font-face:monospace;' ><center><h1>test results</h1>");
+    for define in defines:
+        print("          (" + define + ")")
+        file.write("./build "+define+" 1\n")
+        index.write("<img style='padding-bottom:100px;' src='" + define + ".raw.png'><br/>")
+    index.write("</body></center>") 
 
 def generateTestDefine():
     try:

@@ -1,5 +1,3 @@
-#if ( NLDPROC_CURRENT_TEST == test_file )
-
 int test_file() {
 
     environment::configure_test_environment( (frequency_hz)44100, (sample_count)44100*3 ); 
@@ -15,5 +13,3 @@ int test_file() {
 
     return NLDPROC_TEST_SUCCESS;
 }
-
-#endif

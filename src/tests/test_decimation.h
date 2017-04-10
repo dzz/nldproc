@@ -1,6 +1,3 @@
-#if ( NLDPROC_CURRENT_TEST == test_decimation )
-
-
 int test_decimation() {
 
     environment::configure_test_environment( (frequency_hz)20000, (sample_count)256 ); 
@@ -24,4 +21,3 @@ int test_decimation() {
 
     return NLDPROC_TEST_SUCCESS;
 }
-#endif

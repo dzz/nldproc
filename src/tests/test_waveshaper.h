@@ -1,5 +1,3 @@
-#if ( NLDPROC_CURRENT_TEST == test_waveshaper )
-
 int test_waveshaper() {
 
     environment::configure_test_environment( (frequency_hz)44100, (sample_count)44100 ); 
@@ -32,5 +30,3 @@ int test_waveshaper() {
 
     return NLDPROC_TEST_SUCCESS;
 }
-
-#endif

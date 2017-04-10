@@ -1,4 +1,13 @@
 #!/bin/bash
+
+#### inputs
+####
+#### 0 -> test_* to build / run
+#### 1 -> 1 to save to png in reports/ instead of displaying 
+####      pyplot
+####
+####
+
 set -e
 
 echo
@@ -17,8 +26,15 @@ echo "( compiling & linking )"
 echo
 
 scons
+
 echo
 echo "( running test )"
 echo
+
 time ./nldproc_cliwrap
-./report.py
+
+echo
+echo "( creating report )"
+echo
+
+./report.py $2

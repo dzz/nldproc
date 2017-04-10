@@ -1,6 +1,10 @@
-/*** Generated Code (code_generate.py) ***/
+/**********************************************/
+/* NLDPROC - Generated Code (code_generate.py */
+/**********************************************/
+
 #pragma once
 #include "processor.h"
+#include "rms.h"
 #include "derivative.h"
 #include "integrator.h"
 #include "downmixer.h"

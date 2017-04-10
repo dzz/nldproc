@@ -1,5 +1,3 @@
-#if ( NLDPROC_CURRENT_TEST == test_integrator )
-
 int test_integrator() {
 
     environment::configure_test_environment( (frequency_hz)44100, (sample_count)44100*5 ); 
@@ -20,5 +18,3 @@ int test_integrator() {
 
     return NLDPROC_TEST_SUCCESS;
 }
-
-#endif

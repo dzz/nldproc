@@ -1,5 +1,3 @@
-#if ( NLDPROC_CURRENT_TEST == test_oversampling )
-
 int test_oversampling() {
 
     environment::configure_test_environment( (frequency_hz)20000, (sample_count)256 ); // 20khz SR / 48 samps
@@ -29,4 +27,3 @@ int test_oversampling() {
 
     return NLDPROC_TEST_SUCCESS;
 }
-#endif

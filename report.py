@@ -2,6 +2,7 @@
 
 import matplotlib.pyplot as plt
 import numpy as np
+import sys
 
 
 print ("~~~~~~~")
@@ -27,13 +28,13 @@ print("Input Data Length (frames): %s" % ( s.size) )
 ###cnse = np.convolve(nse, r)*dt
 ###cnse = cnse[:len(t)]
 
-plt.style.use('grayscale')
+plt.style.use('ggplot')
 
 fig, axes = plt.subplots(nrows=4, ncols=1, figsize=(7, 7))
 
 # plot time signal:
 
-axes[0].set_title("Signal")
+axes[0].set_title(reportfile)
 axes[0].plot(t, s )
 axes[0].set_xlabel("Time")
 axes[0].set_ylabel("Amplitude")
@@ -60,5 +61,14 @@ axes[3].set_ylabel("Phase")
 
 
 fig.tight_layout()
-plt.show()
+
+# naughty code 
+try:
+    if(sys.argv[1]):
+        plt.savefig("reports/" + reportfile + ".png", boxinches="tight")
+except:
+    plt.show()
+
+
+#report_base = reportfile.split("/")[1];
 
