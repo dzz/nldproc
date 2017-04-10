@@ -30,31 +30,27 @@ print("Input Data Length (frames): %s" % ( s.size) )
 
 plt.style.use('ggplot')
 
-fig, axes = plt.subplots(nrows=4, ncols=1, figsize=(7, 7))
+fig, axes = plt.subplots(nrows=3, ncols=1, figsize=(7, 7))
 
 # plot time signal:
 
-axes[0].set_title(reportfile)
+axes[0].titlesize = 0
+axes[0].set_title(reportfile, size = 15)
 axes[0].plot(t, s )
-axes[0].set_xlabel("Time")
-axes[0].set_ylabel("Amplitude")
+axes[0].set_xlabel("t", size = 8)
+axes[0].set_ylabel("amp", size = 8)
 #axes[0].set_ylim([-1.0,1.0]);
 
-axes[1].set_title("FFT / 256")
+axes[1].set_title("FFT / 256", size = 12)
 axes[1].specgram(s, NFFT=256, Fs=Fs, scale="dB",cmap="Greys"  )
-axes[1].set_xlabel("Time")
-axes[1].set_ylabel("Hz")
+axes[1].set_ylabel("hz", size = 8)
 axes[1].set_ylim([fft_min,fft_max])
 
-axes[2].set_title("Magnitude")
+axes[2].set_title("magnitude", size = 12)
 axes[2].magnitude_spectrum(s, Fs=Fs, scale="dB" )
-axes[2].set_xlabel("Hz")
-axes[2].set_ylabel("dB")
+axes[2].set_xlabel("hz", size = 8)
+axes[2].set_ylabel("dB", size = 8)
 
-axes[3].set_title("Phase Spectrum ")
-axes[3].phase_spectrum(s, Fs=Fs )
-axes[3].set_xlabel("Frequency")
-axes[3].set_ylabel("Phase")
 
 ##axes[4].set_title("Angle Spectrum")
 ##axes[4].angle_spectrum(s, Fs=Fs )
