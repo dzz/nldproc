@@ -1,4 +1,6 @@
 output/
+reports/*.png
+*.png
 *.environment
 *.raw
 *.o
