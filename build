@@ -41,6 +41,8 @@ echo
 
 pushd reports
 ./insert_transfer_data.py
+./convert.py
 popd
 
+mkdir -p binaries
 cp -f ./cli binaries/$1

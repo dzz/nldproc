@@ -2,6 +2,7 @@ output/
 cli
 binaries/*
 reports/*.png
+reports/*.gif
 *.png
 *.environment
 *.raw

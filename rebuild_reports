@@ -1,28 +1,12 @@
 #!/bin/bash
 set -e
 ./code_generate.py
-./binaries/test_decimation 
-./report.py
-./binaries/test_derivative 
-./report.py
-./binaries/test_dither 
-./report.py
-./binaries/test_file 
-./report.py
-./binaries/test_fir 
-./report.py
-./binaries/test_integrator 
-./report.py
-./binaries/test_oversampling 
-./report.py
-./binaries/test_peakfollower 
-./report.py
-./binaries/test_rms 
-./report.py
-./binaries/test_sinc 
-./report.py
-./binaries/test_waveshaper 
-./report.py
-cd reports/
-./insert_transfer_data.py
-cd ../
+
+for TEST in ./binaries/
+do
+    if [ -f $TEST -a -x $TEST ]
+    then
+        $TEST
+        ./report.py
+    fi
+done
