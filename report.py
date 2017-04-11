@@ -83,7 +83,7 @@ if not inputS is None:
     time_normalized[:len(inputS)] += inputS
 
     
-    transfers = 24
+    transfers = 12
     transfer_skip = int(len(s)/transfers)
 
     for i in range(0, transfers):

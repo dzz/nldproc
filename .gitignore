@@ -1,4 +1,5 @@
 output/
+test_output/
 cli
 binaries/*
 reports/*.png

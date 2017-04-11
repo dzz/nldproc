@@ -6,4 +6,8 @@ for TEST in ./binaries/*
 do
     $TEST
     ./report.py
+    cd reports
+    ./insert_transfer_data.py
+    ./convert.py
+    cd ..
 done

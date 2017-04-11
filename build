@@ -40,8 +40,8 @@ echo
 ./report.py $2
 
 pushd reports
-./insert_transfer_data.py
 ./convert.py
+./insert_transfer_data.py
 popd
 
 mkdir -p binaries
