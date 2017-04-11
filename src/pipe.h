@@ -76,6 +76,7 @@ namespace nldproc {
             void downsample_into( alias buffer_from, alias buffer_to, alias downsampler );
             void decimate_into( alias buffer_from, alias buffer_to );
 
+            void difference_into( alias left, alias right, alias buffer );
             void create_oversampler( alias name, os_factor amount, frequency_hz half_band );
             void create_downsampler( alias name, os_factor amount, frequency_hz half_band  );
         private:

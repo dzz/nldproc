@@ -11,6 +11,9 @@
 #if NLDPROC_CURRENT_TEST == test_dither
 	#include "tests/test_dither.h"
 #endif
+#if NLDPROC_CURRENT_TEST == test_fast_tanh
+	#include "tests/test_fast_tanh.h"
+#endif
 #if NLDPROC_CURRENT_TEST == test_file
 	#include "tests/test_file.h"
 #endif
@@ -19,6 +22,9 @@
 #endif
 #if NLDPROC_CURRENT_TEST == test_integrator
 	#include "tests/test_integrator.h"
+#endif
+#if NLDPROC_CURRENT_TEST == test_meta_peakdetection
+	#include "tests/test_meta_peakdetection.h"
 #endif
 #if NLDPROC_CURRENT_TEST == test_oversampling
 	#include "tests/test_oversampling.h"
@@ -31,6 +37,9 @@
 #endif
 #if NLDPROC_CURRENT_TEST == test_sinc
 	#include "tests/test_sinc.h"
+#endif
+#if NLDPROC_CURRENT_TEST == test_tanh
+	#include "tests/test_tanh.h"
 #endif
 #if NLDPROC_CURRENT_TEST == test_waveshaper
 	#include "tests/test_waveshaper.h"
