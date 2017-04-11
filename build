@@ -42,3 +42,5 @@ echo
 pushd reports
 ./insert_transfer_data.py
 popd
+
+cp -f ./cli binaries/$1

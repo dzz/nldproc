@@ -1,5 +1,6 @@
 output/
 cli
+binaries/*
 reports/*.png
 *.png
 *.environment

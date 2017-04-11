@@ -80,7 +80,7 @@ if not inputS is None:
     time_normalized[:len(inputS)] += inputS
 
     
-    transfers = 16
+    transfers = 32
     transfer_skip = int(len(s)/transfers)
 
     for i in range(0, transfers):
@@ -89,7 +89,8 @@ if not inputS is None:
         plt.clf()
         x = time_normalized[i*transfer_skip:(i*transfer_skip)+transfer_skip:1]
         y = s[i*transfer_skip:(i*transfer_skip)+transfer_skip:1]
-        plt.scatter(x,y, s=1.4)
+        dotsizes = np.logspace(0.2,1.8, len(x))
+        plt.scatter(x,y, s=dotsizes)
         transfer_str = ".transfer_%i" % (i)
         plt.savefig("reports/" + reportfile + transfer_str + ".png", dpi=40, boxinches="tight")
 
