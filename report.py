@@ -4,6 +4,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import sys
 
+plt.rcParams.update({'figure.max_open_warning':0})
+
 print ("[ ~REPORTOMATIC~ ] " )
 print ("    .... nice job on " + open("build_num").read())
 print ("")
@@ -43,6 +45,7 @@ print("Input Data Length (frames): %s" % ( s.size) )
 ###cnse = np.convolve(nse, r)*dt
 ###cnse = cnse[:len(t)]
 
+print "         [ ~ pretty graphs ~ ]"
 plt.style.use('ggplot')
 
 fig, axes = plt.subplots(nrows=3, ncols=1, figsize=(5.7, 6.8))
@@ -80,7 +83,7 @@ if not inputS is None:
     time_normalized[:len(inputS)] += inputS
 
     
-    transfers = 32
+    transfers = 24
     transfer_skip = int(len(s)/transfers)
 
     for i in range(0, transfers):
@@ -90,6 +93,7 @@ if not inputS is None:
         x = time_normalized[i*transfer_skip:(i*transfer_skip)+transfer_skip:1]
         y = s[i*transfer_skip:(i*transfer_skip)+transfer_skip:1]
         dotsizes = np.logspace(0.2,1.8, len(x))
+        print "         [ scatter plotting %i events, %i/%i ]" %(len(x),i+1,transfers)
         plt.scatter(x,y, s=dotsizes)
         transfer_str = ".transfer_%i" % (i)
         plt.savefig("reports/" + reportfile + transfer_str + ".png", dpi=40, boxinches="tight")
