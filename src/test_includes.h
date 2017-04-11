@@ -23,6 +23,9 @@
 #if NLDPROC_CURRENT_TEST == test_integrator
 	#include "tests/test_integrator.h"
 #endif
+#if NLDPROC_CURRENT_TEST == test_meta_compressor
+	#include "tests/test_meta_compressor.h"
+#endif
 #if NLDPROC_CURRENT_TEST == test_meta_peakdetection
 	#include "tests/test_meta_peakdetection.h"
 #endif

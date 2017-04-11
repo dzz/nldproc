@@ -8,6 +8,7 @@ set -e
 ./build test_file 1
 ./build test_fir 1
 ./build test_integrator 1
+./build test_meta_compressor 1
 ./build test_meta_peakdetection 1
 ./build test_oversampling 1
 ./build test_peakfollower 1

@@ -36,6 +36,27 @@ namespace nldproc {
         }
     }
 
+    void pipe::multiply_into( alias left, alias right, alias into) {
+
+        auto lbuf = this->buffers[left];
+        auto rbuf = this->buffers[right];
+        auto tbuf = this->buffers[into];
+    
+        for(sample_index idx=0; idx< environment::get_buffer_chunksize(); ++idx ) {
+            tbuf[0][idx]=lbuf[0][idx]*rbuf[0][idx];
+            tbuf[1][idx]=lbuf[1][idx]*rbuf[0][idx];
+        }
+    }
+
+    void pipe::invert_from_max( alias buffer, double max ) {
+        auto tbuf = this->buffers[buffer];
+    
+        for(sample_index idx=0; idx< environment::get_buffer_chunksize(); ++idx ) {
+            tbuf[0][idx]=1-tbuf[0][idx];
+            tbuf[1][idx]=1-tbuf[1][idx];
+        }
+    }
+
     void pipe::dither_buffer( alias buffer, amplitude threshold ) {
         auto from               = this->buffers[ buffer ];
  

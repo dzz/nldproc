@@ -5,6 +5,7 @@ test_fast_tanh
 test_file
 test_fir
 test_integrator
+test_meta_compressor
 test_meta_peakdetection
 test_oversampling
 test_peakfollower
