@@ -2,11 +2,8 @@
 set -e
 ./code_generate.py
 
-for TEST in ./binaries/
+for TEST in ./binaries/*
 do
-    if [ -f $TEST -a -x $TEST ]
-    then
-        $TEST
-        ./report.py
-    fi
+    $TEST
+    ./report.py
 done

@@ -46,3 +46,5 @@ popd
 
 mkdir -p binaries
 cp -f ./cli binaries/$1
+mkdir -p test_output/$1/
+mv output/* test_output/$1/
