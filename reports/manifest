@@ -1,16 +1,1 @@
 test_amplifier
-test_decimation
-test_derivative
-test_dither
-test_fast_tanh
-test_file
-test_fir
-test_integrator
-test_meta_compressor
-test_meta_peakdetection
-test_oversampling
-test_peakfollower
-test_rms
-test_sinc
-test_tanh
-test_waveshaper

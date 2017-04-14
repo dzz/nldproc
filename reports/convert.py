@@ -24,8 +24,8 @@ if len(files)>0:
             prog = prog + " "
         prog = prog + ".*."
         print prog
-        gif = filen.replace(".png",".gif")
-        os.system("convert %s %s" % (filen, gif) )
+        jpg = filen.replace(".png",".jpg")
+        os.system("convert %s %s" % (filen, jpg) )
                     
     
     os.system("mkdir -p raw")
@@ -36,4 +36,4 @@ print "....badly behaved string replacements..."
 index = open("index.html").read()
 indexFile = file("index.html","w")
 
-indexFile.write( index.replace(".png",".gif"))
+indexFile.write( index.replace(".png",".jpg"))

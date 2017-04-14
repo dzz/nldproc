@@ -9,5 +9,6 @@ reports/*.gif
 *.raw
 *.o
 *.a
+*.jpg
 nldproc_cliwrap
 
