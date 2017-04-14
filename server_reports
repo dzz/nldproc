@@ -1,0 +1,4 @@
+#!/bin/bash
+set -e
+./all_reports
+rsync -rv --update --delete reports/ /home/audioparlour/reports/

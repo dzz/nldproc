@@ -1,8 +1,13 @@
 #!/usr/bin/python2
 
+import matplotlib
+
+matplotlib.use('Agg')
+
 import matplotlib.pyplot as plt
 import numpy as np
 import sys
+
 
 plt.rcParams.update({'figure.max_open_warning':0})
 
