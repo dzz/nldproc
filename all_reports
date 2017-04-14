@@ -1,6 +1,7 @@
 #!/bin/bash
 set -e
 ./code_generate.py
+./build test_amplifier 1
 ./build test_decimation 1
 ./build test_derivative 1
 ./build test_dither 1

@@ -5,6 +5,7 @@
 #pragma once
 #include "processor.h"
 #include "add_buffers.h"
+#include "amplifier.h"
 #include "clean_gain.h"
 #include "clone_buffer.h"
 #include "derivative.h"
