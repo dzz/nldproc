@@ -17,10 +17,10 @@ for testdescr in manifest:
     plt = 0
     for transfer in transfers:
         transfer_str = (testdescr+".raw.transfer_%i.jpg") % plt
-        replace = replace + "<img src='"+transfer_str+"'>"
+        replace = replace + "<img src='"+transfer_str+"'><br/>"
         plt += 1
-        if(plt%4 ==0):
-            replace = replace + "<br/>"
+        #if(plt%4 ==0):
+        #    replace = replace + "<br/>"
     index = index.replace(search,replace) 
 
 index_file = open("index.html","w")
