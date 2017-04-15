@@ -8,6 +8,7 @@ namespace nldproc {
         public:
             rms();
             void configure(time_ms window_size);
+            buffer_chunksize get_filter_size();
             rms(time_ms window_size);
             ~rms();
         private:

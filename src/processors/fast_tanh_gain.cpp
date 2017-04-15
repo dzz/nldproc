@@ -27,8 +27,8 @@ namespace nldproc {
         sample_addr         cur_sample      = nullptr;
 
         while(position < total_samples) {
-            gainVol = this->pump_control( this->gainControl );
-            output[position] = fast_tanh(pi()*input[position++] * gainVol);
+            //gainVol = this->pump_control( this->gainControl );
+            output[position] = fast_tanh(pi()*input[position++] );
         }
     }
 }

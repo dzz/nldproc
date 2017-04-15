@@ -2,29 +2,62 @@
 #include <fstream>
 #include <chrono>
 #include <iostream>
+#include <vector>
+#include <algorithm>
+#include "processor.h"
 
 using namespace std::chrono;
 
 namespace nldproc {
 
-high_resolution_clock::time_point implicit_time_start;
-high_resolution_clock::time_point implicit_time_end;
+    const unsigned int CALIBRATION_SECS = 1;
 
-double test_environment_length;
-
-os_factor           active_oversampling = 1;
-samplerate          active_base_samplerate = 44100;
-buffer_chunksize    active_base_chunksize = 44100 * 2;
+    static std::vector<processor*> calibration_reqs;
+    
+    static high_resolution_clock::time_point implicit_time_start;
+    static high_resolution_clock::time_point implicit_time_end;
+    
+    static double test_environment_length;
+    
+    static os_factor           active_oversampling = 1;
+    static samplerate          active_base_samplerate = 44100;
+    static buffer_chunksize    active_base_chunksize = 44100 * 2;
 
     void environment::enter_implicit_time() {
+        
         implicit_time_start = std::chrono::high_resolution_clock::now();
     }
 
+    void environment::register_calibration_req( deferred_processor instance ) {
+        std::cout<<"REGISTERING :"<<instance<<"\n";
+        calibration_reqs.push_back( (processor*)instance );
+    }
+
+    void environment::calibrate_processors() {
+        std::cout<<" [ calibrating ... ]\n";
+
+        std::for_each( calibration_reqs.begin(),
+                       calibration_reqs.end(),
+                       []( auto processor ) {
+                            std::cout<<"  ->"<<processor<<"\n";
+                            processor->calibrate();
+                       });
+    }
+ 
     void environment::exit_implicit_time() {
         implicit_time_end = std::chrono::high_resolution_clock::now();
     }
 
+    
+    void environment::calibrate() {
+        buffer_chunksize tmp = active_base_chunksize;
+        active_base_chunksize = active_base_samplerate * CALIBRATION_SECS;
+        environment::calibrate_processors();
+        active_base_chunksize = tmp;
+    }
+
     void environment::configure_test_environment(int_frequency samplerate, buffer_chunksize length ) {
+
         active_base_samplerate = samplerate;
         active_base_chunksize = length;
         test_environment_length = (double)length/(double)samplerate;

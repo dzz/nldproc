@@ -19,6 +19,9 @@ namespace nldproc {
             std::string filename = "input." + std::string(NLDPROC_TOSTRING( NLDPROC_CURRENT_TEST )) + ".raw";
             std::cout<<"Writing File: "<<filename<<"\n";
             pipe->write_buffer( buffer, "output/" + filename , binary_left );
+
+            environment::calibrate();
+            environment::enter_implicit_time();
         }
 
         void write_mono_test_data( pipe* pipe, alias buffer, frequency_hz fft_low, frequency_hz fft_hi ) {

@@ -2,21 +2,49 @@
 #include "processor.h"
 #include "volume.h"
 #include "amplifier.h"
+#include "fast_tanh_gain.h"
+#include "rms.h"
+#include "delay.h"
 
 namespace nldproc {
 
-    amplifier::amplifier() {
-        //this->gainControl = this->create_control( (control_name)"control:gainVol", (time_ms)4.0, (control_value)1.0 );
+static const double input_rms_ms = 3;
 
-        amp_pipe.map_processor( &gain_stage_1, "p.gain_stage_1" );
-        amp_pipe.map_processor( &input_rms, "p.input_rms" );
+#define MAKE_PROC amp_pipe.map_managed_processor
+#define GET_PROC amp_pipe.get_processor
+#define BUF_MAP amp_pipe.assign_ptr_buffer
+#define PROC amp_pipe.process_with
+#define PROC_IP amp_pipe.process_with_inplace
+#define BUF_ALLOC amp_pipe.create_buffer
+#define BUF_CP amp_pipe.copy_into
+
+    
+    void amplifier::calibrate() {
+
+    }
+
+    amplifier::amplifier() {
+
+        environment::register_calibration_req( this );
+
+        BUF_ALLOC( { "b.rms_synched_input" } );
+        MAKE_PROC( new fast_tanh_gain(), "p.input.gain" );
+        MAKE_PROC( new rms(input_rms_ms) , "p.input.rms" );
+
+        rms* RMS = (rms*)GET_PROC("p.input.rms");
+
+        MAKE_PROC( new delay( RMS->get_filter_size() / 2 ), "p.input.rms_synch_delay");
+
     }
 
     void amplifier::process(stereo_buffer input, stereo_buffer output ) {
-        amp_pipe.assign_ptr_buffer( { "b.input" }, input );
-        amp_pipe.assign_ptr_buffer( { "b.output" }, output );
+        BUF_MAP( { "b.input" }, input );
+        BUF_MAP( { "b.output" }, output );
 
-        amp_pipe.process_with( "p.gain_stage_1", "b.input", "b.output" );
+        PROC    ( "p.input.gain", "b.input", "b.rms_synched_input" );
+        PROC_IP ( "p.input.rms_synch_delay", "b.rms_synched_input" );
+
+        BUF_CP( "b.rms_synched_input", "b.output" );
     }
 
 }

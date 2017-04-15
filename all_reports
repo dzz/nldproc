@@ -1,4 +1,5 @@
 #!/bin/bash
 set -e
 ./code_generate.py
-./build test_delay 1
+./build test_amplifier 1
+firefox reports/index.html

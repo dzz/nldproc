@@ -24,6 +24,20 @@ namespace nldproc {
 
     }
 
+    processor* pipe::get_processor( alias name ) {
+        return this->processors[name];
+    }
+
+    void pipe::copy_into( alias from, alias to) {
+        auto buf_from = this->buffers[from];
+        auto buf_to = this->buffers[to];
+
+        for(sample_index idx = 0; idx<environment::get_buffer_chunksize();++idx) {
+            buf_to[0][idx] = buf_from[0][idx];
+            buf_to[1][idx] = buf_from[1][idx];
+        }
+    }
+
     void pipe::difference_into( alias left, alias right, alias into) {
 
         auto lbuf = this->buffers[left];
@@ -92,6 +106,11 @@ namespace nldproc {
         this->processors[ name ] = processor;
     }
 
+    void pipe::map_managed_processor( processor* processor, alias name ) {
+        this->processors[ name ] = processor;
+        this->managed_processors.push_back( name );
+    }
+
     control* pipe::get_control( alias processor, control_name control ) {
         return this->processors[processor]->get_control( control );
     }
@@ -141,8 +160,6 @@ namespace nldproc {
 
 
     void pipe::oversample_into( alias from, alias to, os_factor amount, alias oversampler ) {
-
-        environment::enter_implicit_time();
 
         auto down = this->buffers[ from ];
         auto up = this->buffers[ to ];
@@ -248,6 +265,12 @@ namespace nldproc {
 
     pipe::~pipe() {
 
+        std::for_each( this->managed_processors.begin(),
+                       this->managed_processors.end(),
+                       [ this ]( auto name ) {
+                            delete this->processors[name];
+                       });
+
         std::for_each( this->oversamplers.begin(),
                        this->oversamplers.end(),
                        [ this ]( auto pair ) {
@@ -273,7 +296,6 @@ namespace nldproc {
         auto from               = this->buffers[ buffer_from ];
         auto to                 = this->buffers[ buffer_to ];
 
-        environment::enter_implicit_time();
         processor_object->process( from, to );
     }
     
@@ -281,7 +303,6 @@ namespace nldproc {
         auto from_to             = this->buffers[ buffer ];
         auto processor_object   = this->processors [ processor ];
 
-        environment::enter_implicit_time();
         processor_object->process(from_to, from_to);
     }
 

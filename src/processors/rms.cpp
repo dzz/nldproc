@@ -13,6 +13,10 @@ namespace nldproc {
         rms::configure(window_size);
     }
 
+    buffer_chunksize rms::get_filter_size() { 
+        return this->filter_size;
+    }
+
     void rms::configure(time_ms window_size) {
         if(this->filter_size)
             return;

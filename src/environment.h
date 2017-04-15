@@ -12,8 +12,13 @@ namespace nldproc {
     typedef std::string filename;
     typedef unsigned int int_frequency;
 
+    typedef void* deferred_processor;
+
     class environment {
         public:
+            static void register_calibration_req( deferred_processor instance );
+            static void calibrate();
+            static void calibrate_processors();
             static void configure_test_environment( int_frequency samplerate, buffer_chunksize length );
             static void write_to_file( filename output_file );       
             static void write_samplerate_to_file( filename output_file );       

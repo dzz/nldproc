@@ -26,8 +26,6 @@ namespace nldproc {
     const filetype binary_left = 2;
     const filetype binary_right = 3;
 
-    typedef std::string alias;
-
     typedef Dsp::SimpleFilter <Dsp::Bessel::LowPass<RS_FILTER_ORDER>, 2> oversampler;
     typedef Dsp::SimpleFilter <Dsp::Bessel::LowPass<RS_FILTER_ORDER>, 2> downsampler;
 
@@ -56,10 +54,12 @@ namespace nldproc {
             pipe();
             ~pipe();
             
+            processor* get_processor( alias name );
             control* get_control( alias processor, control_name control);
             void create_parameter( alias name, parameter parameter );
             void set_parameter( alias parameter, double value );
             void map_processor( processor* processor, alias name );
+            void map_managed_processor( processor* processor, alias name );
             void create_buffer( alias_list aliases );
             void create_oversampled_buffer( alias_list aliases, os_factor amount );
             void assign_ptr_buffer( alias_list aliases, stereo_buffer buffer );
@@ -79,6 +79,7 @@ namespace nldproc {
             void difference_into( alias left, alias right, alias buffer );
             void multiply_into( alias left, alias right, alias buffer );
             void invert_from_max( alias buffer, double max);
+            void copy_into( alias left, alias right );
             void create_oversampler( alias name, os_factor amount, frequency_hz half_band );
             void create_downsampler( alias name, os_factor amount, frequency_hz half_band  );
         private:
@@ -91,6 +92,7 @@ namespace nldproc {
             parameter_map parameters;
             oversampler_map oversamplers;
             downsampler_map downsamplers;
+            alias_list managed_processors;
             static void delete_unmapped_buffer( stereo_buffer buffer );
     }; 
 

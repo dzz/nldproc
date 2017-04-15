@@ -16,7 +16,6 @@ for testdescr in manifest:
     replace = ""
     plt = 0
     for transfer in transfers:
-        print transfer
         transfer_str = (testdescr+".raw.transfer_%i.jpg") % plt
         replace = replace + "<img src='"+transfer_str+"'>"
         plt += 1

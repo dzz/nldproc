@@ -65,6 +65,7 @@ def generateAllReportsScript(defines):
         index.write("<img style='padding-bottom:24px;' src='" + define + ".raw.png'><br/>")
         index.write("<!--{{"+define+"}}-->")
     index.write("</body></center>") 
+    file.write("firefox reports/index.html")
 
 def generateTestDefine():
     try:

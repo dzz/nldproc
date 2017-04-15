@@ -16,14 +16,17 @@ if len(files)>0:
     print "            .."
     print "           ."
     
+    idx = 0
     for filen in files:
         p = int(4.0*(math.sin(t)+1))
         t = t+dT
         prog = ""
-        for i in range(0,p):
-            prog = prog + " "
-        prog = prog + ".*."
-        print prog
+        if(idx%3==0):
+            for i in range(0,p):
+                prog = prog + " "
+            prog = prog + ".*."
+            print prog
+        idx+=1
         jpg = filen.replace(".png",".jpg")
         os.system("convert %s %s" % (filen, jpg) )
                     
