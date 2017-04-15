@@ -5,7 +5,18 @@
 
 namespace nldproc {
 
+    rms::rms() {
+
+    }
+
     rms::rms(time_ms window_size) {
+        rms::configure(window_size);
+    }
+
+    void rms::configure(time_ms window_size) {
+        if(this->filter_size)
+            return;
+
         buffer_chunksize size = (buffer_chunksize)(window_size/1000*environment::get_samplerate());
 
         std::cout<<this<<"rms created at:"<<size<<"\n";
@@ -40,8 +51,10 @@ namespace nldproc {
     }
 
     rms::~rms() {
-        delete history;
-        delete window;
+        if(this->filter_size) { //been configured
+            delete history;
+            delete window;
+        }
     }
 
 }

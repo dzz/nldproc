@@ -1,4 +1,4 @@
 #!/bin/bash
 set -e
 ./code_generate.py
-./build test_amplifier 1
+./build test_delay 1

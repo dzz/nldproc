@@ -6,6 +6,8 @@
 namespace nldproc {
     class rms : public processor {
         public:
+            rms();
+            void configure(time_ms window_size);
             rms(time_ms window_size);
             ~rms();
         private:

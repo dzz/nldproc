@@ -9,6 +9,7 @@ namespace nldproc {
         //this->gainControl = this->create_control( (control_name)"control:gainVol", (time_ms)4.0, (control_value)1.0 );
 
         amp_pipe.map_processor( &gain_stage_1, "p.gain_stage_1" );
+        amp_pipe.map_processor( &input_rms, "p.input_rms" );
     }
 
     void amplifier::process(stereo_buffer input, stereo_buffer output ) {

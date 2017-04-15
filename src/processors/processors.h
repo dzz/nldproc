@@ -8,6 +8,7 @@
 #include "amplifier.h"
 #include "clean_gain.h"
 #include "clone_buffer.h"
+#include "delay.h"
 #include "derivative.h"
 #include "downmixer.h"
 #include "fast_tanh_gain.h"

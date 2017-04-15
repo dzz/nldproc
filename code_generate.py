@@ -59,12 +59,11 @@ def generateAllReportsScript(defines):
     index.write("<body style='background-color:#000;color:#fff;font-face:monospace;' ><center>");
     index.write("<h1>nldproc tests</h1>")
     for define in defines:
-        if define == "test_amplifier":
-            print("          (" + define + ")")
-            file.write("./build "+define+" 1\n")
-            index.write("<h2>"+define+"</h2>")
-            index.write("<img style='padding-bottom:24px;' src='" + define + ".raw.png'><br/>")
-            index.write("<!--{{"+define+"}}-->")
+        print("          (" + define + ")")
+        file.write("./build "+define+" 1\n")
+        index.write("<h2>"+define+"</h2>")
+        index.write("<img style='padding-bottom:24px;' src='" + define + ".raw.png'><br/>")
+        index.write("<!--{{"+define+"}}-->")
     index.write("</body></center>") 
 
 def generateTestDefine():

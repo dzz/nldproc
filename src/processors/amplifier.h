@@ -1,8 +1,10 @@
 #pragma once
 #include "controls.h"
 #include "processor.h"
+
 #include "pipe.h"
 #include "fast_tanh_gain.h"
+#include "rms.h"
 
 namespace nldproc {
     class amplifier : public processor {
@@ -14,6 +16,8 @@ namespace nldproc {
 
             pipe            amp_pipe;
             fast_tanh_gain  gain_stage_1;           
+            rms             input_rms;
+            
     };
 }
 
