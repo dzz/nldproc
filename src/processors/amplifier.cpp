@@ -4,6 +4,7 @@
 #include "amplifier.h"
 #include "fast_tanh_gain.h"
 #include "peakfollower.h"
+#include "integrator.h"
 #include "rms.h"
 #include "delay.h"
 #include "pipe_macros.h"
@@ -32,7 +33,8 @@ static const double peakfollower_decay = ((input_rms_ms)/1000)* 0.7444; // very 
 
         MAKE_PROC( new fast_tanh_gain(), "p.input.nonlinear_gain" );
         MAKE_PROC( new rms(input_rms_ms) , "p.input.rms" );
-        MAKE_PROC( new peakfollower( peakfollower_decay) , "p.input.env_detect" );
+        MAKE_PROC( new peakfollower( peakfollower_decay) , "p.input.env.detect" );
+        MAKE_PROC( new integrator( (input_rms_ms / 1000.0) *0.5 ), "p.input.env.integrator" );
 
         BUF_ALLOC( { "b.dc_modulator" } );
         BUF_ALLOC( { "b.raw_rms" } );
@@ -59,7 +61,7 @@ static const double peakfollower_decay = ((input_rms_ms)/1000)* 0.7444; // very 
         BUF_CP( "b.dc_modulator", "b.raw_rms" ); 
         BUF_SQUARE( "b.raw_rms" );
 
-        PROC( "p.input.env_detect", "b.in", "b.peak_envelope" );
+        PROC( "p.input.env.detect", "b.in", "b.peak_envelope" );
         BUF_SQUARE( "b.peak_envelope" );
         BUF_DITHER( "b.peak_envelope", DB2VOL(-83) );
 
@@ -69,6 +71,8 @@ static const double peakfollower_decay = ((input_rms_ms)/1000)* 0.7444; // very 
         BUF_FMUL( "b.dc_modulator", rms_to_calibration_hz ); 
         BUF_ADD_INTO( "b.in", "b.dc_modulator", "b.in(dc_mod)");
         BUF_DIFF("b.peak_envelope","b.raw_rms");
+
+        PROC_IP("p.input.env.integrator", "b.peak_envelope" );
 
         PROC( "p.input.nonlinear_gain", "b.in(dc_mod)", "b.dist" );
         BUF_XFADE_INTO( "b.dist", "b.in(dc_mod)", "b.out", "b.peak_envelope");
