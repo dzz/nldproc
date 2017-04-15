@@ -56,6 +56,8 @@ namespace nldproc {
             
             processor* get_processor( alias name );
             control* get_control( alias processor, control_name control);
+
+            double find_max( alias buffer_name );
             void create_parameter( alias name, parameter parameter );
             void set_parameter( alias parameter, double value );
             void map_processor( processor* processor, alias name );
@@ -78,6 +80,7 @@ namespace nldproc {
 
             void difference_into( alias left, alias right, alias buffer );
             void multiply_into( alias left, alias right, alias buffer );
+            void multiply_into_scalar( alias left, double scalar, alias buffer );
             void invert_from_max( alias buffer, double max);
             void copy_into( alias left, alias right );
             void create_oversampler( alias name, os_factor amount, frequency_hz half_band );

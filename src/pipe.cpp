@@ -24,6 +24,17 @@ namespace nldproc {
 
     }
 
+    double pipe::find_max( alias name ) {
+
+        auto buffer = this->buffers[name];
+        double max = 0.0;
+
+        for(sample_index idx = 0; idx<environment::get_buffer_chunksize();++idx) {
+            max = std::max( max, buffer[0][idx] );
+        }
+        return max;
+    }
+
     processor* pipe::get_processor( alias name ) {
         return this->processors[name];
     }
@@ -59,6 +70,17 @@ namespace nldproc {
         for(sample_index idx=0; idx< environment::get_buffer_chunksize(); ++idx ) {
             tbuf[0][idx]=lbuf[0][idx]*rbuf[0][idx];
             tbuf[1][idx]=lbuf[1][idx]*rbuf[0][idx];
+        }
+    }
+
+    void pipe::multiply_into_scalar( alias left, double scalar, alias into) {
+
+        auto lbuf = this->buffers[left];
+        auto tbuf = this->buffers[into];
+    
+        for(sample_index idx=0; idx< environment::get_buffer_chunksize(); ++idx ) {
+            tbuf[0][idx]=lbuf[0][idx]*scalar;
+            tbuf[1][idx]=lbuf[1][idx]*scalar;
         }
     }
 

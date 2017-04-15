@@ -5,28 +5,39 @@
 #include "fast_tanh_gain.h"
 #include "rms.h"
 #include "delay.h"
+#include "pipe_macros.h"
+#include "sine.h"
+#include <iostream>
 
 namespace nldproc {
 
 static const double input_rms_ms = 50;
-
-#define MAKE_PROC amp_pipe.map_managed_processor
-#define GET_PROC amp_pipe.get_processor
-#define BUF_MAP amp_pipe.assign_ptr_buffer
-#define PROC amp_pipe.process_with
-#define PROC_IP amp_pipe.process_with_inplace
-#define BUF_ALLOC amp_pipe.create_buffer
-#define BUF_CP amp_pipe.copy_into
+static const double rms_calibration_hz = 440;
+static const double rms_calibration_db = -6;
 
     
     void amplifier::calibrate() {
 
+        pipe calibration_pipe;
+
+        SELECT_PIPE( calibration_pipe );
+        BUF_ALLOC( { "b.rms_calibrator" } );
+
+        SINE_FILL( rms_calibration_hz, "b.rms_calibrator" );
+        BUF_GAIN_DB( "b.rms_calibrator", rms_calibration_db );
+        MAKE_PROC( new rms( input_rms_ms ), "p.rms");
+        PROC_IP( "p.rms", "b.rms_calibrator" );
+
+        rms_to_calibration_hz = BUF_MAX( "b.rms_calibrator" );
+        
+        std::cout<<"processor:"<<this<<" calibrated rms to sine @"<<rms_calibration_hz<<" dB:"<<rms_calibration_db<<" to "<<rms_to_calibration_hz<<"\n";
     }
 
     amplifier::amplifier() {
 
         environment::register_calibration_req( this );
 
+        SELECT_PIPE( amp_pipe );
         BUF_ALLOC( { "b.rms_synched_input" } );
         MAKE_PROC( new fast_tanh_gain(), "p.input.gain" );
         MAKE_PROC( new rms(input_rms_ms) , "p.input.rms" );
@@ -43,6 +54,9 @@ static const double input_rms_ms = 50;
     }
 
     void amplifier::process(stereo_buffer input, stereo_buffer output ) {
+
+        SELECT_PIPE( amp_pipe );
+
         BUF_MAP( { "b.input" }, input );
         BUF_MAP( { "b.output" }, output );
 

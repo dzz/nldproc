@@ -6,6 +6,7 @@ int test_amplifier() {
     stereo_buffer   master_buffer = test_pipe.create_unmapped_buffer(); 
     amplifier       test_amplifier;
 
+
     file::unsafe_fill_from_file(  NLDPROC_TEST_RAW_AUDIO_FILE, master_buffer );
     test_pipe.assign_ptr_buffer( {"buf:master"}, master_buffer );
     test_pipe.map_processor( &test_amplifier, {"proc:amplifier"} );
