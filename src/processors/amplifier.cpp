@@ -13,7 +13,7 @@
 
 namespace nldproc {
 
-static const double input_rms_ms = (1.0/30.0)*1000;
+static const double input_rms_ms = (1.0/120.0)*1000;
 static const double rms_calibration_hz = 440;
 static const double rms_calibration_db = -6;
 static const double dc_modulation_db = -48;
@@ -59,10 +59,10 @@ static const double peakfollower_decay = ((input_rms_ms)/1000)* 0.7444; // very 
 
         PROC( "p.input.rms", "b.in", "b.dc_modulator" );
         BUF_CP( "b.dc_modulator", "b.raw_rms" ); 
-        BUF_SQUARE( "b.raw_rms" );
+        //BUF_SQUARE( "b.raw_rms" );
 
         PROC( "p.input.env.detect", "b.in", "b.peak_envelope" );
-        BUF_SQUARE( "b.peak_envelope" );
+        //BUF_SQUARE( "b.peak_envelope" );
         BUF_DITHER( "b.peak_envelope", DB2VOL(-83) );
 
         BUF_UPMIX("b.dc_modulator");
@@ -73,11 +73,15 @@ static const double peakfollower_decay = ((input_rms_ms)/1000)* 0.7444; // very 
         BUF_DIFF("b.peak_envelope","b.raw_rms");
 
         PROC_IP("p.input.env.integrator", "b.peak_envelope" );
+        BUF_GAIN_DB("b.peak_envelope", 7 );
 
+        BUF_GAIN_DB( "b.in(dc_mod)", 6.5 );
         PROC( "p.input.nonlinear_gain", "b.in(dc_mod)", "b.dist" );
-        BUF_XFADE_INTO( "b.dist", "b.in(dc_mod)", "b.out", "b.peak_envelope");
+        BUF_GAIN_DB( "b.dist", -4.5 );
+        BUF_GAIN_DB( "b.peak_envelope", -3 );
+        BUF_XFADE_INTO( "b.in(dc_mod)", "b.dist", "b.out", "b.peak_envelope");
 
-        BUF_CP("b.peak_envelope","b.out");
+        //BUF_CP("b.peak_envelope","b.out");
     }
 
 
