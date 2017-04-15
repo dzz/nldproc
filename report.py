@@ -100,6 +100,8 @@ if not inputS is None:
         dotsizes = np.logspace(0.2,1.8, len(x))
         print "         [ scatter plotting %i events, %i/%i ]" %(len(x),i+1,transfers)
         plt.scatter(x,y, s=dotsizes)
+        plt.xlim(-1.0,1.0);
+        plt.ylim(-1.0,1.0);
         transfer_str = ".transfer_%i" % (i)
         plt.savefig("reports/" + reportfile + transfer_str + ".png", dpi=40, boxinches="tight")
 

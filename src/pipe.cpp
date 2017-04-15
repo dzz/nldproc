@@ -73,6 +73,36 @@ namespace nldproc {
         }
     }
 
+    void pipe::upmix( alias name ) {
+        auto buf = this->buffers[name];
+        for(sample_index idx=0; idx< environment::get_buffer_chunksize(); ++idx ) {
+            buf[1][idx] = buf[0][idx];
+        }
+    }
+
+    void pipe::xfade_into_using( alias a, alias b, alias target, alias control ) {
+        auto buf_a = this->buffers[a];
+        auto buf_b = this->buffers[b];
+        auto buf_t = this->buffers[target];
+        auto buf_c = this->buffers[control];
+        for(sample_index idx=0; idx< environment::get_buffer_chunksize(); ++idx ) {
+            buf_t[0][idx] = (buf_a[0][idx] * buf_c[0][idx]) + (buf_b[0][idx] * (1-buf_c[0][idx]));
+            buf_t[1][idx] = (buf_a[1][idx] * buf_c[0][idx]) + (buf_b[1][idx] * (1-buf_c[0][idx]));
+        }
+    }
+
+    void pipe::add_into( alias left, alias right, alias into) {
+
+        auto lbuf = this->buffers[left];
+        auto rbuf = this->buffers[right];
+        auto tbuf = this->buffers[into];
+    
+        for(sample_index idx=0; idx< environment::get_buffer_chunksize(); ++idx ) {
+            tbuf[0][idx]=lbuf[0][idx]+rbuf[0][idx];
+            tbuf[1][idx]=lbuf[1][idx]+rbuf[0][idx];
+        }
+    }
+
     void pipe::multiply_into_scalar( alias left, double scalar, alias into) {
 
         auto lbuf = this->buffers[left];
