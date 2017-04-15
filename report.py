@@ -80,33 +80,33 @@ axes[2].set_ylabel("dB", size = 8)
 fig.tight_layout()
 plt.savefig("reports/" + reportfile + ".png", boxinches="tight")
 
-if not inputS is None:
-    print("found input...")
-    time_normalized = np.zeros( len(s) )
-    time_normalized[:len(inputS)] += inputS
-
-    
-    transfers = 1
-    transfer_skip = int(len(s)/transfers)
-
-    for i in range(0, transfers):
-
-        fig, ax = plt.subplots(1, figsize=(9, 9))
-        #plt.style.use('dark_background')
-        plt.clf()
-
-        x = time_normalized[i*transfer_skip:(i*transfer_skip)+transfer_skip:1]
-        y = s[i*transfer_skip:(i*transfer_skip)+transfer_skip:1]
-        dotsizes = np.linspace(0.2,1.8, len(x))
-        print "         [ scatter plotting %i events, %i/%i ]" %(len(x),i+1,transfers)
-
-        plt.scatter(x,y,s=dotsizes)
-        #plt.show()
-
-        #axes[0].plot(x,y)
-        #axes[0].scatter(x,y, s=dotsizes)
-        #axes[1].plot(x);
- 
-        transfer_str = ".transfer_%i" % (i)
-        plt.savefig("reports/" + reportfile + transfer_str + ".png", dpi=72, boxinches="tight")
-
+## if not inputS is None:
+##     print("found input...")
+##     time_normalized = np.zeros( len(s) )
+##     time_normalized[:len(inputS)] += inputS
+## 
+##     
+##     transfers = 1
+##     transfer_skip = int(len(s)/transfers)
+## 
+##     for i in range(0, transfers):
+## 
+##         fig, ax = plt.subplots(1, figsize=(9, 9))
+##         #plt.style.use('dark_background')
+##         plt.clf()
+## 
+##         x = time_normalized[i*transfer_skip:(i*transfer_skip)+transfer_skip:1]
+##         y = s[i*transfer_skip:(i*transfer_skip)+transfer_skip:1]
+##         dotsizes = np.linspace(0.2,1.8, len(x))
+##         print "         [ scatter plotting %i events, %i/%i ]" %(len(x),i+1,transfers)
+## 
+##         plt.scatter(x,y,s=dotsizes)
+##         #plt.show()
+## 
+##         #axes[0].plot(x,y)
+##         #axes[0].scatter(x,y, s=dotsizes)
+##         #axes[1].plot(x);
+##  
+##         transfer_str = ".transfer_%i" % (i)
+##         plt.savefig("reports/" + reportfile + transfer_str + ".png", dpi=72, boxinches="tight")
+## 

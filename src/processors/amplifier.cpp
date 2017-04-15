@@ -124,6 +124,10 @@ static const unsigned int prefilter_FIR_middle = 8; // {middle} + 1 + {middle} =
         std::cout<<"processor:"<<this<<" calibrated rms to sine @"<<rms_calibration_hz<<" dB:"<<rms_calibration_db<<" to "<<rms_to_calibration_hz<<"\n";
     }
 
+    pipe* amplifier::get_amp_pipe() {
+        return &this->amp_pipe;
+    }
+
 }
 
 

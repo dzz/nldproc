@@ -13,9 +13,9 @@
 #include "tests.h"
 
 namespace nldproc {
+
     namespace test {
 
-        
         void time_shift_forward( pipe* pipe, sample_count amount, alias buffer_name ) {
             unsigned int read_ptr = amount;
             stereo_buffer buffer = pipe->get_mapped_buffer( buffer_name );
@@ -48,6 +48,11 @@ namespace nldproc {
             environment::write_fft_limits_to_file("output/test.report_fft_lims", (frequency_hz)fft_low, (frequency_hz)fft_hi);
             environment::write_implicit_time_to_file("output/implicit_time");
         }
+
+        void write_additional_buffer( pipe* pipe, alias buffer ) {
+            pipe->write_buffer( buffer, "output/extra_" + buffer , binary_left );
+        }
     }
+
     #include "test_includes.h"
 }

@@ -9,6 +9,7 @@ namespace nldproc {
             amplifier();
             virtual latency_samples get_latency();
             virtual void calibrate();
+            pipe*   get_amp_pipe();
         private:
             virtual void process(stereo_buffer input, stereo_buffer output);
 

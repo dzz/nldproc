@@ -38,6 +38,7 @@ echo "( creating report )"
 echo
 
 ./report.py $2
+./transfer_report.py
 
 pushd reports
 ./convert.py
