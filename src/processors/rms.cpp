@@ -8,6 +8,10 @@ namespace nldproc {
     rms::rms() {
 
     }
+    
+    latency_samples rms::get_latency() {
+        return this->filter_size;
+    }
 
     rms::rms(time_ms window_size) {
         rms::configure(window_size);

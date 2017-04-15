@@ -11,6 +11,7 @@ namespace nldproc {
             buffer_chunksize get_filter_size();
             rms(time_ms window_size);
             ~rms();
+            virtual latency_samples get_latency();
         private:
             virtual void process_channel( channel_index channel, single_channel input, single_channel output );
             sample* history; 

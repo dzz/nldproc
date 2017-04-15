@@ -8,7 +8,7 @@
 
 namespace nldproc {
 
-static const double input_rms_ms = 3;
+static const double input_rms_ms = 50;
 
 #define MAKE_PROC amp_pipe.map_managed_processor
 #define GET_PROC amp_pipe.get_processor
@@ -33,18 +33,25 @@ static const double input_rms_ms = 3;
 
         rms* RMS = (rms*)GET_PROC("p.input.rms");
 
-        MAKE_PROC( new delay( RMS->get_filter_size() / 2 ), "p.input.rms_synch_delay");
+        MAKE_PROC( new delay( RMS->get_filter_size() ), "p.input.rms_synch_delay");
 
+        latency = RMS->get_latency();
+    }
+
+    latency_samples amplifier::get_latency() {
+        return latency;
     }
 
     void amplifier::process(stereo_buffer input, stereo_buffer output ) {
         BUF_MAP( { "b.input" }, input );
         BUF_MAP( { "b.output" }, output );
 
-        PROC    ( "p.input.gain", "b.input", "b.rms_synched_input" );
-        PROC_IP ( "p.input.rms_synch_delay", "b.rms_synched_input" );
+        //PROC    ( "p.input.gain", "b.input", "b.rms_synched_input" );
+        //PROC_IP ( "p.input.rms_synch_delay", "b.rms_synched_input" );
 
-        BUF_CP( "b.rms_synched_input", "b.output" );
+        PROC ( "p.input.rms_synch_delay", "b.input", "b.output");
+
+        //BUF_CP( "b.rms_synched_input", "b.output" );
     }
 
 }

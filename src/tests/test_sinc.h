@@ -16,6 +16,7 @@ int test_sinc() {
 
     test_pipe.process_with_inplace("proc:fir","buf:master" );
 
+    test::time_shift_forward( &test_pipe, 32, "buf:master");
     test::write_mono_test_data( &test_pipe, "buf:master", NLDPROC_FFT_LIMITS(100,10000) );
 
     return NLDPROC_TEST_SUCCESS;

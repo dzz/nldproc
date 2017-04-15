@@ -14,6 +14,10 @@ namespace nldproc {
         }
     }
 
+    latency_samples processor::get_latency() {
+        return 0;
+    }
+
     void processor::calibrate() {
 
     }

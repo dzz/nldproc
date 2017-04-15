@@ -22,6 +22,7 @@ int NLDPROC_CURRENT_TEST ();
     namespace test {
         void write_mono_test_data( pipe* pipe, alias buffer, frequency_hz fft_low, frequency_hz fft_hi );
         void write_input_signal_test_data( pipe* pipe, alias buffer );
+        void time_shift_forward( pipe*, sample_count amount, alias buffer_name );
     }
 }
 

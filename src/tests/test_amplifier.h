@@ -13,7 +13,8 @@ int test_amplifier() {
     test::write_input_signal_test_data( &test_pipe, "buf:master");
     test_pipe.process_with_inplace( "proc:amplifier", "buf:master" );
 
-    // write test report info to file 
+    // write test report info to file - timeshifting
+    test::time_shift_forward( &test_pipe, test_amplifier.get_latency(), "buf:master");
     test::write_mono_test_data( &test_pipe, "buf:master", NLDPROC_FFT_LIMITS(10,20000) );
 
     return NLDPROC_TEST_SUCCESS;
