@@ -1,6 +1,6 @@
 int test_amplifier() {
 
-    environment::configure_test_environment( (frequency_hz)44100, (sample_count)44100*15 ); 
+    environment::configure_test_environment( (frequency_hz)44100, (sample_count)44100*0.25 ); 
 
     pipe            test_pipe;          
     stereo_buffer   master_buffer = test_pipe.create_unmapped_buffer(); 
