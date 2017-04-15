@@ -68,13 +68,14 @@ static const unsigned int prefilter_FIR_middle = 8; // {middle} + 1 + {middle} =
         PROC( "p.input.rms", "b.in", "b.dc_modulator" );
         BUF_CP( "b.dc_modulator", "b.raw_rms" ); 
         PROC_IP( "p.dc_modulator.integrator", "b.dc_modulator");
-        BUF_GAIN_DB( "b.dc_modulator", 12 );
+        BUF_GAIN_DB( "b.dc_modulator", 48 );
 
-        PROC_IP( "p.input.prefilter", "b.in" ); // by putting the filter at this stage we effectively
-                                                // give the peak detection a lookahead,
 
         PROC( "p.input.env.detect", "b.in", "b.peak_envelope" );
         BUF_DITHER( "b.peak_envelope", DB2VOL(-83) );
+
+        PROC_IP( "p.input.prefilter", "b.in" ); // by putting the filter at this stage we effectively
+                                                // give the peak detection a lookahead,
 
         BUF_UPMIX("b.dc_modulator");
         BUF_DITHER("b.dc_modulator", DB2VOL(-96) );
