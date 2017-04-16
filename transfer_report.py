@@ -1,6 +1,5 @@
 #!/usr/bin/python2
 
-
 import glob;
 import matplotlib
 
@@ -54,14 +53,14 @@ if not inputS is None:
     time_normalized[:len(inputS)] += inputS
 
     
-    transfers = len(s)/1024
+    transfers = 20
     #transfers = 1
 
     transfer_skip = int(len(s)/transfers)
 
     for i in range(0, transfers):
 
-        plt.figure( figsize=(12,8) )
+        plt.figure( figsize=(13,7) )
         plt.grid()
 
         print "%i / %i" %(i,transfers)
@@ -71,7 +70,7 @@ if not inputS is None:
 
         x = time_normalized[i*transfer_skip:(i*transfer_skip)+transfer_skip:1]
         y = s[i*transfer_skip:(i*transfer_skip)+transfer_skip:1]
-        dotsizes = np.linspace(0.2,1.8, len(x))
+
 
 
         axes = {}
@@ -82,16 +81,21 @@ if not inputS is None:
         input_axes = plt.subplot2grid( grid_size ,(0,0) );
         input_axes.set_title("input", size = 10 )
         input_axes.plot(time,x);
-        input_axes.set_ylim(-1.5,1.5);
+        #input_axes.set_ylim(-1.5,1.5);
         input_axes.grid(True)
         input_axes.tick_params(labelsize=7)
 
         output_axes = plt.subplot2grid( grid_size,(1,0), sharex = input_axes );
         output_axes.set_title("output", size = 10)
         output_axes.plot(time,y);
-        output_axes.set_ylim(-1.5,1.5);
+        #output_axes.set_ylim(-1.5,1.5);
         output_axes.grid(True)
         output_axes.tick_params(labelsize=7)
+
+        x = time_normalized[0:(i*transfer_skip)+transfer_skip:1]
+        y = s[0:(i*transfer_skip)+transfer_skip:1]
+        
+        dotsizes = np.linspace(0.2,1.8, len(x))
 
         transfer_axes = plt.subplot2grid( grid_size, (0,1), rowspan = grid_rows );
         transfer_axes.set_title("transfer over %i samples" % (transfer_skip), size = 12)
@@ -108,7 +112,7 @@ if not inputS is None:
             metadata_axes = plt.subplot2grid( grid_size, (addtlPlot, 0), sharex = input_axes )
             metadata_axes.set_title(key, size = 10)
             metadata_axes.plot(time,addtlSig)
-            metadata_axes.set_ylim(-1.5,1.5)
+            #metadata_axes.set_ylim(-1.5,1.5)
             metadata_axes.grid(True)
             metadata_axes.tick_params(labelsize = 7)
             if(addtlPlot != (grid_rows -1) ):
