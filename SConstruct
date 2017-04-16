@@ -1,12 +1,15 @@
 import fnmatch
 import os
 
-matches = []
-for root, dirnames, filenames in os.walk('src'):
-    for filename in fnmatch.filter(filenames, '*.cpp'):
-        matches.append(os.path.join(root, filename))
+CppFiles = []
 
-CppFiles = matches
+def populate_cpp_matches(matches, dir):
+    for root, dirnames, filenames in os.walk(dir):
+        for filename in fnmatch.filter(filenames, '*.cpp'):
+            matches.append(os.path.join(root, filename))
+
+populate_cpp_matches(CppFiles, "src")
+populate_cpp_matches(CppFiles, "DSPFilters/source")
 
 
 buildnum = int(float(open('build_num').read()))
@@ -22,10 +25,6 @@ env = Environment()
 env.Program(
         'cli', 
         CppFiles, 
-        LIBS=
-        [
-            'libDSPFilters'
-        ], 
         CPPPATH=
         [
             './DSPFilters/include',
