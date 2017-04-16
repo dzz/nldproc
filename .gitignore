@@ -14,3 +14,4 @@ reports/*.gif
 nldproc_cliwrap
 cli.exe
 DSPFilters/
+__pycache__/

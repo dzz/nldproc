@@ -5,7 +5,7 @@ namespace nldproc {
 #include "test.h"
 
 #ifndef NLDPROC_CURRENT_TEST
-    #define NLDPROC_CURRENT_TEST test_derivative
+    #define NLDPROC_CURRENT_TEST test_amplifier
 #endif
 
 int NLDPROC_CURRENT_TEST ();

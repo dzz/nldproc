@@ -62,6 +62,7 @@ static const unsigned int prefilter_FIR_middle = 4; // {middle} + 1 + {middle} =
 
     void amplifier::process(stereo_buffer input, stereo_buffer output ) {
 
+        std::cout<<"PROCESS OF AMPLIFIER\n";
         //
         // simulate some analog
         //

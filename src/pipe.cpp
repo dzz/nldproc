@@ -155,6 +155,7 @@ namespace nldproc {
     }
 
     void pipe::map_processor( processor* processor, alias name ) {
+        std::cout<<"CREATE_PROC :"<<processor<<" to "<<name<<"'n";
         this->processors[ name ] = processor;
     }
 
