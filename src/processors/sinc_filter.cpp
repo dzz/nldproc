@@ -4,7 +4,7 @@
 namespace nldproc {
 
     sinc_filter::sinc_filter(tapcount taps, fs_ratio cutoff, sinc_filter_mode mode) {
-        double sincFilter[taps];
+        double *sincFilter = new double[taps];
 
         if(mode==SINC_LOWPASS) {
             wsfirLP( sincFilter, taps, W_BLACKMAN, cutoff );
@@ -13,6 +13,8 @@ namespace nldproc {
             wsfirHP(sincFilter,taps, W_BLACKMAN, cutoff );
         }
         this->configure(taps, sincFilter);
+
+        delete sincFilter;
     }
 }
 

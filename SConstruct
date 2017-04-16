@@ -34,6 +34,6 @@ env.Program(
             './src/'
         ], 
         LIBPATH='.',
-        CPPFLAGS="-finline-functions -O3 -Ofast -msse -msse2 -msse3 -msse4 -mtune=intel -mfpmath=sse"
+        #CPPFLAGS="-finline-functions -O3 -Ofast -msse -msse2 -msse3 -msse4 -mtune=intel -mfpmath=sse"
  )
 

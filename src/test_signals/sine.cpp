@@ -6,7 +6,7 @@
 
 namespace nldproc {
 
-constexpr double pi() { return std::atan(1)*4; }
+inline double pi() { return std::atan(1)*4; }
 
     void sine::generate(double hz, buffer_chunksize samples, single_channel channel) {
         for(sample_index i=0; i<samples;++i) {

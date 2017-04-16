@@ -13,7 +13,7 @@ namespace nldproc {
     	return (x - 1) / (x + 1);
     }
 
-    constexpr double pi() { return std::atan(1)*4; }
+    inline double pi() { return std::atan(1)*4; }
 
     fast_tanh_gain::fast_tanh_gain() {
         this->gainControl = this->create_control( (control_name)"control:gainVol", (time_ms)4.0, (control_value)1.0 );
