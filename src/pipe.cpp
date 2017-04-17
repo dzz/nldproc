@@ -189,9 +189,9 @@ namespace nldproc {
     }
 
     void pipe::delete_unmapped_buffer( stereo_buffer buffer ) {
-        delete buffer[0];
-        delete buffer[1];
-        delete buffer;
+        delete [] buffer[0];
+        delete [] buffer[1];
+        delete [] buffer;
     }
 
     void pipe::create_buffer( alias_list aliases ) {

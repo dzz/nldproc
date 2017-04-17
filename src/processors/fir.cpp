@@ -38,9 +38,9 @@ namespace nldproc {
     }
 
     fir::~fir() {
-        delete inputs[0];
-        delete inputs[1];
-        delete filter;
+        delete [] inputs[0];
+        delete [] inputs[1];
+        delete [] filter;
     }
 
 }

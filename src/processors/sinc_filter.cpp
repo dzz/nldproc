@@ -14,7 +14,7 @@ namespace nldproc {
         }
         this->configure(taps, sincFilter);
 
-        delete sincFilter;
+        delete [] sincFilter;
     }
 }
 

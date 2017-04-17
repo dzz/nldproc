@@ -18,7 +18,7 @@ namespace nldproc {
                 target[0][i] = double_values[r++];
                 target[1][i] = double_values[r++]; 
             }
-            delete memblck;
+            delete [] memblck;
             #endif
         }
     }

@@ -11,7 +11,7 @@ namespace nldproc {
         delay_spec[ length -1 ] = 1.0;
 
         this->configure( length, delay_spec );
-        delete delay_spec;
+        delete [] delay_spec;
     }
         
 }

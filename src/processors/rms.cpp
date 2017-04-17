@@ -61,8 +61,8 @@ namespace nldproc {
 
     rms::~rms() {
         if(history!=nullptr) {
-            delete history;
-            delete window;
+            delete [] history;
+            delete [] window;
         }
     }
 
