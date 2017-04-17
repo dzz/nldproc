@@ -61,7 +61,7 @@ if not inputS is None:
 
     for i in range(0, transfers):
 
-        plt.figure( figsize=(13,7) )
+        plt.figure( figsize=(14,8))
         plt.grid()
 
         print "%i / %i" %(i,transfers)

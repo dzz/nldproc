@@ -50,9 +50,9 @@ print("Input Data Length (frames): %s" % ( s.size) )
 ###cnse = cnse[:len(t)]
 
 print "         [ ~ pretty graphs ~ ]"
-plt.style.use('ggplot')
+plt.style.use('dark_background')
 
-fig, axes = plt.subplots(nrows=3, ncols=1, figsize=(5.7, 6.8))
+fig, axes = plt.subplots(nrows=3, ncols=1, figsize=(14,8 ) )
 
 # plot time signal:
 
@@ -78,7 +78,7 @@ axes[2].set_ylabel("dB", size = 8)
 ##axes[4].angle_spectrum(s, Fs=Fs )
 
 fig.tight_layout()
-plt.savefig("reports/" + reportfile + ".png", boxinches="tight")
+plt.savefig("reports/" + reportfile + ".png", dpi=72, boxinches="tight")
 
 ## if not inputS is None:
 ##     print("found input...")
