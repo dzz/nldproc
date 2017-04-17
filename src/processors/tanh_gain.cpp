@@ -20,7 +20,7 @@ namespace nldproc {
 
         while(position < total_samples) {
             gainVol = this->pump_control( this->gainControl );
-            output[position] = std::tanh(pi()*input[position++] * gainVol);
+            output[position] = std::tanh(NLD_PI*input[position++] * gainVol);
         }
     }
 }
