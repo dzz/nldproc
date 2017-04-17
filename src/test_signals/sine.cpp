@@ -6,20 +6,18 @@
 
 namespace nldproc {
 
-inline double pi() { return std::atan(1)*4; }
-
     void sine::generate(double hz, buffer_chunksize samples, single_channel channel) {
         for(sample_index i=0; i<samples;++i) {
             double t = (double)i / (double)environment::get_samplerate();
-            channel[i] = sin( t*hz*2*pi() );
+            channel[i] = sin( t*hz*2*NLD_PI );
         }
     }
 
     void sine::fill_range( double hz, stereo_buffer channels, sample_index start, sample_index end) {
         for(sample_index i=start; i<end;++i) {
             double t = (double)i / (double)environment::get_samplerate();
-            channels[0][i] = sin( t*hz*2*pi() );
-            channels[1][i] = sin( t*hz*2*pi() );
+            channels[0][i] = sin( t*hz*2*NLD_PI );
+            channels[1][i] = sin( t*hz*2*NLD_PI );
         }
     }
 
@@ -42,7 +40,7 @@ inline double pi() { return std::atan(1)*4; }
             double hz = start_hz*(1-idx) + (end_hz*idx);
 
             t += (1.0/environment::get_samplerate()) * hz;
-            channel[i] = sin( t*2*pi() );
+            channel[i] = sin( t*2*NLD_PI );
         }
     }
 }

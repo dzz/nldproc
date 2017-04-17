@@ -13,8 +13,6 @@ namespace nldproc {
     	return (x - 1) / (x + 1);
     }
 
-    inline double pi() { return std::atan(1)*4; }
-
     fast_tanh_gain::fast_tanh_gain() {
         this->gainControl = this->create_control( (control_name)"control:gainVol", (time_ms)4.0, (control_value)1.0 );
     }
@@ -28,7 +26,7 @@ namespace nldproc {
 
         while(position < total_samples) {
             //gainVol = this->pump_control( this->gainControl );
-            output[position] = fast_tanh(pi()*input[position++] );
+            output[position] = fast_tanh(NLD_PI*input[position++] );
         }
     }
 }

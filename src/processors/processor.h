@@ -8,6 +8,7 @@
 
 namespace nldproc {
 
+    const double NLD_PI =  3.1415926535897;
     typedef std::string  alias;
     typedef double**     stereo_buffer;
     typedef double*      single_channel;

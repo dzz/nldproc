@@ -7,8 +7,6 @@
 
 namespace nldproc {
 
-    inline double pi() { return std::atan(1)*4; }
-
     tanh_gain::tanh_gain() {
         this->gainControl = this->create_control( (control_name)"control:gainVol", (time_ms)4.0, (control_value)1.0 );
     }

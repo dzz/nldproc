@@ -14,6 +14,7 @@ def generateProcessorHeader():
     headers = sorted(glob.glob("src/processors/*.h"))
     writable_headers = []
     for header in headers:
+        header = header.replace("\\","/")
         header = header.split("src/processors/")[1]
         if(header != "processor.h") and ( header!="processors.h"):
             writable_headers.append( header )
@@ -31,6 +32,7 @@ def generateTestHeader():
     headers = sorted(glob.glob("src/tests/*.h"))
     writable_headers = []
     for header in headers:
+        header = header.replace("\\","/")
         header = header.split("src/")[1]
         writable_headers.append(header)
 
