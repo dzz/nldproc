@@ -55,7 +55,7 @@ static const unsigned int prefilter_FIR_middle = 4; // {middle} + 1 + {middle} =
         BUF_ALLOC( { "b.dist" } );
         BUF_ALLOC( { "b.hf" } );
 
-        std::cout<<"LAHEAD:"<<lookahead_samples<<"\n";
+        std::cout<<"(amp model peak lookahead):"<<lookahead_samples<<"\n";
         latency = prefilter_FIR_middle + lookahead_samples; // center of prefilter
     }
 
@@ -77,8 +77,9 @@ static const unsigned int prefilter_FIR_middle = 4; // {middle} + 1 + {middle} =
         PROC_IP( "p.input.preamp", "b.in" );
 
         PROC( "p.input.rms", "b.in", "b.dc_modulator" );
+    
         /***********************************************/
-        /***/BUF_CP("b.dc_modulator","b.out"); return;/***/
+        /***///BUF_CP("b.dc_modulator","b.out"); return;/***/
         /***********************************************/
 
         BUF_CP( "b.dc_modulator", "b.raw_rms" ); 
@@ -93,8 +94,7 @@ static const unsigned int prefilter_FIR_middle = 4; // {middle} + 1 + {middle} =
         //BUF_DITHER("b.dc_modulator", DB2VOL(-96) );
 
 
-        //BUF_FMUL( "b.dc_modulator", rms_to_calibration_hz ); 
-
+        BUF_FMUL( "b.dc_modulator", rms_to_calibration_hz ); 
 
 
         BUF_ADD_INTO( "b.in", "b.dc_modulator", "b.in(dc_mod)");
@@ -132,26 +132,26 @@ static const unsigned int prefilter_FIR_middle = 4; // {middle} + 1 + {middle} =
 
     void amplifier::calibrate() {
 
-        // pipe calibration_pipe;
+        pipe calibration_pipe;
 
-        // SELECT_PIPE( calibration_pipe );
+        SELECT_PIPE( calibration_pipe );
 
-        // BUF_ALLOC( { "b.rms_calibrator" } );
-        // MAKE_PROC( new rms( input_rms_ms ), "p.input.rms");
+        BUF_ALLOC( { "b.rms_calibrator" } );
+        MAKE_PROC( new rms( input_rms_ms ), "p.input.rms");
 
-        // SINE_FILL( rms_calibration_hz, "b.rms_calibrator" );
+        SINE_FILL( rms_calibration_hz, "b.rms_calibrator" );
 
-        // BUF_GAIN_DB( "b.rms_calibrator", rms_calibration_db );
-        // PROC_IP( "p.input.rms", "b.rms_calibrator" );
+        BUF_GAIN_DB( "b.rms_calibrator", rms_calibration_db );
+        PROC_IP( "p.input.rms", "b.rms_calibrator" );
 
-        // BUF_MAX( "b.rms_calibrator", rms_to_calibration_hz );
-        // 
-        // std::cout<<"RMS MAX "<<rms_to_calibration_hz<<"\n";
+        BUF_MAX( "b.rms_calibrator", rms_to_calibration_hz );
+        
+        std::cout<<"RMS MAX "<<rms_to_calibration_hz<<"\n";
 
-        // INVERT( rms_to_calibration_hz );
-        // FMUL( rms_to_calibration_hz, DB2VOL( dc_modulation_db ) );
+        INVERT( rms_to_calibration_hz );
+        FMUL( rms_to_calibration_hz, DB2VOL( dc_modulation_db ) );
 
-        // std::cout<<"processor:"<<this<<" calibrated rms to sine @"<<rms_calibration_hz<<" dB:"<<rms_calibration_db<<" to "<<rms_to_calibration_hz<<"\n";
+        std::cout<<"processor:"<<this<<" calibrated rms to sine @"<<rms_calibration_hz<<" dB:"<<rms_calibration_db<<" to "<<rms_to_calibration_hz<<"\n";
     }
 
     pipe* amplifier::get_amp_pipe() {
