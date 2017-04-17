@@ -59,7 +59,6 @@ def generateAllReportsScript(defines):
     file.write("rm -f reports/*.jpg\n");
     file.write("rm -f reports/*.png\n");
 
-    file.write("./code_generate.py\n")
     index = open("reports/index.html","w")
     index.write("<body style='background-color:#000;color:#fff;font-face:monospace;' ><center>");
     index.write("<h1>nldproc tests</h1>")

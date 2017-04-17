@@ -19,13 +19,12 @@ mkdir output -p
 rm -f output/*
 echo "" > src/test.h
 
-./code_generate.py $1
-
 echo
 echo "( compiling & linking )"
 echo
 
-scons
+./code_generate.py $1
+scons 
 
 echo
 echo "( running test )"

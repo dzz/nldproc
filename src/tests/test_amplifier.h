@@ -1,19 +1,19 @@
 int test_amplifier() {
 
-    environment::configure_test_environment( (frequency_hz)44100, (sample_count)44100*9 ); 
+    environment::configure_test_environment( (frequency_hz)44100, (sample_count)44100*1.5 ); 
 
     pipe            test_pipe;          
     stereo_buffer   master_buffer = test_pipe.create_unmapped_buffer(); 
     amplifier       test_amplifier;
 
 
-//    file::unsafe_fill_from_file(  NLDPROC_TEST_RAW_AUDIO_FILE, master_buffer );
+    file::unsafe_fill_from_file(  NLDPROC_TEST_RAW_AUDIO_FILE, master_buffer );
+    //sine::fill_buffer_sweep( 10, 3000, master_buffer );
 
     std::cout<<"SINE SIGNAL\n";
     
     std::cout<<"MAP BUFFER'n";
     test_pipe.assign_ptr_buffer( {"buf:master"}, master_buffer );
-    sine::fill_buffer_sweep( 10, 3000, test_pipe.get_mapped_buffer( "buf:master" ) );
     test_pipe.map_processor( &test_amplifier, {"proc:amplifier"} );
 
     test::write_input_signal_test_data( &test_pipe, "buf:master");

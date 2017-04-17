@@ -1,6 +1,5 @@
 import fnmatch
 import os
-import code_generate
 
 
 CppFiles = []
@@ -23,7 +22,7 @@ open('src/build.h','w').write('#pragma once\nconst unsigned int NLDPROC_BUILDNUM
 
 env = Environment()
 #env.Append(CPPDEFINES=['NLDPROC_BUILDNUM={0}'.format(buildnum)])
-env.Append(CXXFLAGS = ['/DEBUG'])
+#env.Append(CXXFLAGS = ['/DEBUG'])
 env.Program(
         'cli', 
         CppFiles, 
@@ -36,6 +35,6 @@ env.Program(
             './src/'
         ], 
         LIBPATH='.',
-        #CPPFLAGS="-finline-functions -O3 -Ofast -msse -msse2 -msse3 -msse4 -mtune=intel -mfpmath=sse"
+        CPPFLAGS="-finline-functions -O3 -Ofast -msse -msse2 -msse3 -msse4 -mtune=intel -mfpmath=sse"
  )
 

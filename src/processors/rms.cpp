@@ -58,7 +58,12 @@ namespace nldproc {
             }
 
             output[idx] = std::sqrt(squares / (double)filter_size);
+
+            if(idx==environment::get_buffer_chunksize()-1) {
+                std::cout<<"----****"<<idx<<"  --- "<<history[0]<<output[idx]<<"\n";
+            }
         }
+
     }
 
     rms::~rms() {

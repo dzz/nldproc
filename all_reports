@@ -2,6 +2,6 @@
 set -e
 rm -f reports/*.jpg
 rm -f reports/*.png
-./code_generate.py
 ./build test_amplifier 1
+./build test_rms 1
 firefox reports/index.html

@@ -27,8 +27,7 @@ namespace nldproc {
     }
 
     inline double peakfollower::eval_next(double x) {
-        //if( x < 0 ) x*=-1;
-
+        if( x < 0 ) x*=-1;
         if( x > this->output ) {
             this->output = x;
         } else {

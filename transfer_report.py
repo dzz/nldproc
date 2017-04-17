@@ -54,8 +54,8 @@ if not inputS is None:
     time_normalized[:len(inputS)] += inputS
 
     
-    transfers = 20
-    #transfers = 1
+    #transfers = 20
+    transfers = 1
 
     transfer_skip = int(len(s)/transfers)
 
