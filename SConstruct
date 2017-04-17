@@ -17,23 +17,23 @@ def advance_buildnum():
 
 advance_buildnum();
 
-CPPFILES = []
+SourceFiles = []
 
-populate_cpp_matches(CPPFILES, "src")
-populate_cpp_matches(CPPFILES, "DSPFilters/source")
+populate_cpp_matches(SourceFiles, "src")
+populate_cpp_matches(SourceFiles, "DSPFilters/source")
 
 
 env = Environment()
 
 if sys.platform == "linux2":
-    CPPFLAGS="-finline-functions -O3 -Ofast -msse -msse2 -msse3 -msse4 -mtune=intel -mfpmath=sse"
+    CXXFLAGS="-finline-functions -O3 -Ofast -msse -msse2 -msse3 -msse4 -mtune=intel -mfpmath=sse"
 if sys.platform == "win32":
-    CPPFLAGS=""
+    CXXFLAGS="/EHsc /O2 /Ot /arch:AVX"
     #env.Append(CXXFLAGS = ['/DEBUG'])
 
 env.Program(
         'cli', 
-        CPPFILES, 
+        SourceFiles, 
         CPPPATH=
         [
             './DSPFilters/include',
@@ -43,6 +43,6 @@ env.Program(
             './src/'
         ], 
         LIBPATH='.',
-        CPPFLAGS=CPPFLAGS
+        CXXFLAGS=CXXFLAGS
  )
 
