@@ -37,6 +37,7 @@ extraSignals = {};
 extraFiles = glob.glob("output/extra_*")
 
 for filen in extraFiles:
+    filen=filen.replace("\\","/")
     extraSignals[filen] = np.fromfile(filen)
 
 TESTX = np.linspace(0,2,400)
@@ -71,8 +72,6 @@ if not inputS is None:
         x = time_normalized[i*transfer_skip:(i*transfer_skip)+transfer_skip:1]
         y = s[i*transfer_skip:(i*transfer_skip)+transfer_skip:1]
 
-
-
         axes = {}
         grid_rows = 2 + len(extraSignals)
 
@@ -92,9 +91,6 @@ if not inputS is None:
         output_axes.grid(True)
         output_axes.tick_params(labelsize=7)
 
-        x = time_normalized[0:(i*transfer_skip)+transfer_skip:1]
-        y = s[0:(i*transfer_skip)+transfer_skip:1]
-        
         dotsizes = np.linspace(0.2,1.8, len(x))
 
         transfer_axes = plt.subplot2grid( grid_size, (0,1), rowspan = grid_rows );

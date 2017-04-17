@@ -128,8 +128,8 @@ static const unsigned int prefilter_FIR_middle = 4; // {middle} + 1 + {middle} =
 
         SINE_FILL( rms_calibration_hz, "b.rms_calibrator" );
         BUF_GAIN_DB( "b.rms_calibrator", rms_calibration_db );
-        MAKE_PROC( new rms( input_rms_ms ), "p.rms");
-        PROC_IP( "p.rms", "b.rms_calibrator" );
+        MAKE_PROC( new rms( input_rms_ms ), "p.input.rms");
+        PROC_IP( "p.input.rms", "b.rms_calibrator" );
 
         BUF_MAX( "b.rms_calibrator", rms_to_calibration_hz );
         

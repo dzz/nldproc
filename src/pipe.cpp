@@ -155,11 +155,12 @@ namespace nldproc {
     }
 
     void pipe::map_processor( processor* processor, alias name ) {
-        std::cout<<"CREATE_PROC :"<<processor<<" to "<<name<<"'n";
+        std::cout<<"map_processor :"<<processor<<" to "<<name<<"\n";
         this->processors[ name ] = processor;
     }
 
     void pipe::map_managed_processor( processor* processor, alias name ) {
+        std::cout<<"managed map_processor :"<<processor<<" to "<<name<<"\n";
         this->processors[ name ] = processor;
         this->managed_processors.push_back( name );
     }
@@ -344,6 +345,8 @@ namespace nldproc {
     }
 
     void pipe::process_with( alias processor, alias buffer_from,alias buffer_to ) {
+
+        std::cout<<"processing with processor:"<<processor<<"\n";
 
         auto processor_object   = this->processors [ processor ];
         auto from               = this->buffers[ buffer_from ];
