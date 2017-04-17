@@ -52,4 +52,8 @@ namespace nldproc {
 
         return control->impulse;
     }
+
+    processor::~processor() {
+
+    }
 }

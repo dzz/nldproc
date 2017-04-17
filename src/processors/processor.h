@@ -28,6 +28,7 @@ namespace nldproc {
             control* create_control( control_name name, time_ms smooth_time, control_value value );
             control* get_control( control_name name );
             virtual void calibrate();
+            virtual ~processor();
         private:
             virtual void process_channel(channel_index index, single_channel input, single_channel output) {};
             control_collection controls;
