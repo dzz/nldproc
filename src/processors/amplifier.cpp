@@ -29,10 +29,10 @@ static const unsigned int prefilter_FIR_middle = 4; // {middle} + 1 + {middle} =
 
     amplifier::amplifier() {
 
+        unsigned int lookahead_samples = (unsigned int)( (double) environment::get_samplerate() * 0.016 );
+
         environment::register_calibration_req( this );
 
-
-        unsigned int lookahead_samples = (unsigned int)( (double) environment::get_samplerate() * 0.006 );
         //
         // configure resources
         //
@@ -62,11 +62,11 @@ static const unsigned int prefilter_FIR_middle = 4; // {middle} + 1 + {middle} =
 
     void amplifier::process(stereo_buffer input, stereo_buffer output ) {
 
-        std::cout<<"PROCESS OF AMPLIFIER\n";
-        //
-        // simulate some analog
-        //
-        /////
+        //////   std::cout<<"PROCESS OF AMPLIFIER\n";
+        //////   //
+        //////   // simulate some analog
+        //////   //
+        //////   /////
 
         SELECT_PIPE( amp_pipe );
 
@@ -77,6 +77,7 @@ static const unsigned int prefilter_FIR_middle = 4; // {middle} + 1 + {middle} =
         PROC_IP( "p.input.preamp", "b.in" );
 
         PROC( "p.input.rms", "b.in", "b.dc_modulator" );
+
         BUF_CP( "b.dc_modulator", "b.raw_rms" ); 
         PROC_IP( "p.dc_modulator.integrator", "b.dc_modulator");
         BUF_GAIN_DB( "b.dc_modulator", 36 );
@@ -85,7 +86,6 @@ static const unsigned int prefilter_FIR_middle = 4; // {middle} + 1 + {middle} =
         PROC( "p.input.env.detect", "b.in", "b.peak_envelope" );
         BUF_DITHER( "b.peak_envelope", DB2VOL(-83) );
                                                 
-
         BUF_UPMIX("b.dc_modulator");
         //BUF_DITHER("b.dc_modulator", DB2VOL(-96) );
 
@@ -110,7 +110,6 @@ static const unsigned int prefilter_FIR_middle = 4; // {middle} + 1 + {middle} =
         BUF_ADD_INTO("b.hf","b.out", "b.out");
         BUF_GAIN_DB("b.out",-7);
 
-        //BUF_CP("b.peak_envelope","b.out");
     }
 
 

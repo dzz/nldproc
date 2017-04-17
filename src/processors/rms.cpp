@@ -6,7 +6,8 @@
 namespace nldproc {
 
     rms::rms() {
-
+        history = nullptr;
+        window = nullptr;
     }
     
     latency_samples rms::get_latency() {
@@ -22,20 +23,20 @@ namespace nldproc {
     }
 
     void rms::configure(time_ms window_size) {
-        if(this->filter_size)
-            return;
 
-        buffer_chunksize size = (buffer_chunksize)(window_size/1000*environment::get_samplerate());
+         std::cout<<"RMS WINDOW SIZE - "<<window_size<<"\n";
 
-        std::cout<<this<<"rms created at:"<<size<<"\n";
-        history = new sample[size];
-        window = new sample[size];
+         buffer_chunksize size = (buffer_chunksize)((window_size/1000)*environment::get_samplerate());
 
-        for(sample_index idx=0; idx<size; ++idx) {
-            history[idx] = 0.0;
-        }
-        wHamming( window, size ); 
-        this->filter_size = size;
+         history = new sample[size];
+         window = new sample[size];
+
+         for(sample_index idx=0; idx<size; ++idx) {
+             history[idx] = 0.0;
+         }
+         //wHamming( window, size ); 
+         this->filter_size = size;
+         std::cout<<"RMS WINDOW FILTER SIZE - "<<this->filter_size<<"\n";
     }
 
     void rms::process_channel( channel_index channel, single_channel input, single_channel output ) {
@@ -44,9 +45,11 @@ namespace nldproc {
 
         for(sample_index idx = 0; idx<environment::get_buffer_chunksize();++idx) {
             double squares = 0.0;
+
             for(sample_index t_idx=filter_size-1; t_idx>0;--t_idx) {
                 history[t_idx] = history[t_idx-1];
             }
+            
             history[0] = input[idx];
             output[idx] = 0.0;
             for(sample_index t_idx = 0; t_idx < filter_size; ++t_idx) {
@@ -59,7 +62,7 @@ namespace nldproc {
     }
 
     rms::~rms() {
-        if(this->filter_size) { //been configured
+        if(history!=nullptr) {
             delete history;
             delete window;
         }

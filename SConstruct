@@ -23,7 +23,7 @@ open('src/build.h','w').write('#pragma once\nconst unsigned int NLDPROC_BUILDNUM
 
 env = Environment()
 #env.Append(CPPDEFINES=['NLDPROC_BUILDNUM={0}'.format(buildnum)])
-#env.Append(CXXFLAGS = ['/DEBUG'])
+env.Append(CXXFLAGS = ['/DEBUG'])
 env.Program(
         'cli', 
         CppFiles, 

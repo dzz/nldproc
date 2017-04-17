@@ -17,5 +17,6 @@ namespace nldproc {
             sample* history; 
             sample* window;
             buffer_chunksize filter_size;
+            unsigned int configured;
     };
 }

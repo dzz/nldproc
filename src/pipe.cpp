@@ -359,6 +359,8 @@ namespace nldproc {
         auto from_to             = this->buffers[ buffer ];
         auto processor_object   = this->processors [ processor ];
 
+        std::cout<<"processing with processor:"<<processor<<"\n";
+
         processor_object->process(from_to, from_to);
     }
 
