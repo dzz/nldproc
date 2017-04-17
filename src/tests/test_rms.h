@@ -1,6 +1,6 @@
 int test_rms() {
 
-    environment::configure_test_environment( (frequency_hz)44100, (sample_count)44100*10 ); 
+    environment::configure_test_environment( (frequency_hz)44100, (sample_count)44100*0.5 ); 
 
     pipe            test_pipe;          
     stereo_buffer   master_buffer = test_pipe.create_unmapped_buffer(); 

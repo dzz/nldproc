@@ -34,7 +34,7 @@ namespace nldproc {
          for(sample_index idx=0; idx<size; ++idx) {
              history[idx] = 0.0;
          }
-         //wHamming( window, size ); 
+         wHamming( window, size ); 
          this->filter_size = size;
          std::cout<<"RMS WINDOW FILTER SIZE - "<<this->filter_size<<"\n";
     }
@@ -49,21 +49,14 @@ namespace nldproc {
             for(sample_index t_idx=filter_size-1; t_idx>0;--t_idx) {
                 history[t_idx] = history[t_idx-1];
             }
-            
             history[0] = input[idx];
             output[idx] = 0.0;
             for(sample_index t_idx = 0; t_idx < filter_size; ++t_idx) {
                 double windowed = history[t_idx] * this->window[t_idx];
                 squares += windowed*windowed;
             }
-
             output[idx] = std::sqrt(squares / (double)filter_size);
-
-            if(idx==environment::get_buffer_chunksize()-1) {
-                std::cout<<"----****"<<idx<<"  --- "<<history[0]<<output[idx]<<"\n";
-            }
         }
-
     }
 
     rms::~rms() {
