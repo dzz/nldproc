@@ -12,34 +12,40 @@ namespace nldproc {
     }
 
     void fir::configure( tapcount size, coefficients spec ) {
-        inputs[0] = new sample[size];
-        inputs[1] = new sample[size];
+
+        history[0] = new ring_buf(environment::get_buffer_chunksize() + size );
+        history[1] = new ring_buf(environment::get_buffer_chunksize() + size );
+        tmp = new double[ environment::get_buffer_chunksize() + size ];
+
+        history[0]->advance_write(size);
+        history[1]->advance_write(size);
+
         filter = new coefficient[size];
         for(sample_index i=0; i< size; ++i) {
             filter[i] = spec[i];
-            inputs[0][i] = 0.0;
-            inputs[1][i]=  0.0;
         }
         filter_size = size;
     }
 
 
     void fir::process_channel( channel_index channel, single_channel input, single_channel output ) {
+
+        history[channel]->insert( input, environment::get_buffer_chunksize() );
+        history[channel]->advance_write( environment::get_buffer_chunksize() );
+        history[channel]->retrieve( tmp, environment::get_buffer_chunksize() + filter_size );
+        history[channel]->advance_read( environment::get_buffer_chunksize() );
+
         for(sample_index idx = 0; idx<environment::get_buffer_chunksize();++idx) {
-            for(tapcount t_idx=filter_size-1; t_idx>0;--t_idx) {
-                inputs[channel][t_idx] = inputs[channel][t_idx-1];
-            }
-            inputs[channel][0] = input[idx];
             output[idx] = 0.0;
             for(tapcount t_idx = 0; t_idx < filter_size; ++t_idx) {
-                output[idx]+= inputs[channel][t_idx] * this->filter[t_idx];
+                output[idx]+= tmp[ t_idx + idx ] * this->filter[t_idx];
             }
         }
     }
 
     fir::~fir() {
-        delete [] inputs[0];
-        delete [] inputs[1];
+        delete  history[0];
+        delete  history[1];
         delete [] filter;
     }
 

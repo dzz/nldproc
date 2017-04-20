@@ -44,7 +44,6 @@ namespace nldproc {
     }
 
     void ring_buf::retrieve( double* target, unsigned int count ) {
-
         if( read + count > length ) {
             unsigned int delta;
             unsigned int remainder;
@@ -54,11 +53,36 @@ namespace nldproc {
 
             std::memcpy( &buffer[read], target, sizeof( double) * delta );
             std::memcpy( &target[delta], buffer, sizeof( double ) * remainder );
-
-            read = remainder;
         } else {
             std::memcpy( target, &buffer[read],  sizeof( double ) * count );
-            read+= count;
+        }
+    }
+
+    void ring_buf::advance_read( unsigned int count ) {
+        if( read + count > length ) {
+            unsigned int delta;
+            unsigned int remainder;
+
+            delta = length - read;
+            remainder = count - delta;
+            
+            read = remainder;
+        } else {
+            read += count;
+        }
+    }
+
+    void ring_buf::advance_write( unsigned int count ) {
+        if( write + count > length ) {
+            unsigned int delta;
+            unsigned int remainder;
+
+            delta = length - write;
+            remainder = count - delta;
+            
+            write = remainder;
+        } else {
+            write += count;
         }
     }
 

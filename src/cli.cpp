@@ -48,6 +48,6 @@ void verify_ring_buf() {
 
 int main() {
     print_banner();
-    verify_ring_buf();
-//    return NLDPROC_CURRENT_TEST();
+    //verify_ring_buf();
+    return NLDPROC_CURRENT_TEST();
 }

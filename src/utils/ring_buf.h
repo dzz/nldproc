@@ -10,6 +10,8 @@ namespace nldproc {
             ring_buf( ring_buf_size size );
             void insert( double* data, unsigned int count );
             void retrieve( double* target, unsigned int count );
+            void advance_read( unsigned int count );
+            void advance_write( unsigned int count );
             ~ring_buf();
         private:
             double* buffer;
