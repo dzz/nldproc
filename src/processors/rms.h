@@ -2,6 +2,7 @@
 #include "processor.h"
 #include "fir.h"
 #include "environment.h"
+#include "ring_buf.h"
 
 namespace nldproc {
     class rms : public processor {
@@ -14,9 +15,10 @@ namespace nldproc {
             virtual latency_samples get_latency();
         private:
             virtual void process_channel( channel_index channel, single_channel input, single_channel output );
-            sample* history; 
+            ring_buf* history; 
             sample* window;
             buffer_chunksize filter_size;
             unsigned int configured;
+            double* tmp;
     };
 }

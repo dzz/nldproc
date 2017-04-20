@@ -28,12 +28,11 @@ namespace nldproc {
 
          buffer_chunksize size = (buffer_chunksize)((window_size/1000)*environment::get_samplerate());
 
-         history = new sample[size];
+         history = new ring_buf( environment::get_buffer_chunksize() + size );
+         history->advance_write( size );
+         tmp = new double[environment::get_buffer_chunksize() + size ];
          window = new sample[size];
 
-         for(sample_index idx=0; idx<size; ++idx) {
-             history[idx] = 0.0;
-         }
          wHamming( window, size ); 
          this->filter_size = size;
          std::cout<<"RMS WINDOW FILTER SIZE - "<<this->filter_size<<"\n";
@@ -43,16 +42,17 @@ namespace nldproc {
         if(channel == 1)
             return;
 
+        history->insert( input, environment::get_buffer_chunksize() );
+        history->advance_write( environment::get_buffer_chunksize() );
+        history->retrieve( tmp, environment::get_buffer_chunksize() + filter_size );
+        history->advance_read( environment::get_buffer_chunksize() );
+
         for(sample_index idx = 0; idx<environment::get_buffer_chunksize();++idx) {
             double squares = 0.0;
 
-            for(sample_index t_idx=filter_size-1; t_idx>0;--t_idx) {
-                history[t_idx] = history[t_idx-1];
-            }
-            history[0] = input[idx];
             output[idx] = 0.0;
             for(sample_index t_idx = 0; t_idx < filter_size; ++t_idx) {
-                double windowed = history[t_idx] * this->window[t_idx];
+                double windowed = tmp[t_idx + idx] * this->window[t_idx];
                 squares += windowed*windowed;
             }
             output[idx] = std::sqrt(squares / (double)filter_size);
@@ -61,7 +61,8 @@ namespace nldproc {
 
     rms::~rms() {
         if(history!=nullptr) {
-            delete [] history;
+            delete history;
+            delete [] tmp;
             delete [] window;
         }
     }

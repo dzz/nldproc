@@ -29,7 +29,7 @@ static const unsigned int prefilter_FIR_middle = 4; // {middle} + 1 + {middle} =
 
     amplifier::amplifier() {
 
-        unsigned int lookahead_samples = (unsigned int)( (double) environment::get_samplerate() * 0.016 );
+        unsigned int lookahead_samples = (unsigned int)( (double) environment::get_samplerate() * 0.016 ) + 16;
 
         environment::register_calibration_req( this );
 

@@ -13,10 +13,13 @@ namespace nldproc {
             virtual void process_channel(channel_index index, single_channel input, single_channel output);
         private:
 
+            virtual latency_samples get_latency();
+
             inline double eval_next(double x);
             double output;
             double scalar;
             double halflife;
             double samplerate;
+            unsigned int frame;
     };
 }

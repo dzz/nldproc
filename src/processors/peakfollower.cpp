@@ -7,6 +7,7 @@
 namespace nldproc {
 
     peakfollower::peakfollower(time_seconds decay_halflife) {
+        this->frame = 0;
         this->output = 0.0;
         this->scalar = 0.0;
         this->samplerate = (double)environment::get_samplerate();
@@ -36,16 +37,24 @@ namespace nldproc {
         return this->output;
     }
 
+    latency_samples peakfollower::get_latency() {
+
+        return 16;
+    }
+
     void peakfollower::process_channel(channel_index index, single_channel input, single_channel output ) {
         sample_index        position        = 0;
         sample_index        total_samples   = environment::get_buffer_chunksize();
         sample_addr         cur_sample      = nullptr;
+        const unsigned int mask = 16;
 
         if( index == 0 ) {
             while(position  <   total_samples) {
-                cur_sample  = &input[position];
-
-                output[position++] = this->eval_next(*cur_sample);
+                frame++;
+                if(frame & mask) {
+                    cur_sample  = &input[position];
+                    output[position++] = this->eval_next(*cur_sample);
+                }
             }
         }
     }
