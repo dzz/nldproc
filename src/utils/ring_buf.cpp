@@ -5,12 +5,10 @@ namespace nldproc {
 
     ring_buf::ring_buf( ring_buf_size size ) {
 
-        buffers[0] = new double[size];
-        buffers[1] = new double[size];
+        buffer = new double[size];
 
         for(int i =0; i<size;++i) {
-            buffers[0][i] = 0.0;
-            buffers[1][i] = 0.0;
+            buffer[i] = 0.0;
         }
         this->length = size;
 
@@ -20,8 +18,7 @@ namespace nldproc {
     }
 
     ring_buf::~ring_buf() {
-        delete buffers[0];
-        delete buffers[1];
+        delete buffer;
     }
 
     void ring_buf::insert( double* data, unsigned int count ) {
@@ -35,13 +32,13 @@ namespace nldproc {
             remainder = count-delta;
 
 
-            std::memcpy(&buffers[0][write], data, sizeof( double ) * delta );
-            std::memcpy(&buffers[0][0], &data[delta], sizeof( double ) * remainder );
+            std::memcpy(&buffer[write], data, sizeof( double ) * delta );
+            std::memcpy(&buffer[0], &data[delta], sizeof( double ) * remainder );
 
             write = remainder;
 
         } else {
-            std::memcpy(&buffers[0][write], data, sizeof( double ) * count );
+            std::memcpy(&buffer[write], data, sizeof( double ) * count );
             write += count;
         }
     }
@@ -55,12 +52,12 @@ namespace nldproc {
             delta = length - read;
             remainder = count - delta;
 
-            std::memcpy( &buffers[0][read], target, sizeof( double) * delta );
-            std::memcpy( &target[delta], buffers[0], sizeof( double ) * remainder );
+            std::memcpy( &buffer[read], target, sizeof( double) * delta );
+            std::memcpy( &target[delta], buffer, sizeof( double ) * remainder );
 
             read = remainder;
         } else {
-            std::memcpy( target, &buffers[0][read],  sizeof( double ) * count );
+            std::memcpy( target, &buffer[read],  sizeof( double ) * count );
             read+= count;
         }
     }

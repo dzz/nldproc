@@ -12,7 +12,7 @@ namespace nldproc {
             void retrieve( double* target, unsigned int count );
             ~ring_buf();
         private:
-            double* buffers[2];
+            double* buffer;
             ring_index read;
             ring_index write;
             ring_buf_size length;

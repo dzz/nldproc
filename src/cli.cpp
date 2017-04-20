@@ -44,11 +44,10 @@ void verify_ring_buf() {
         rb.retrieve( &output[i], 1 );
         std::cout<< input[i] <<"," << output[i] << "\n";
     }
-
 }
 
 int main() {
     print_banner();
-//    verify_ring_buf();
-    return NLDPROC_CURRENT_TEST();
+    verify_ring_buf();
+//    return NLDPROC_CURRENT_TEST();
 }
