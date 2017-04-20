@@ -6,10 +6,12 @@ int test_waveshaper() {
     pipe            test_pipe;          
     stereo_buffer   master_buffer = test_pipe.create_unmapped_buffer(); 
 
+    environment::set_oversampling(OS_Amount);
     sinc_filter     up_filter( 127, 0.4*(1.0/(double)OS_Amount), SINC_LOWPASS ); //0.4/0.46 close to half band
     sinc_filter     down_filter( 127, 0.46*(1.0/(double)OS_Amount), SINC_LOWPASS );
     waveshaper      test_waveshaper;
- 
+    environment::set_oversampling(1);
+
     test_pipe.map_processor( &up_filter,       {"proc:up_filter"  } );
     test_pipe.map_processor( &down_filter,     {"proc:down_filter"} );
     test_pipe.map_processor( &test_waveshaper, {"proc:waveshaper" } );
