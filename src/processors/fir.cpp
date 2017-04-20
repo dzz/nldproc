@@ -17,8 +17,8 @@ namespace nldproc {
         history[1] = new ring_buf(environment::get_buffer_chunksize() + size );
         tmp = new double[ environment::get_buffer_chunksize() + size ];
 
-        history[0]->advance_write(size);
-        history[1]->advance_write(size);
+        history[0]->advance_write(size-1);
+        history[1]->advance_write(size-1);
 
         filter = new coefficient[size];
         for(sample_index i=0; i< size; ++i) {

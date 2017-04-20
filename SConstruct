@@ -26,8 +26,8 @@ populate_cpp_matches(SourceFiles, "DSPFilters/source")
 env = Environment()
 
 if sys.platform == "linux2":
-    CXXFLAGS="-pg"
-    #CXXFLAGS="-finline-functions -O3 -Ofast -msse -msse2 -msse3 -msse4 -mtune=intel -mfpmath=sse"
+    #CXXFLAGS="-pg"
+    CXXFLAGS="-finline-functions -O3 -Ofast -msse -msse2 -msse3 -msse4 -mtune=intel -mfpmath=sse"
 if sys.platform == "win32":
     CXXFLAGS="/EHsc /O2 /Ot /arch:AVX"
     #env.Append(CXXFLAGS = ['/DEBUG'])
