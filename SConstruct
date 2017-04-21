@@ -41,6 +41,7 @@ env.Program(
             './src/processors',
             './src/test_signals',
             './src/utils',
+            './src/utils/ring_buf',
             './src/'
         ], 
         LIBPATH='.',
