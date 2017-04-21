@@ -22,7 +22,7 @@ namespace nldproc {
 
         filter = new coefficient[size];
         for(sample_index i=0; i< size; ++i) {
-            filter[i] = spec[i];
+            filter[i] = spec[size-(i+1)];
         }
         filter_size = size;
     }

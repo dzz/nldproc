@@ -2,6 +2,8 @@
 set -e
 rm -f reports/*.jpg
 rm -f reports/*.png
-./build test_fir 1
-./build test_sinc 1
+./build test_amplifier 1
+./build test_delay 1
+./build test_peakfollower 1
+./build test_rms 1
 firefox reports/index.html

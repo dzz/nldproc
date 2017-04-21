@@ -1,2 +1,4 @@
-test_fir
-test_sinc
+test_amplifier
+test_delay
+test_peakfollower
+test_rms

@@ -35,11 +35,8 @@ namespace nldproc {
             std::memcpy(&buffer[write], data, sizeof( double ) * delta );
             std::memcpy(&buffer[0], &data[delta], sizeof( double ) * remainder );
 
-            write = remainder;
-
         } else {
             std::memcpy(&buffer[write], data, sizeof( double ) * count );
-            write += count;
         }
     }
 
