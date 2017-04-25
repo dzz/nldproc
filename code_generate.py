@@ -3,9 +3,9 @@
 import glob;
 import sys;
 
-bannerStrings = [ "/**********************************************/",
-                  "/* NLDPROC - Generated Code (code_generate.py */",
-                  "/**********************************************/" ]
+bannerStrings = [ "/***********************************************/",
+                  "/* NLDPROC - Generated Code (code_generate.py) */",
+                  "/***********************************************/" ]
 
 
 banner = "\n".join(bannerStrings)+"\n\n";
